@@ -36,4 +36,14 @@ class Module
             ),
         );
     }
+    
+    public function getViewHelperConfig()
+    {
+        return array(
+            'invokables' => array(
+                'DisplayDate' => 'Application\View\Helper\DisplayDate',
+             )
+        );
+    }
+    
 }

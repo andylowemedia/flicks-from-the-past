@@ -1,44 +1,303 @@
-<div class="jumbotron">
-    <h1><?php echo sprintf($this->translate('Welcome to %sZend Framework 2%s'), '<span class="zf-green">', '</span>') ?></h1>
-    <p><?php echo sprintf($this->translate('Congratulations! You have successfully installed the %sZF2 Skeleton Application%s. You are currently running Zend Framework version %s. This skeleton can serve as a simple starting point for you to begin building your application on ZF2.'), '<a href="https://github.com/zendframework/ZendSkeletonApplication" target="_blank">', '</a>', \Zend\Version\Version::VERSION) ?></p>
-    <p><a class="btn btn-success btn-lg" href="https://github.com/zendframework/zf2" target="_blank"><?php echo $this->translate('Fork Zend Framework 2 on GitHub') ?> &raquo;</a></p>
-</div>
+<?php $this->headScript()->appendFile($this->basePath() . '/js/slides.js'); ?>
+<?php $this->headStyle()->captureStart(); ?>
 
-<div class="row">
+div#headlines {
+    margin: 0 auto;
+    overflow: hidden;
+}
 
-    <div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title"><?php echo $this->translate('Follow Development') ?></h3>
+div#slideshow {
+    overflow: hidden;
+    width: 5000px;
+}
+
+div.headline {
+    height: 185px;
+    width: 350px;
+    background-size: 100%;
+    margin: 0pt 0pt 20pt;
+    background-repeat: no-repeat;
+    float: left;
+}
+
+div.headline div.content {
+    top: 65pt;
+    position: relative;
+    height: 30pt;
+    background-color: rgba(0,0,0, 0.65);
+    padding: 15pt;
+    color: #f1f1f1;
+}
+
+div#featured {
+    height: 240px;
+    overflow: hidden;
+}
+
+div#news, div#articles, div#featured {
+    border-radius: 0.25em;
+    background-color: #1f1f1f;
+    clear: both;
+    margin: 10pt 0pt;
+    padding: 10pt;
+}
+
+div#news article, div#articles article {
+    margin: 5pt;
+    height: 100px;
+    float: left;
+    font-size: 0.75em;
+}
+
+div#articles article {
+    width: 525px;
+    margin: 5pt 5pt 15pt 5pt;
+    
+}
+
+div#articles article h3 {
+    height: 25pt;
+}
+
+div#news article {
+    width: 390px;
+}
+
+div#articles article.feature {
+    
+}
+
+p.controls {
+    float: left;
+    margin: 0pt 5pt;
+    font-size: 100%;
+    font-size: 0.75em;
+    background-color: #0c0c0c;
+    padding: 5pt 30pt;
+    border-radius: 0.55em;
+    
+    cursor: pointer;
+    font-family: 'Glyphicons Halflings';
+    
+    background-image: -moz-linear-gradient(top, #2c2c2c, #0c0c0c);
+    background-image: -ms-linear-gradient(top, #161a1d, #2b2b2b);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#161a1d), to(#2b2b2b));
+    background-image: -webkit-linear-gradient(top, #161a1d, #2b2b2b);
+    background-image: -o-linear-gradient(top, #161a1d, #2b2b2b);
+    background-image: linear-gradient(top, #161a1d, #2b2b2b);
+    /*For IE7-8-9*/ 
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#161a1d', endColorstr='#2b2b2b');
+
+}
+
+p.controls:active {
+    background-image: -moz-linear-gradient(top, #232323, #0c0c0c);
+    
+}
+
+p.controls#next {
+    content:"\e092";
+    
+}
+
+p.controls#previous {
+    content:"\e091";
+}
+
+<?php $this->headStyle()->captureEnd(); ?>
+
+<?php $this->headScript()->captureStart(); ?>
+
+var HeadlineSlideshow = function() {
+    var slideWidth = $('div.headline').width();
+    var numberOfSlides = 0;
+    var slideContent = 0;
+    
+    this.execute = function() {
+        $('div#headlines').width(calculateWidth());
+    }
+    
+    var calculateWidth = function() {
+        
+        slideContent = Math.floor($('div#featured').width() / slideWidth);
+    
+        numberOfSlides = $('div.headline').length / slideContent;
+        
+        width = calculate();
+        
+        if ($('div#featured').width() < width) {
+            //numberOfSlides = numberOfSlides - 1
+            width = calculate();
+        }
+        return width;
+    }
+    
+    var calculate = function() {
+        var width = parseInt($('div.headline').width() * slideContent);
+        
+        $('div.headline').css('margin-left', '5px');
+        $('div.headline').css('margin-right', '5px');
+        
+        width = width + ((5 * slideContent) * 2);
+        
+        $('p.controls').unbind("click");
+        
+        var content = new SlideContent({
+            currentPosition : 0,
+            slideWidth : width,
+            numberOfSlides : numberOfSlides,
+            controls : $('p.controls'),
+            slideInner : $('div#slideshow')
+        });
+
+        content.enableControls();
+        return width;
+    }
+    
+    this.resize = function() {
+    
+    
+        $(window).bind('resize', function(e) {
+            window.resizeEvt;
+            $(window).resize(function()
+            {
+                clearTimeout(window.resizeEvt);
+                window.resizeEvt = setTimeout(function()
+                {
+                    $('div#headlines').width(calculateWidth());
+                }, 100);
+            });
+        });
+        
+//        $(window).resize(function() {
+//            $('div#headlines').width(calculateWidth());
+//        });
+    }
+    
+}
+
+$(function() {
+    var slideshow = new HeadlineSlideshow();
+    slideshow.execute();
+    slideshow.resize();
+
+
+    
+});
+
+
+<?php $this->headScript()->captureEnd(); ?>
+
+<?php 
+$this->headLink()
+//        ->appendStylesheet($this->basePath() . 'css/components.css')
+//        ->appendStylesheet($this->basePath() . 'css/columns.css')
+        ; 
+?>
+
+    <div id="featured">
+        <div id="headlines">
+            <div id='slideshow'>
+                <div class="headline" style="background-image: url('images/AVENGERS-TRIO_650.jpg');">
+                    <div class='content'>
+                        <h2>Something</h2>
+                        <p>Something else</p>
+                    </div>
+                </div>
+                <div class="headline" style="background-image: url('images/NEW-ENTERPRISE-CREW_650_002.jpg');">
+                    <div class='content'>
+                        <h2>Something</h2>
+                        <p>Something else</p>
+                    </div>
+                </div>
+                <div class="headline" style="background-image: url('images/PREDATORS_650_XVI.jpg');">
+                    <div class='content'>
+                        <h2>Something</h2>
+                        <p>Something else</p>
+                    </div>
+                </div>
+                <div class="headline" style="background-image: url('images/PREDATORS_650_XVI.jpg');">
+                    <div class='content'>
+                        <h2>Something</h2>
+                        <p>Something else</p>
+                    </div>
+                </div>
+                <div class="headline" style="background-image: url('images/NEW-ENTERPRISE-CREW_650_002.jpg');">
+                    <div class='content'>
+                        <h2>Something</h2>
+                        <p>Something else</p>
+                    </div>
+                </div>
+                <div class="headline" style="background-image: url('images/AVENGERS-TRIO_650.jpg');">
+                    <div class='content'>
+                        <h2>Something</h2>
+                        <p>Something else</p>
+                    </div>
+                </div>
             </div>
-            <div class="panel-body">
-                <p><?php echo sprintf($this->translate('Zend Framework 2 is under active development. If you are interested in following the development of ZF2, there is a special ZF2 portal on the official Zend Framework website which provides links to the ZF2 %swiki%s, %sdev blog%s, %sissue tracker%s, and much more. This is a great resource for staying up to date with the latest developments!'), '<a href="http://framework.zend.com/wiki/display/ZFDEV2/Home">', '</a>', '<a href="http://framework.zend.com/zf2/blog">', '</a>', '<a href="https://github.com/zendframework/zf2/issues">', '</a>') ?></p>
-                <p><a class="btn btn-success pull-right" href="http://framework.zend.com/zf2" target="_blank"><?php echo $this->translate('ZF2 Development Portal') ?> &raquo;</a></p>
-            </div>
+            <p class='controls' id='previous'>&#xe091;</p>
+            <p class='controls' id='next'>&#xe092;</p>
+
+        </div>
+    </div>
+    <div id="articles">
+        <h2>Latest Articles</h2>
+        <?php $count = 0; ?>
+        <?php foreach ($this->articles as $article): ?>
+        <?php if ($count > 6): ?>
+        <?php break; ?>
+        <?php endif; ?>
+        <article>
+            <img src="<?php echo $this->basePath('images/ghostbusters.jpg'); ?>" style="width: 150px; height: 85px; float: left; margin: 5pt 5pt" />
+            <h3><a href="<?php echo $this->url('article/profile',array('slug' => $article->slug)); ?>"><?php echo $article->title; ?></a></h3>
+            <p><?php echo trim($article->summary); ?>...</p>
+            <p style="clear: both;">Posted on: <time><?php echo $this->DisplayDate($article->publishDate); ?></time> Source:</p>
+        </article>
+        <?php $count++; ?>
+        <?php endforeach; ?>
+        <div style="clear: both;">
+            <p><a href="#">See All Latest Articles...</a></p>
+        </div>
+    </div>
+    <div id="news">
+        <h2>Latest News From The Web</h2>
+        <?php foreach ($this->articles as $article): ?>
+        <article>
+            <h3><a href="<?php echo $this->url('article/profile',array('slug' => $article->slug)); ?>"><?php echo $article->title; ?></a></h3>
+            <p><?php echo trim($article->summary); ?>...</p>
+            <p>Posted on: <time><?php echo $this->DisplayDate($article->publishDate); ?></time> Source:</p>
+        </article>
+        <?php endforeach; ?>
+        <div style="clear: both;">
+            <p><a href="<?php echo $this->url('articles'); ?>">See All Latest Articles...</a></p>
         </div>
     </div>
 
-    <div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title"><?php echo $this->translate('Discover Modules') ?></h3>
-            </div>
-            <div class="panel-body">
-                <p><?php echo sprintf($this->translate('The community is working on developing a community site to serve as a repository and gallery for ZF2 modules. The project is available %son GitHub%s. The site is currently live and currently contains a list of some of the modules already available for ZF2.'), '<a href="https://github.com/zendframework/modules.zendframework.com">', '</a>') ?></p>
-                <p><a class="btn btn-success pull-right" href="http://modules.zendframework.com/" target="_blank"><?php echo $this->translate('Explore ZF2 Modules') ?> &raquo;</a></p>
-            </div>
+<!--<section id="col2">
+    <section>
+        <h2>Reviews</h2>
+        <ul>
+            <li><p><strong>Transformers</strong><br />Posted on: <time>01/01/2001</time></p></li>
+            <li><p><strong>Star Wars</strong><br />Posted on: <time>01/01/2001</time></p></li>
+            <li><p><strong>Back to the Future</strong><br />Posted on: <time>01/01/2001</time></p></li>
+            <li><p><strong>Dr. Strangelove</strong><br />Posted on: <time>01/01/2001</time></p></li>
+            <li><p><strong>Star Trek</strong><br />Posted on: <time>01/01/2001</time></p></li>
+        </ul>
+        <div>
+            <p><a href="#">See All Latest Reviews...</a></p>
         </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title"><?php echo $this->translate('Help &amp; Support') ?></h3>
-            </div>
-            <div class="panel-body">
-                <p><?php echo sprintf($this->translate('If you need any help or support while developing with ZF2, you may reach us via IRC: %s#zftalk on Freenode%s. We\'d love to hear any questions or feedback you may have regarding the beta releases. Alternatively, you may subscribe and post questions to the %smailing lists%s.'), '<a href="irc://irc.freenode.net/zftalk">', '</a>', '<a href="http://framework.zend.com/wiki/display/ZFDEV/Mailing+Lists">', '</a>') ?></p>
-                <p><a class="btn btn-success pull-right" href="http://webchat.freenode.net?channels=zftalk" target="_blank"><?php echo $this->translate('Ping us on IRC') ?> &raquo;</a></p>
-            </div>
+    </section>
+    <section>
+        <h2>Trailers</h2>
+        <ul>
+            <li><p><strong>Transformers</strong><br />Posted on: <time>01/01/2001</time></p></li>
+            <li><p><strong>Star Wars</strong><br />Posted on: <time>01/01/2001</time></p></li>
+            <li><p><strong>Back to the Future</strong><br />Posted on: <time>01/01/2001</time></p></li>
+            <li><p><strong>Dr. Strangelove</strong><br />Posted on: <time>01/01/2001</time></p></li>
+            <li><p><strong>Star Trek</strong><br />Posted on: <time>01/01/2001</time></p></li>
+        </ul>
+        <div>
+            <p><a href="#">See All Latest Trailers...</a></p>
         </div>
-    </div>
-</div>
+    </section>
+</section>-->

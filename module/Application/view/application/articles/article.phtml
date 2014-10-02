@@ -1,0 +1,16 @@
+<?php 
+$this->headLink()
+        ->appendStylesheet($this->basePath() . '/css/components.css')
+        ->appendStylesheet($this->basePath() . '/css/columns.css')
+        ; 
+?>
+<article>
+    <h1><?php echo $this->article->title; ?></h1>
+    <?php if (isset($this->article->subtitle) && $this->article->subtitle): ?>
+    <h2><?php echo $this->article->subtitle; ?></h2>
+    <p><?php echo $this->DisplayDate($this->article->publishDate); ?></p>
+    <?php endif; ?>
+    <div id="content">
+        <?php echo $this->article->content; ?> 
+    </div>
+</article>

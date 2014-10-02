@@ -1,55 +1,151 @@
 <?php echo $this->doctype(); ?>
-
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <?php echo $this->headTitle('ZF2 '. $this->translate('Skeleton Application'))->setSeparator(' - ')->setAutoEscape(false) ?>
+        <?php echo $this->headTitle('Flicks From The Past!'); ?>
 
-        <?php echo $this->headMeta()
-            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
-            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        <?php 
+        $this->headMeta()
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge');
+        
+        $this->headLink()
+                ->prependStylesheet($this->basePath() . '/css/fonts.css')
+//                ->appendStylesheet($this->basePath() . '/css/structure.css')
+//                ->appendStylesheet($this->basePath() . '/css/navigation.css')
+                ;
+        
+        $this->headScript()
+                ->prependFile($this->basePath() . '/js/jquery-1.10.2.min.js')
+                ;
         ?>
-
-        <!-- Le styles -->
-        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
-                        ->prependStylesheet($this->basePath() . '/css/style.css')
-                        ->prependStylesheet($this->basePath() . '/css/bootstrap-theme.min.css')
-                        ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css') ?>
-
-        <!-- Scripts -->
-        <?php echo $this->headScript()
-            ->prependFile($this->basePath() . '/js/bootstrap.min.js')
-            ->prependFile($this->basePath() . '/js/jquery.min.js')
-            ->prependFile($this->basePath() . '/js/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
-            ->prependFile($this->basePath() . '/js/html5shiv.js',   'text/javascript', array('conditional' => 'lt IE 9',))
-        ; ?>
-
+        <?php
+        echo $this->headMeta() . "\n";
+        echo $this->headLink() . "\n";
+        echo $this->headScript() . "\n";
+        echo $this->headStyle() . "\n";
+        ?>
+        <style type='text/css'>
+            body, h1, h2, h3, h4, p, ui, li, table, th, td {
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                background-color: #2f2f2f;
+            }
+            
+            h1, h2, h3, h4, p, ui, li, table, th, td {
+                font-size: 100%;
+                font-weight: normal;
+                font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
+                color: #f0f0f0;
+            }
+            
+            header {
+                position: fixed;
+                width: 100%;
+                padding: 0;
+                top: 0;
+                height: 35pt;
+                border-bottom: 1pt solid #161a1d;
+                background-image: -moz-linear-gradient(top, #161a1d, #2b2b2b);
+                background-image: -ms-linear-gradient(top, #161a1d, #2b2b2b);
+                background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#161a1d), to(#2b2b2b));
+                background-image: -webkit-linear-gradient(top, #161a1d, #2b2b2b);
+                background-image: -o-linear-gradient(top, #161a1d, #2b2b2b);
+                background-image: linear-gradient(top, #161a1d, #2b2b2b);
+                /*For IE7-8-9*/ 
+                filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#161a1d', endColorstr='#2b2b2b');
+                z-index: 9999;
+            }
+            
+            header h1 {
+                font-family: 'Conv_BADABB__';
+                font-size: 2em;
+                color: #f1f1f1;
+                /*margin: 5pt 25pt;*/
+                margin: 5pt;
+            }
+            
+            header nav {
+                position: absolute;
+                top: 0pt;
+                right: 75pt;
+                float: right;
+            }
+            
+            header nav ul {
+                list-style-type: none;
+            }
+            
+            header nav ul li {
+                float: left;
+                margin: 0pt 10pt;
+            }
+            
+            section#main {
+                margin: 15pt auto;
+                background: #2f2f2f;
+                padding: 15pt;
+            }
+            
+            header div, section#main, footer div {
+                width: 1110px;
+            }
+            
+            header div, footer div {
+                margin: 0pt auto;
+            }
+            
+            footer {
+                font-size: 0.75em;
+                position: fixed;
+                width: 100%;
+                padding: 5pt;
+                bottom: 0;
+                height: 25pt;
+                border-top: 1pt solid #161a1d;
+                background-image: -moz-linear-gradient(top, #2b2b2b, #161a1d);
+                background-image: -ms-linear-gradient(top, #2b2b2b, #161a1d);
+                background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#2b2b2b), to(#161a1d));
+                background-image: -webkit-linear-gradient(top, #2b2b2b, #161a1d);
+                background-image: -o-linear-gradient(top, #2b2b2b, #161a1d);
+                background-image: linear-gradient(top, #2b2b2b, #161a1d);
+                /*For IE7-8-9*/ 
+                filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#2b2b2b', endColorstr='#161a1d');
+                z-index: 9999;
+            }
+            
+            footer div h3 span.company {
+                
+            }
+        </style>
     </head>
     <body>
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="<?php echo $this->url('home') ?>"><img src="<?php echo $this->basePath('img/zf2-logo.png') ?>" alt="Zend Framework 2"/>&nbsp;<?php echo $this->translate('Skeleton Application') ?></a>
-                </div>
-                <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="<?php echo $this->url('home') ?>"><?php echo $this->translate('Home') ?></a></li>
-                    </ul>
-                </div><!--/.nav-collapse -->
+        <header>
+            <div>
+                <h1>Flicks from the Past!</h1>
+<!--            <nav>
+                <ul>
+                    <li><a href="<?php echo $this->url('home'); ?>">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="<?php echo $this->url('articles'); ?>">News</a></li>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Reviews</a></li>
+                    <li><a href="#">Trailers</a></li>
+                </ul>   
+            </nav>-->
             </div>
-        </nav>
-        <div class="container">
-            <?php echo $this->content; ?>
-            <hr>
-            <footer>
-                <p>&copy; 2005 - <?php echo date('Y') ?> by Zend Technologies Ltd. <?php echo $this->translate('All rights reserved.') ?></p>
-            </footer>
-        </div> <!-- /container -->
-        <?php echo $this->inlineScript() ?>
+        </header>
+        <section id='main'>
+            <?php echo $this->content . "\n"; ?>
+        </section>
+        <footer>
+            <div>
+                <h3>&copy;2014&nbsp;<span class="company">Low-Emedia</span></h3>
+                <p>Powered by the Hal Project.</p>
+            </div>
+        </footer>
+        <?php echo $this->inlineScript() . "\n"; ?>
     </body>
 </html>
