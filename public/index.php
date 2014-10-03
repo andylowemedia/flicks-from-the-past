@@ -3,7 +3,7 @@
  * This makes our life easier when dealing with paths. Everything is relative
  * to the application root now.
  */
-setlocale(LC_ALL, 'en_GB');
+Locale::setDefault('en_GB');
 
 chdir(dirname(__DIR__));
 
