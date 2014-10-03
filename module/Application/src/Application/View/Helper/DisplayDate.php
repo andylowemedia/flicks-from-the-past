@@ -11,12 +11,13 @@ class DisplayDate extends AbstractHelper
         
         
         switch ($locale) {
+            case 'en_US':
             case 'en_US_POSIX':
-                $format = 'F dS, Y';
+                $format = 'F jS, Y';
                 break;
             case 'en_GB':
+            default:
                 $format = 'jS F, Y';
-                break;
         }
         
         return $dateTime->format($format);

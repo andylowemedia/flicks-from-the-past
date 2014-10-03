@@ -16,9 +16,10 @@ class Module
 {
     public function onBootstrap(MvcEvent $e)
     {
-        $eventManager        = $e->getApplication()->getEventManager();
-        $moduleRouteListener = new ModuleRouteListener();
+        $eventManager           = $e->getApplication()->getEventManager();
+        $moduleRouteListener    = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+        $this->defineApplicationLocal($e->getApplication()->getServiceManager()->get('Config'));
     }
 
     public function getConfig()
@@ -46,4 +47,10 @@ class Module
         );
     }
     
+    public function defineApplicationLocal(array $config)
+    {
+        if ($config) {
+            \Locale::setDefault($config['locale']);
+        }
+    }
 }
