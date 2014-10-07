@@ -1,0 +1,61 @@
+div#headlines {
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+div.headline {
+    height: 185px;
+    width: 350px;
+    background-size: 100%;
+    margin: 0pt 0pt 20pt;
+    background-repeat: no-repeat;
+    float: left;
+}
+
+div.headline div.content {
+    top: 65pt;
+    position: relative;
+    height: 30pt;
+    background-color: rgba(0,0,0, 0.65);
+    padding: 15pt;
+    color: #f1f1f1;
+}
+
+div#featured {
+    height: 240px;
+    overflow: hidden;
+}
+
+div#news, div#articles, div#reviews, div#featured {
+    border-radius: 0.25em;
+    background-color: #1f1f1f;
+    clear: both;
+    margin: 10pt 0pt;
+    padding: 10pt;
+}
+
+div#news article, div#articles article, div#reviews article {
+    margin: 5pt;
+    height: 100px;
+    float: left;
+    font-size: 0.75em;
+}
+
+div#articles article, div#reviews article {
+    width: 525px;
+    margin: 5pt 5pt 15pt 5pt;
+    
+}
+
+div#articles article h3, div#reviews article h3 {
+    height: 25pt;
+}
+
+div#news article {
+    width: 347px;
+}
+
+div#articles article.feature, div#reviews article.feature {
+    
+}
+

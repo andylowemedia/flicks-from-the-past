@@ -43,7 +43,7 @@ return array(
                     'profile' => array(
                         'type'    => 'Segment',
                         'options' => array(
-                            'route'    => '/title[/:slug]',
+                            'route'    => '[/:slug]',
                             'defaults' => array(
                                 'action'     => 'article',
                             ),

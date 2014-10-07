@@ -1,16 +1,31 @@
 <?php 
 $this->headLink()
-        ->appendStylesheet($this->basePath() . '/css/components.css')
-        ->appendStylesheet($this->basePath() . '/css/columns.css')
+        ->appendStylesheet($this->basePath('css/sleek/sections.css'))
+        ->appendStylesheet($this->basePath('css/sleek/article.css'))
         ; 
 ?>
-<article>
+<?php $this->headScript()->captureStart(); ?>
+$(function() {
+    if ($('aside').height() < $('article').height()) {
+        $('aside').height($('article').height());
+    } else if ($('aside').height() > $('article').height()) {
+        $('article').height($('aside').height());
+    }
+});
+<?php $this->headScript()->captureEnd(); ?>
+<article style="clear: both; float:left; width: 500pt;">
     <h1><?php echo $this->article->title; ?></h1>
-    <?php if (isset($this->article->subtitle) && $this->article->subtitle): ?>
+    <p>By: <?php echo $this->article->author; ?> <time><?php echo $this->DisplayDate($this->article->publishDate); ?></time></p>
+    <?php if (isset($this->article->subtitle) && $this->article->subtitle): ?>  
     <h2><?php echo $this->article->subtitle; ?></h2>
-    <p><?php echo $this->DisplayDate($this->article->publishDate); ?></p>
     <?php endif; ?>
     <div id="content">
         <?php echo $this->article->content; ?> 
     </div>
 </article>
+<aside style="float: right; width: 280pt;">
+    
+</aside>
+<div id="articles">
+    
+</div>
