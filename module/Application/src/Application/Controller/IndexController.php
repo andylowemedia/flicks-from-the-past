@@ -36,7 +36,7 @@ class IndexController extends AbstractActionController
         
         $response = $client->send();
         $results = json_decode($response->getContent());
-
+        
         return array('articles' => $results->response->articles);
     }
 }

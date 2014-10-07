@@ -149,18 +149,21 @@ $this->headLink()
     <div id="articles" style="float: left;  width: 390pt;">
         <h2>Latest Articles</h2>
         <?php $count = 0; ?>
-        <?php foreach ($this->articles as $article): ?>
+        <pre>
+        <?php if (isset($this->articles->features)): ?>
+        <?php foreach ($this->articles->features as $feature): ?>
         <?php if ($count > 6): ?>
         <?php break; ?>
         <?php endif; ?>
         <article>
             <img src="<?php echo $this->basePath('images/ghostbusters.jpg'); ?>" style="width: 150px; height: 85px; float: left; margin: 5pt 5pt" />
-            <h3><a href="<?php echo $this->url('article/profile',array('slug' => $article->slug)); ?>"><?php echo $article->title; ?></a></h3>
-            <p><?php echo trim($article->summary); ?>...</p>
-            <p style="clear: both;">Posted on: <time><?php echo $this->DisplayDate($article->publishDate); ?></time> Source:</p>
+            <h3><a href="<?php echo $this->url('article/profile',array('slug' => $feature->slug)); ?>"><?php echo $feature->title; ?></a></h3>
+            <p><?php echo trim($feature->summary); ?>...</p>
+            <p style="clear: both;">Posted on: <time><?php echo $this->DisplayDate($feature->publishDate); ?></time> Source:</p>
         </article>
         <?php $count++; ?>
         <?php endforeach; ?>
+        <?php endif; ?>
         <div style="clear: both;">
             <p><a href="#">See All Latest Articles...</a></p>
         </div>
@@ -168,29 +171,29 @@ $this->headLink()
     <div id="reviews" style="clear: none; float: right; width: 390pt;">
         <h2>Latest Reviews</h2>
         <?php $count = 0; ?>
-        <?php foreach ($this->articles as $article): ?>
+        <?php foreach ($this->articles->reviews as $review): ?>
         <?php if ($count > 6): ?>
         <?php break; ?>
         <?php endif; ?>
         <article>
             <img src="<?php echo $this->basePath('images/ghostbusters.jpg'); ?>" style="width: 150px; height: 85px; float: left; margin: 5pt 5pt" />
-            <h3><a href="<?php echo $this->url('article/profile',array('slug' => $article->slug)); ?>"><?php echo $article->title; ?></a></h3>
-            <p><?php echo trim($article->summary); ?>...</p>
-            <p style="clear: both;">Posted on: <time><?php echo $this->DisplayDate($article->publishDate); ?></time> Source:</p>
+            <h3><a href="<?php echo $this->url('article/profile',array('slug' => $review->slug)); ?>"><?php echo $review->title; ?></a></h3>
+            <p><?php echo trim($review->summary); ?>...</p>
+            <p style="clear: both;">Posted on: <time><?php echo $this->DisplayDate($review->publishDate); ?></time> Source:</p>
         </article>
         <?php $count++; ?>
         <?php endforeach; ?>
         <div style="clear: both;">
-            <p><a href="#">See All Latest Articles...</a></p>
+            <p><a href="#">See All Latest Reviews...</a></p>
         </div>
     </div>
     <div id="news">
         <h2>Latest News From The Web</h2>
-        <?php foreach ($this->articles as $article): ?>
+        <?php foreach ($this->articles->news as $news): ?>
         <article>
-            <h3><a href="<?php echo $this->url('article/profile',array('slug' => $article->slug)); ?>"><?php echo $article->title; ?></a></h3>
-            <p><?php echo trim($article->summary); ?>...</p>
-            <p>Posted on: <time><?php echo $this->DisplayDate($article->publishDate); ?></time> Source:</p>
+            <h3><a href="<?php echo $this->url('article/profile',array('slug' => $news->slug)); ?>"><?php echo $news->title; ?></a></h3>
+            <p><?php echo trim($news->summary); ?>...</p>
+            <p>Posted on: <time><?php echo $this->DisplayDate($news->publishDate); ?></time> Source:</p>
         </article>
         <?php endforeach; ?>
         <div style="clear: both;">
