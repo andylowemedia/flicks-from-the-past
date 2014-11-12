@@ -4,84 +4,97 @@ use Zend\Mvc\Controller\AbstractActionController;
 
 class ArticlesController extends AbstractActionController
 {
-    protected $uri = 'https://hal.low-emedia.com';
-    
     public function articleAction()
     {
         $slug = $this->params()->fromRoute('slug', null);
         
-        $uri = "{$this->uri}/api/article/title/{$slug}";
+        $config = $this->getServiceLocator()->get('config');
+        $uri = "{$config['apis']['articles']}/api/article/title/{$slug}";
         
-        $config = array(
+        $curlConfig = array(
             'adapter'   => 'Zend\Http\Client\Adapter\Curl',
             'curloptions' => array(
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_SSL_VERIFYPEER => false,
             ),
         );
-        $client = new \Zend\Http\Client($uri, $config);
-        $client->setHeaders(array(
-            'consumerKey'   => 'fb22566404a02db02de9c96069c318',
-            'sourceKey'     => '19805d9315',
-            'token'         => '8e7c6d35e109c949f7efc8c929a453fb981f4616',
-        ));        
-        $result = json_decode($client->send()->getContent());
-
-        return array(
-            'article' => $result->response->article,
-        );
-    }
-    
-    public function indexAction()
-    {
-        $uri = "{$this->uri}/api/article";
         
-        $config = array(
+        $client = new \Zend\Http\Client(trim($uri), $curlConfig);
+        $client->setHeaders(array(
+            'consumerKey'   => $config['apis']['consumerKey'],
+            'sourceKey'     => $config['apis']['sourceKey'],
+            'token'         => $config['apis']['token'],
+        ));
+        
+        $result = json_decode($client->send()->getContent());
+        
+        if (is_null($result)) {
+            $this->getResponse()->setStatusCode(404);
+            return array();
+        }
+        
+        if (count($result->response->article->articleMedia) > 0) {
+            $countMedia = 1;
+            foreach ($result->response->article->articleMedia as $articleMedia) {
+                $result->response->article->content = str_replace("<!-- media number {$countMedia} -->", $articleMedia->code, $result->response->article->content);
+                $countMedia++;
+            }
+        }
+        if (count($result->response->article->articleImages) > 0) {
+            $countImage = 1;
+            foreach ($result->response->article->articleImages as $articleImage) {
+                $data = getimagesize($articleImage->url);
+
+                $imageHtml = '<img src="' . $articleImage->url . '" style="float:left;'; 
+
+                if ($data[0] > 400 && $data[0] > $data[1]) {
+                    $imageHtml .= 'width:400px;';
+                } elseif ($data[1] > 450 && $data[0] < $data[1]) {
+                    $imageHtml .= 'height:450px;';                
+                }
+
+                $imageHtml .= ' margin: 0pt 10pt" />';
+                $result->response->article->content = str_replace("<!-- image number {$countImage} -->", $imageHtml, $result->response->article->content);
+                $countImage++;
+            }
+        }
+//        
+//        echo '<pre>';
+//        print_r($result->response->article);
+//        die();
+        
+        $uriNews = "{$config['apis']['articles']}/api/article";
+        
+        $configNews = array(
             'adapter'   => 'Zend\Http\Client\Adapter\Curl',
             'curloptions' => array(
                 CURLOPT_FOLLOWLOCATION => true, 
-                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_SSL_VERIFYPEER => false
             ),
         );
-        $client = new \Zend\Http\Client($uri, $config);
-        $client->setHeaders(array(
+        $newsClient = new \Zend\Http\Client($uriNews, $configNews);
+        $newsClient->setHeaders(array(
             'offset'        => 0,
-            'limit'         => 25,
+            'limit'         => 10,
             'order'         => 'date desc',
-            'consumerKey'   => 'fb22566404a02db02de9c96069c318',
-            'sourceKey'     => '19805d9315',
-            'token'         => '8e7c6d35e109c949f7efc8c929a453fb981f4616',
-        ));        
-        
-        $results = json_decode($client->send()->getContent());
-        
-        return array('articles' => $results->response->articles);
-
-    }
-    
-    public function searchAction()
-    {
-        $uri = "{$this->uri}/api/article";
-        
-        $config = array(
-            'adapter'   => 'Zend\Http\Client\Adapter\Curl',
-            'curloptions' => array(
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_SSL_VERIFYPEER => false,
-            ),
-        );
-        $client = new \Zend\Http\Client($uri, $config);
-        $client->setHeaders(array(
-            'offset'        => 0,
-            'limit'         => 25,
-            'order'         => 'date desc',
-            'consumerKey'   => 'fb22566404a02db02de9c96069c318',
-            'sourceKey'     => '19805d9315',
-            'token'         => '8e7c6d35e109c949f7efc8c929a453fb981f4616',
+            'type'          => 1,
+            'consumerKey'   => $config['apis']['consumerKey'],
+            'sourceKey'     => $config['apis']['sourceKey'],
+            'token'         => $config['apis']['token'],
         ));
         
-        $results = json_decode($client->send()->getContent());
-        return array('articles' => $results->response->articles);
-
+//        $client->setMethod('POST')
+//                ->getRequest()
+//                ->setPost(new \Zend\Stdlib\Parameters(array('key' => 'value')))
+//                ;
+        
+        $newsResponse = $newsClient->send();
+        $newsResults = json_decode($newsResponse->getContent());
+        
+        return array(
+            'article' => $result->response->article,
+            'news' => $newsResults->response->articles->news
+        );
     }
+    
 }

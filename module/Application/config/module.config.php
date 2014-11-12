@@ -55,6 +55,27 @@ return array(
                 ),
 
             ),
+            'amazon' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route'    => '/amazon',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Amazon',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'products   ' => array(
+                        'type'    => 'Literal',
+                        'options' => array(
+                            'route'    => '/products',
+                            'defaults' => array(
+                                'action'     => 'productApi',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
         ),
     ),
     'service_manager' => array(
@@ -66,6 +87,7 @@ return array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
             'Application\Controller\Articles' => 'Application\Controller\ArticlesController',
+            'Application\Controller\Amazon' => 'Application\Controller\AmazonController',
         ),
     ),
     'view_manager' => array(

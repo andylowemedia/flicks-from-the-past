@@ -10,8 +10,7 @@
         
         $this->headLink()
                 ->prependStylesheet($this->basePath('css/fonts.css'))
-                ->appendStylesheet($this->basePath('css/sleek/layout.css'))
-//                ->appendStylesheet($this->basePath() . '/css/navigation.css')
+                ->appendStylesheet($this->basePath('css/layout.css'))
                 ;
         
         $this->headScript()
@@ -24,34 +23,24 @@
         echo $this->headScript() . "\n";
         echo $this->headStyle() . "\n";
         ?>
-        <style type='text/css'>
-        </style>
     </head>
     <body>
-        <header>
-            <div>
-                <h1>Flicks from the Past!</h1>
-<!--            <nav>
-                <ul>
-                    <li><a href="<?php echo $this->url('home'); ?>">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="<?php echo $this->url('articles'); ?>">News</a></li>
-                    <li><a href="#">Features</a></li>
-                    <li><a href="#">Reviews</a></li>
-                    <li><a href="#">Trailers</a></li>
-                </ul>   
-            </nav>-->
-            </div>
-        </header>
-        <section id='main'>
+        <div id="main">
+            <header>
+                <h1>Flicks From The Past!</h1>
+                <div style='float: right;'>
+                    <a href='https://www.youtube.com/channel/UCuJZlbQ9iB5VoFCWZYGY_Jg' target='_blank'><img src='/images/YouTube-logo-light.png' border="0" style='width: 100px; float: right;margin: 3pt 0pt;' /></a>
+                    <img src='/images/Twitter_logo_white.png' style='width: 40px; float: right; margin: 15pt 0pt 10pt 10pt' />
+                    <img src='/images/FB-f-Logo__blue_50.png' style='width: 35px; float: right; border: 1pt solid #9f9f9f; border-radius: 0.5em; margin: 11pt 6pt' />
+                </div>
+            </header>
+            <div id="content" style='clear: both;'>
             <?php echo $this->content . "\n"; ?>
-        </section>
-        <footer>
-            <div>
-                <h3>&copy;2014&nbsp;&nbsp;<span class="company">Low-Emedia</span></h3>
-                <p>Powered by the Hal Project.</p>
             </div>
-        </footer>
-        <?php echo $this->inlineScript() . "\n"; ?>
+        
+            <footer>
+                <p>&copy;2015 <span class='company'>Low-Emedia</span></p>
+            </footer>
+        </div>
     </body>
 </html>

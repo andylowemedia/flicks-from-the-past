@@ -1,31 +1,82 @@
 <?php 
+$title = html_entity_decode($article->title);
+$this->headTitle("{$title} - ");
+
 $this->headLink()
-        ->appendStylesheet($this->basePath('css/sleek/sections.css'))
-        ->appendStylesheet($this->basePath('css/sleek/article.css'))
+        ->appendStylesheet('/css/article.css')
         ; 
 ?>
 <?php $this->headScript()->captureStart(); ?>
 $(function() {
-    if ($('aside').height() < $('article').height()) {
-        $('aside').height($('article').height());
-    } else if ($('aside').height() > $('article').height()) {
-        $('article').height($('aside').height());
-    }
+    $('div.articles article').click(function() {
+        location.href = $(this).attr('value');
+    });
 });
 <?php $this->headScript()->captureEnd(); ?>
-<article style="clear: both; float:left; width: 500pt;">
-    <h1><?php echo $this->article->title; ?></h1>
-    <p>By: <?php echo $this->article->author; ?> <time><?php echo $this->DisplayDate($this->article->publishDate); ?></time></p>
-    <?php if (isset($this->article->subtitle) && $this->article->subtitle): ?>  
-    <h2><?php echo $this->article->subtitle; ?></h2>
-    <?php endif; ?>
-    <div id="content">
-        <?php echo $this->article->content; ?> 
-    </div>
-</article>
-<aside style="float: right; width: 280pt;">
-    
-</aside>
-<div id="articles">
-    
+<div id="news" class="articles">
+    <h2>Latest News</h2>
+    <?php foreach ($this->news as $newsArticle): ?>
+    <article value="<?php echo $this->url('article/profile', array('slug' => $newsArticle->slug)); ?>">
+        <h3><?php echo $newsArticle->title; ?></h3>
+        <p><?php echo trim($newsArticle->summary); ?>...</p>
+        <p class="date">Date: <?php echo $newsArticle->publishDate; ?></p>
+    </article>
+    <?php endforeach; ?>
+    <p class="more">See More...</p>
 </div>
+
+<article id='main'>
+    <h2><?php echo $article->title; ?></h2>
+    <h3><?php echo $article->subtitle; ?></h3>
+    <p class='date'>Date: <?php echo $article->publishDate; ?></p>
+    <?php echo $article->content; ?>
+    <p>Source: <a href="<?php echo $article->originalUrl; ?>" target="_blank"><?php echo $article->originalUrl; ?></a></p>
+</article>
+
+<div id="related" class="articles" style="width: 515pt; float: left;">
+    <h2>Latest Related Articles</h2>
+
+    <article style="float: left;">
+        <h3>Something</h3>
+        <p>Something...</p>
+        <p class="date">Date: 2014-01-01</p>
+    </article>
+    <article style="float: left;">
+        <h3>Something</h3>
+        <p>Something...</p>
+        <p class="date">Date: 2014-01-01</p>
+    </article>
+    <article style="float: left;">
+        <h3>Something</h3>
+        <p>Something...</p>
+        <p class="date">Date: 2014-01-01</p>
+    </article>
+    <article style="float: left;">
+        <h3>Something</h3>
+        <p>Something...</p>
+        <p class="date">Date: 2014-01-01</p>
+    </article>
+    <p class="more" style="clear: both;">See More...</p>
+</div>
+
+<div id="relatedProducts" class="articles" style="width: 515pt; float: left;">
+    <h2>Latest Related Products</h2>
+
+    <article style="float: left;">
+        <h3>Something</h3>
+        <p>Something...</p>
+        <p class="date">Date: 2014-01-01</p>
+    </article>
+    <article style="float: left;">
+        <h3>Something</h3>
+        <p>Something...</p>
+        <p class="date">Date: 2014-01-01</p>
+    </article>
+    <article style="float: left;">
+        <h3>Something</h3>
+        <p>Something...</p>
+        <p class="date">Date: 2014-01-01</p>
+    </article>
+    <p class="more" style="clear: both;">See More...</p>
+</div>
+
