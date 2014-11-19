@@ -58,10 +58,6 @@ class ArticlesController extends AbstractActionController
                 $countImage++;
             }
         }
-//        
-//        echo '<pre>';
-//        print_r($result->response->article);
-//        die();
         
         $uriNews = "{$config['apis']['articles']}/api/article";
         
