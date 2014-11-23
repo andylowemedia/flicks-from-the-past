@@ -4,6 +4,8 @@ $this->headScript()
         ->appendFile('js/featured.js')
         ;
 
+$this->headMeta()->appendName('description', "Articles on the greatest films ever made, and the very latest news on today's movie industry.");
+
 $this->headLink()
         ->appendStylesheet($this->basePath('css/articles.css'))
         ->appendStylesheet($this->basePath('css/featured.css'))
