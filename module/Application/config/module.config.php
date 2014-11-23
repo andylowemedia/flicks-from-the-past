@@ -20,6 +20,16 @@ return array(
                     ),
                 ),
             ),
+            'sitemap' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route'    => '/sitemap',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Index',
+                        'action'     => 'sitemap',
+                    ),
+                ),
+            ),
             'articles' => array(
                 'type' => 'Literal',
                 'options' => array(

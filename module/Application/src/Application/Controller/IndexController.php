@@ -37,4 +37,17 @@ class IndexController extends AbstractActionController
         
         return array('articles' => $results->response->articles);
     }
+    
+    public function sitemapAction()
+    {
+        $dom = new \DOMDocument('1.0');
+        $element = $dom->appendChild(new \DOMElement('sitemap'));
+        $element_ns = new \DOMElement('something', 'thisvalue', 'http://xyz');
+        $element->appendChild($element_ns);
+        
+        $response = $this->getResponse();
+        $response->getHeaders()->addHeaderLine('Content-Type', 'text/xml; charset=utf-8');
+        $response->setContent($dom->saveXML());
+        return $response;
+    }
 }

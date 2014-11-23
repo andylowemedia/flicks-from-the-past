@@ -43,18 +43,19 @@ class ArticlesController extends AbstractActionController
         if (count($result->response->article->articleImages) > 0) {
             $countImage = 1;
             foreach ($result->response->article->articleImages as $articleImage) {
-                $data = getimagesize($articleImage->url);
+                if (file_exists($articleImage->url) || ($data = getimagesize($articleImage->url))) {
+//                    $data = getimagesize($articleImage->url);
+                    $imageHtml = '<img src="' . $articleImage->url . '" style="float:left;'; 
 
-                $imageHtml = '<img src="' . $articleImage->url . '" style="float:left;'; 
+                    if ($data[0] > 400 && $data[0] > $data[1]) {
+                        $imageHtml .= 'width:400px;';
+                    } elseif ($data[1] > 450 && $data[0] < $data[1]) {
+                        $imageHtml .= 'height:450px;';                
+                    }
 
-                if ($data[0] > 400 && $data[0] > $data[1]) {
-                    $imageHtml .= 'width:400px;';
-                } elseif ($data[1] > 450 && $data[0] < $data[1]) {
-                    $imageHtml .= 'height:450px;';                
+                    $imageHtml .= ' margin: 10pt" />';
+                    $result->response->article->content = str_replace("<!-- image number {$countImage} -->", $imageHtml, $result->response->article->content);
                 }
-
-                $imageHtml .= ' margin: 0pt 10pt" />';
-                $result->response->article->content = str_replace("<!-- image number {$countImage} -->", $imageHtml, $result->response->article->content);
                 $countImage++;
             }
         }

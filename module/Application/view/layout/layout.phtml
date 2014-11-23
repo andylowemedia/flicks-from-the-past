@@ -6,7 +6,12 @@
 
         <?php 
         $this->headMeta()
-            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge');
+            ->appendName('keywords', '')
+            ->setCharset('UTF-8')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+            ->appendHttpEquiv('Content-Type','text/html')
+            ->appendHttpEquiv('Content-Language', 'en-GB')
+            ;
         
         $this->headLink()
                 ->prependStylesheet($this->basePath('css/fonts.css'))
@@ -25,6 +30,7 @@
         ?>
     </head>
     <body>
+          <?php if ($this->GoogleAnalytics()): ?>
         <script>
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
           (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -32,9 +38,11 @@
           })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
           ga('create', 'UA-15536564-4', 'auto');
+          ga('require', 'displayfeatures');
+          ga('require', 'linkid', 'linkid.js');
           ga('send', 'pageview');
-
         </script>
+          <?php endif; ?>
         <div id="main">
             <header>
                 <h1>Flicks From The Past!</h1>

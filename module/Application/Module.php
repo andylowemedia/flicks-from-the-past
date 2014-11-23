@@ -43,6 +43,7 @@ class Module
         return array(
             'invokables' => array(
                 'DisplayDate' => 'Application\View\Helper\DisplayDate',
+                'GoogleAnalytics' => 'Application\View\Helper\GoogleAnalytics',
              )
         );
     }

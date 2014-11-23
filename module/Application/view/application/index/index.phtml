@@ -1,4 +1,5 @@
 <?php 
+$this->headTitle('The very latest in film & movie news, taken from the most popular sources - ');
 $this->headScript()
         ->appendFile('js/featured.js')
         ;
@@ -59,7 +60,7 @@ $(function() {
     <article value="<?php echo $this->url('article/profile', array('slug' => $newsArticle->slug)); ?>">
         <h3><?php echo $newsArticle->title; ?></h3>
         <p><?php echo trim($newsArticle->summary); ?>...</p>
-        <p class="date">Date: <?php echo $newsArticle->publishDate; ?></p>
+        <p class="date">Date: <?php echo $this->DisplayDate($newsArticle->publishDate); ?></p>
     </article>
     <?php endforeach; ?>
     <p class="more">See More...</p>
@@ -106,10 +107,12 @@ $(function() {
     <h2>Latest Reviews</h2>
     <?php foreach ($this->articles->reviews as $reviewArticle): ?>
     <article value="<?php echo $this->url('article/profile', array('slug' => $reviewArticle->slug)); ?>">
-        <img src="http://images.low-emedia.com/devastator.jpg" style="width: 100%"/>
+        <?php if (count($reviewArticle->articleImages) > 0): ?>
+        <img src="<?php echo current($reviewArticle->articleImages)->url; ?>" style="width: 100%"/>
+        <?php endif; ?>
         <h3><?php echo $reviewArticle->title; ?></h3>
         <p><?php echo trim($reviewArticle->summary); ?>...</p>
-        <p class="date">Date: <?php echo $reviewArticle->publishDate; ?></p>
+        <p class="date">Date: <?php echo $this->DisplayDate($reviewArticle->publishDate); ?></p>
     </article>
     <?php endforeach; ?>
     <p class="more">See More...</p>
@@ -117,12 +120,14 @@ $(function() {
 <div id="features" class="articles">
     <h2>Latest Features</h2>
     <?php if (isset($this->articles->features)): ?>
-    <?php foreach ($this->articles->features as $reviewArticle): ?>
-    <article value="<?php echo $this->url('article/profile', array('slug' => $reviewArticle->slug)); ?>">
-        <img src="http://images.low-emedia.com/devastator.jpg" style="width: 100%"/>
-        <h3><?php echo $reviewArticle->title; ?></h3>
-        <p><?php echo trim($reviewArticle->summary); ?>...</p>
-        <p class="date">Date: <?php echo $reviewArticle->publishDate; ?></p>
+    <?php foreach ($this->articles->features as $featureArticle): ?>
+    <article value="<?php echo $this->url('article/profile', array('slug' => $featureArticle->slug)); ?>">
+        <?php if (count($featureArticle->articleImages) > 0): ?>
+        <img src="<?php echo current($featureArticle->articleImages)->url; ?>" style="width: 100%;"/>
+        <?php endif; ?>
+        <h3><?php echo $featureArticle->title; ?></h3>
+        <p><?php echo trim($featureArticle->summary); ?>...</p>
+        <p class="date">Date: <?php echo $this->DisplayDate($featureArticle->publishDate); ?></p>
     </article>
     <?php endforeach; ?>
     <?php endif; ?>
