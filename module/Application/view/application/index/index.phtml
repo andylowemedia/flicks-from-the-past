@@ -24,13 +24,14 @@ div#reviews, div#features {
 <?php $this->headStyle()->captureEnd(); ?>
 <?php $this->headScript()->captureStart(); ?>
 $(function() {
+    <?php if (isset($this->articles->featuredarticles)): ?>
     var changeSlide = new AutoChangeSlide({
-        maxSlides : 3,
+        maxSlides : <?php echo isset($this->articles->featuredarticles)?count($this->articles->featuredarticles):0; ?>,
         startSlide : 1
     });
 
     var intervalId = changeSlide.setupTiming();
-
+    
     $('div#featured div#featuredArticles article').each(function() {
         $(this).hide();
         if ($(this).attr('value') == '1') {
@@ -49,18 +50,57 @@ $(function() {
         });
         intervalId = changeSlide.setupTiming();
     });
+    <?php endif; ?>
     
     $('div.articles article').click(function() {
-        location.href = $(this).attr('value');
+        location.href = $(this).children('h3').children('a').attr('href');
+    });
+    
+    $('div#featuredArticles article').click(function() {
+        location.href = $(this).children('section').children('h3').children('a').attr('href');
+    });
+    
+    $('div.articles article h3 a, div#featuredArticles article section h3 a').click(function(event) {
+        event.preventDefault();
     });
 });
 <?php $this->headScript()->captureEnd(); ?>
 
+<?php if (isset($this->articles->featuredarticles) && count($this->articles->featuredarticles) > 0): ?>
+<div id="featured">
+    <div id='featuredArticles'>
+        <?php $count = 1; ?>
+        <?php foreach ($this->articles->featuredarticles as $featuredArticle): ?>
+        <article value='<?php echo $count; ?>'>
+            <?php $image = current($featuredArticle->articleImages); ?>
+            <div class="image">
+                <img src="<?php echo $image->url; ?>" />
+            </div>
+            <section>
+                <h3><a href="<?php echo $this->url('article/profile', array('slug' => $featuredArticle->slug)); ?>"><?php echo $featuredArticle->title; ?></a></h3>
+                <p><?php echo $featuredArticle->subtitle; ?></p>
+            </section>
+        </article>
+        <?php $count++; ?>
+        <?php endforeach; ?>
+    </div>
+    <nav>
+        <?php $imageCount = 1; ?>
+        <?php foreach ($this->articles->featuredarticles as $featuredArticle): ?>
+            <?php $image = current($featuredArticle->articleImages); ?>
+        <div class="nav">
+            <img src="<?php echo $image->url; ?>" value='<?php echo $imageCount; ?>' />
+        </div>
+            <?php $imageCount++; ?>
+        <?php endforeach; ?>
+    </nav>
+</div>
+<?php endif; ?>
 <div id="news" class="articles">
     <h2>Latest News</h2>
     <?php foreach ($this->articles->news as $newsArticle): ?>
-    <article value="<?php echo $this->url('article/profile', array('slug' => $newsArticle->slug)); ?>">
-        <h3><?php echo $newsArticle->title; ?></h3>
+    <article>
+        <h3><a href='<?php echo $this->url('article/profile', array('slug' => $newsArticle->slug)); ?>'><?php echo $newsArticle->title; ?></a></h3>
         <p><?php echo trim($newsArticle->summary); ?>...</p>
         <p class="date">Date: <?php echo $this->DisplayDate($newsArticle->publishDate); ?></p>
     </article>
@@ -68,51 +108,14 @@ $(function() {
     <p class="more">See More...</p>
 </div>
 
-<div id="featured">
-    <div id='featuredArticles'>
-        <article value='1'>
-            <img src="/images/AVENGERS-TRIO_650.jpg" />
-            <section>
-                <h3>Avengers? Why?????</h3>
-                <p>Has that bored everyone of superhero movies?</p>
-            </section>
-        </article>
-        <article value='2'>
-            <img src="/images/NEW-ENTERPRISE-CREW_650_002.jpg" />
-            <section>
-                <h3>Bloody Remakes!</h3>
-                <p>Has that bored everyone of superhero movies?</p>
-            </section>
-        </article>
-        <article value='3'>
-            <img src="/images/PREDATORS_650_XVI.jpg" />
-            <section>
-                <h3>Films no fun anymore!</h3>
-                <p>Has that bored everyone of superhero movies?</p>
-            </section>
-        </article>
-    </div>
-    <nav>
-        <img src="/images/AVENGERS-TRIO_650.jpg" value='1' />
-        <img src="/images/NEW-ENTERPRISE-CREW_650_002.jpg" value='2' />
-        <img src="/images/PREDATORS_650_XVI.jpg" value='3' />
-        <img src="/images/AVENGERS-TRIO_650.jpg" />
-        <img src="/images/NEW-ENTERPRISE-CREW_650_002.jpg" />
-        <img src="/images/PREDATORS_650_XVI.jpg" />
-    </nav>
-
-
-</div>
-
-
 <div id="reviews" class="articles">
     <h2>Latest Reviews</h2>
     <?php foreach ($this->articles->reviews as $reviewArticle): ?>
-    <article value="<?php echo $this->url('article/profile', array('slug' => $reviewArticle->slug)); ?>">
+    <article>
         <?php if (count($reviewArticle->articleImages) > 0): ?>
         <img src="<?php echo current($reviewArticle->articleImages)->url; ?>" style="width: 100%"/>
         <?php endif; ?>
-        <h3><?php echo $reviewArticle->title; ?></h3>
+        <h3><a href='<?php echo $this->url('article/profile', array('slug' => $reviewArticle->slug)); ?>'><?php echo $reviewArticle->title; ?></a></h3>
         <p><?php echo trim($reviewArticle->summary); ?>...</p>
         <p class="date">Date: <?php echo $this->DisplayDate($reviewArticle->publishDate); ?></p>
     </article>
@@ -123,11 +126,11 @@ $(function() {
     <h2>Latest Features</h2>
     <?php if (isset($this->articles->features)): ?>
     <?php foreach ($this->articles->features as $featureArticle): ?>
-    <article value="<?php echo $this->url('article/profile', array('slug' => $featureArticle->slug)); ?>">
+    <article>
         <?php if (count($featureArticle->articleImages) > 0): ?>
         <img src="<?php echo current($featureArticle->articleImages)->url; ?>" style="width: 100%;"/>
         <?php endif; ?>
-        <h3><?php echo $featureArticle->title; ?></h3>
+        <h3><a href='<?php echo $this->url('article/profile', array('slug' => $featureArticle->slug)); ?>'><?php echo $featureArticle->title; ?></a></h3>
         <p><?php echo trim($featureArticle->summary); ?>...</p>
         <p class="date">Date: <?php echo $this->DisplayDate($featureArticle->publishDate); ?></p>
     </article>

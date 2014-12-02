@@ -30,7 +30,7 @@ class ArticlesController extends AbstractActionController
         
         if (is_null($result)) {
             $this->getResponse()->setStatusCode(404);
-            return array();
+            return $this->getResponse();
         }
         
         if (count($result->response->article->articleMedia) > 0) {
@@ -43,8 +43,8 @@ class ArticlesController extends AbstractActionController
         if (count($result->response->article->articleImages) > 0) {
             $countImage = 1;
             foreach ($result->response->article->articleImages as $articleImage) {
-                if (file_exists($articleImage->url) || ($data = getimagesize($articleImage->url))) {
-//                    $data = getimagesize($articleImage->url);
+                if (file_exists($articleImage->url) || strstr($articleImage->url, 'http')) {
+                    $data = getimagesize($articleImage->url);
                     $imageHtml = '<img src="' . $articleImage->url . '" style="float:left;'; 
 
                     if ($data[0] > 400 && $data[0] > $data[1]) {

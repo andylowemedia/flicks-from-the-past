@@ -19,6 +19,8 @@ div#featured article {
     padding: 5pt;
     height: 250pt;
     position: absolute;
+    overflow: hidden;
+    cursor: pointer;
 }
 
 div#featured article section {
@@ -39,13 +41,19 @@ div#featured article p {
     font-size: 0.70em;
 }
 
-div#featured article img {
+div#featured article div.image {
     width: 630px;
+    height: 255pt;
+}
+
+div#featured article img {
+    width: 100%;
 }
 
 
-div#featured article section h3, div#featured article section p {
+div#featured article section h3, div#featured article section h3 a, div#featured article section p {
     color: #fff;
+    text-decoration: none;
 }
 
 div#featured nav {
@@ -54,8 +62,14 @@ div#featured nav {
     margin: 10pt 5pt;
 }
 
-div#featured nav img {
+div#featured nav div.nav {
     width: 100px;
+    height: 50px;
+    overflow: hidden;
+}
+
+div#featured nav img {
+    width: 100%;
     cursor: pointer;
 }
 div#featured nav img:hover { 
