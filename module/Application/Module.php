@@ -42,9 +42,11 @@ class Module
     {
         return array(
             'invokables' => array(
-                'DisplayDate' => 'Application\View\Helper\DisplayDate',
-                'GoogleAnalytics' => 'Application\View\Helper\GoogleAnalytics',
-             )
+                'DisplayDate'       => 'Application\View\Helper\DisplayDate',
+                'GoogleAnalytics'   => 'Application\View\Helper\GoogleAnalytics',
+                'MainSearch'        => 'Application\View\Helper\MainSearch',
+                'FormSubmit'        => 'Application\View\Helper\FormSubmit',
+             ),
         );
     }
     

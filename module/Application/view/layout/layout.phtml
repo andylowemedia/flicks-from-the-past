@@ -15,12 +15,28 @@
         $this->headLink()
                 ->prependStylesheet($this->basePath('css/fonts.css'))
                 ->appendStylesheet($this->basePath('css/layout.css'))
+                ->appendStylesheet($this->basePath('css/mainSearch.css'))
                 ;
         
         $this->headScript()
                 ->prependFile($this->basePath() . '/js/jquery-1.10.2.min.js')
                 ;
         ?>
+        
+        <?php $this->headScript()->captureStart(); ?>
+        $(function() {
+            $('header h1').click(function() {
+                location.href = '<?php echo $this->url('home'); ?>';
+            });
+            
+            $('form#mainSearch input[type=submit]').click(function(event) {
+                if (!$('form#mainSearch input[name=search]').val()) {
+                    event.preventDefault();
+                }
+            });
+        });
+        <?php $this->headScript()->captureEnd(); ?>
+        
         <?php
         echo $this->headMeta() . "\n";
         echo $this->headLink() . "\n";
@@ -45,6 +61,11 @@
         <div id="main">
             <header>
                 <h1>Flicks From The Past!</h1>
+                <?php echo $this->form()->openTag($this->MainSearch()->setAttributes(array('method' => 'get', 'action' => $this->url('search')))); ?>
+                <?php echo $this->formRow($this->MainSearch()->get('search')); ?>
+                <?php echo $this->formRow($this->MainSearch()->get('type')); ?>
+                <?php echo $this->formElement($this->MainSearch()->get('submit')); ?>
+                <?php echo $this->form()->closeTag(); ?>
                 <div style='float: right;'>
                     <a href='https://www.youtube.com/channel/UCuJZlbQ9iB5VoFCWZYGY_Jg' target='_blank'><img src='/images/YouTube-logo-light.png' border="0" style='width: 100px; float: right;margin: 3pt 0pt;' /></a>
                     <img src='/images/Twitter_logo_white.png' style='width: 40px; float: right; margin: 15pt 0pt 10pt 10pt' />
@@ -56,7 +77,7 @@
             </div>
         
             <footer>
-                <p>&copy;2015 <span class='company'>Low-Emedia</span></p>
+                <p>&copy;<?php echo date('Y'); ?> <span class='company'>Low-Emedia</span></p>
             </footer>
         </div>
     </body>

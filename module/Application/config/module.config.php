@@ -30,15 +30,25 @@ return array(
                     ),
                 ),
             ),
-            'articles' => array(
-                'type' => 'Literal',
+            'search' => array(
+                'type' => 'Segment',
                 'options' => array(
-                    'route'    => '/articles',
+                    'route'    => '/search[/:search]',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Articles',
+                        'action'     => 'search',
+                    ),
+                ),
+            ),
+            'articles' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route'    => '/articles[/:type]',
                     'defaults' => array(
                         'controller' => 'Application\Controller\Articles',
                         'action'     => 'index',
                     ),
-                ),
+                )
             ),
             'article' => array(
                 'type' => 'Literal',

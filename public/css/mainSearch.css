@@ -1,0 +1,64 @@
+form#mainSearch {
+    float: left;
+    margin: 14pt 10pt 10pt;
+}
+
+form#mainSearch input[type=text] {
+    float: left;
+    padding-left: 10pt;
+    padding-right: 10pt;
+    height: 27px;
+    border: none;
+    border-radius: 0.5em 0 0 0.5em;
+    width: 160pt;
+    margin: 0pt;
+}
+
+form#mainSearch select {
+    float: left;
+    margin: 0pt;
+    padding: 0pt 10pt;
+    border: none;
+    border-left: 1pt solid #acacac;
+    height: 29px;
+    border-radius: 0em;
+    appearance: none;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0em;
+    -moz-appearance: none;
+    cursor: pointer;
+}
+
+form#mainSearch select::-ms-expand {
+    display: none;
+}
+
+form#mainSearch input[type=submit] {
+    padding-left: 10pt;
+    padding-right: 10pt;
+    margin: 0pt;
+    height: 29px;
+    border: none;
+    border-radius: 0 0.5em 0.5em 0;
+    background-color: #acacac;
+    
+    background-image: -moz-linear-gradient(top, #777777, #2b2b2b);
+    background-image: -ms-linear-gradient(top, #777777, #2b2b2b);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#777777), to(#2b2b2b));
+    background-image: -webkit-linear-gradient(top, #777777, #2b2b2b);
+    background-image: -o-linear-gradient(top, #777777, #2b2b2b);
+    background-image: linear-gradient(top, #777777, #2b2b2b);
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#777777', endColorstr='#2b2b2b');
+    color: #fff;
+    cursor: pointer;
+}
+
+form#mainSearch input[type=submit]:active {
+    background-image: -moz-linear-gradient(top, #333333, #2b2b2b);
+    background-image: -ms-linear-gradient(top, #333333, #2b2b2b);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#333333), to(#2b2b2b));
+    background-image: -webkit-linear-gradient(top, #333333, #2b2b2b);
+    background-image: -o-linear-gradient(top, #333333, #2b2b2b);
+    background-image: linear-gradient(top, #333333, #2b2b2b);
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#333333', endColorstr='#2b2b2b');
+}

@@ -1,0 +1,48 @@
+<?php
+$this->headLink()
+        ->appendStylesheet($this->basePath('css/articles.css'))
+        ;
+?>
+<?php $this->headScript()->captureStart(); ?>
+$(function() {
+    $('div.articles article h3 a').click(function(event) {
+        event.preventDefault();
+    });
+    $('div.articles article').click(function() {
+        location.href = $(this).children('h3').children('a').attr('href');
+    });
+    $('form#mainSearch input[name=search]').val('<?php echo $this->searchText ?>');
+    $('form#mainSearch select').val('<?php echo $this->type ?>');
+});
+<?php $this->headScript()->captureEnd(); ?>
+
+<div class="articles" style="width: 515pt; float: left;">
+    <h2>Search text: <?php echo $this->searchText; ?><br>Number of Articles found: <?php echo count($this->articles); ?></h2>
+    <?php foreach ($this->articles as $article): ?>
+    <article style='clear: both;'>
+        <?php if (count($article->articleImages) > 0): ?>
+        <?php $image = current($article->articleImages); ?>
+        <?php if (file_exists($image->url) || strstr($image->url, 'http')): ?>
+        <img src='<?php echo $image->url; ?>' style='width: 100pt; float: left; margin-right: 10pt;'>
+        <?php endif; ?>
+        <?php endif; ?>
+
+        <h3><a href='<?php echo $this->url('article/profile', array('slug' => $article->slug)); ?>'><?php echo $article->title; ?></a></h3>
+        <p><?php echo trim($article->summary); ?>...</p>
+        <p class="date">Date: <?php echo $this->DisplayDate($article->publishDate); ?></p>
+        <div style='clear: both;'></div>
+    </article>
+    <?php endforeach; ?>
+</div>
+
+<div id="news" class="articles" style="width: 200pt; float: right;">
+    <h2>Latest News</h2>
+    <?php foreach ($this->news as $newsArticle): ?>
+    <article>
+        <h3><a href='<?php echo $this->url('article/profile', array('slug' => $newsArticle->slug)); ?>'><?php echo $newsArticle->title; ?></a></h3>
+        <p><?php echo trim($newsArticle->summary); ?>...</p>
+        <p class="date">Date: <?php echo $this->DisplayDate($newsArticle->publishDate); ?></p>
+    </article>
+    <?php endforeach; ?>
+    <p class="more">See More...</p>
+</div>

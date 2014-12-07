@@ -22,6 +22,7 @@ class IndexController extends AbstractActionController
             'offset'        => 0,
             'limit'         => 10,
             'order'         => 'date desc',
+            'summary'       => 1,
             'consumerKey'   => $config['apis']['consumerKey'],
             'sourceKey'     => $config['apis']['sourceKey'],
             'token'         => $config['apis']['token'],

@@ -11,12 +11,10 @@ $this->headLink()
 $(function() {
     $('div.articles article h3 a').click(function(event) {
         event.preventDefault();
-        //alert('here');
     });
     $('div.articles article').click(function() {
         location.href = $(this).children('h3').children('a').attr('href');
     });
-    
 });
 <?php $this->headScript()->captureEnd(); ?>
 <article id='main' style="float: left;">
@@ -27,6 +25,18 @@ $(function() {
     <?php echo $article->content; ?>
     <?php if (!strstr($article->originalUrl, 'http://www.flicksfromthepast.com')): ?>
     <p>Original Link: <a href="<?php echo $article->originalUrl; ?>" target="_blank"><?php echo $article->originalUrl; ?></a></p>
+    <?php endif; ?>
+    <?php if ($showImage): ?>
+    <?php foreach ($article->articleImages as $image): ?>
+    <?php $data = getimagesize($image->url); ?>
+    
+    <img src='<?php echo $image->url;?>' style='width:<?php echo $data['width'] < 650?$data['width']:'100%' ?>;'>
+    <?php endforeach; ?>
+    <?php endif; ?>
+    <?php if ($showMedia): ?>
+    <?php foreach ($article->articleMedia as $media): ?>
+    <?php echo $media->code;?>
+    <?php endforeach; ?>
     <?php endif; ?>
 </article>
 

@@ -1,20 +1,26 @@
 var AutoChangeSlide = function(params) {
-    var maxSlides = params.maxSlides;
-    var startSlide = params.startSlide;
-    var currentSlide = startSlide;
+    this.maxSlides = params.maxSlides;
+    this.currentSlide = params.startSlide;
 
     this.setupTiming = function() {
-        return setInterval(function(){autoSwitch()}, 5000);
+        var t = this;
+        return setInterval(function() {
+            t.autoSwitch();
+        }, 5000);
     };
-
-    var autoSwitch = function() {
-        currentSlide++;
-        if (currentSlide > maxSlides) {
-            currentSlide = 1;
+        
+    this.autoSwitch = function() {
+        this.currentSlide++;
+        if (this.currentSlide > this.maxSlides) {
+            this.currentSlide = 1;
         }
+        
         $('div#featured div#featuredArticles article').hide();
+        
+        var t = this;
         $('div#featured div#featuredArticles article').each(function() {
-            if ($(this).attr('value') == currentSlide) {
+ 
+            if ($(this).attr('value') == t.currentSlide) {
                 $(this).show();
             }
         });

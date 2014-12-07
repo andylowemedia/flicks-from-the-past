@@ -105,7 +105,7 @@ $(function() {
         <p class="date">Date: <?php echo $this->DisplayDate($newsArticle->publishDate); ?></p>
     </article>
     <?php endforeach; ?>
-    <p class="more">See More...</p>
+    <p class="more"><a href='<?php echo $this->url('articles', array('type' => 'news')); ?>'>See More...</a></p>
 </div>
 
 <div id="reviews" class="articles">
@@ -120,7 +120,7 @@ $(function() {
         <p class="date">Date: <?php echo $this->DisplayDate($reviewArticle->publishDate); ?></p>
     </article>
     <?php endforeach; ?>
-    <p class="more">See More...</p>
+    <p class="more"><a href='<?php echo $this->url('articles', array('type' => 'reviews')); ?>'>See More...</a></p>
 </div>
 <div id="features" class="articles">
     <h2>Latest Features</h2>
@@ -136,5 +136,5 @@ $(function() {
     </article>
     <?php endforeach; ?>
     <?php endif; ?>
-    <p class="more">See More...</p>
+    <p class="more"><a href='<?php echo $this->url('articles', array('type' => 'features')); ?>'>See More...</a></p>
 </div>
