@@ -28,22 +28,29 @@ div#featured article section {
     padding: 10pt;
     position: relative;
     top: -85pt;
-    height: 45pt;
+    height: 55pt;
+    width: 452pt;
 }
 
 div#featured article h3 {
-    font-size: 0.75em;
+    font-size: 0.8em;
     font-weight: bold;
-    margin: 2pt 0pt;
+    margin: 2pt 0pt 4pt;
 }
 
 div#featured article p {
     font-size: 0.70em;
 }
 
+div#featured article p.subtitle {
+    margin: 2pt 0pt 4pt;
+    font-weight: bold;
+}
+
 div#featured article div.image {
     width: 630px;
     height: 255pt;
+    background-color: #000;
 }
 
 div#featured article img {
@@ -66,6 +73,8 @@ div#featured nav div.nav {
     width: 100px;
     height: 50px;
     overflow: hidden;
+    float: left;
+    margin-right: 5pt;
 }
 
 div#featured nav img {

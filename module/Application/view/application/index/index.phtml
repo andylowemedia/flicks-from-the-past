@@ -78,7 +78,8 @@ $(function() {
             </div>
             <section>
                 <h3><a href="<?php echo $this->url('article/profile', array('slug' => $featuredArticle->slug)); ?>"><?php echo $featuredArticle->title; ?></a></h3>
-                <p><?php echo $featuredArticle->subtitle; ?></p>
+                <p class="subtitle"><?php echo $featuredArticle->subtitle; ?></p>
+                <p><?php echo $featuredArticle->summary; ?>...</p>
             </section>
         </article>
         <?php $count++; ?>
