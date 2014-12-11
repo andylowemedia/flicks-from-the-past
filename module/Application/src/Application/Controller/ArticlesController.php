@@ -45,7 +45,7 @@ class ArticlesController extends AbstractActionController
         
         $results = json_decode($client->send()->getContent());
 
-        $uriNews = "{$config['apis']['articles']}/api/article";
+        $uriNews = "{$config['apis']['articles']}/api/article/type/1";
         
         $configNews = array(
             'adapter'   => 'Zend\Http\Client\Adapter\Curl',
@@ -59,7 +59,6 @@ class ArticlesController extends AbstractActionController
             'offset'        => 0,
             'limit'         => 10,
             'order'         => 'date desc',
-            'type'          => 1,
             'consumerKey'   => $config['apis']['consumerKey'],
             'sourceKey'     => $config['apis']['sourceKey'],
             'token'         => $config['apis']['token'],
@@ -116,7 +115,7 @@ class ArticlesController extends AbstractActionController
             return $this->getResponse();
         }
 
-        $uriNews = "{$config['apis']['articles']}/api/article";
+        $uriNews = "{$config['apis']['articles']}/api/article/type/1";
         
         $configNews = array(
             'adapter'   => 'Zend\Http\Client\Adapter\Curl',
@@ -130,7 +129,6 @@ class ArticlesController extends AbstractActionController
             'offset'        => 0,
             'limit'         => 10,
             'order'         => 'date desc',
-            'type'          => 1,
             'consumerKey'   => $config['apis']['consumerKey'],
             'sourceKey'     => $config['apis']['sourceKey'],
             'token'         => $config['apis']['token'],
@@ -222,7 +220,7 @@ class ArticlesController extends AbstractActionController
         }
 
         
-        $uriNews = "{$config['apis']['articles']}/api/article";
+        $uriNews = "{$config['apis']['articles']}/api/article/type/1";
         
         $configNews = array(
             'adapter'   => 'Zend\Http\Client\Adapter\Curl',
@@ -236,7 +234,6 @@ class ArticlesController extends AbstractActionController
             'offset'        => 0,
             'limit'         => 10,
             'order'         => 'date desc',
-            'type'          => 1,
             'consumerKey'   => $config['apis']['consumerKey'],
             'sourceKey'     => $config['apis']['sourceKey'],
             'token'         => $config['apis']['token'],
