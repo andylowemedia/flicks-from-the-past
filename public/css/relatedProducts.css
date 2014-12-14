@@ -1,0 +1,47 @@
+div.relatedProducts {
+    border-radius: 0.5em;
+    margin: 10pt;
+    padding: 5pt 0pt 10pt;
+    font-size: 100%;
+    box-shadow: 0pt 1pt 2pt #9f9f9f;
+    border-radius: 0.5em;
+}
+
+div.relatedProducts h2 {
+    margin: 5pt;
+    padding: 0pt 0pt 5pt;
+    font-size: 0.85em;
+    font-weight: bold;
+    border-bottom: 1pt solid #cfcfcf;
+    color: #cc6600
+}
+
+div.relatedProducts div.product {
+    padding: 5pt;
+    cursor: pointer;
+}
+
+div.relatedProducts div.product div.productImage {
+    float: left; 
+    width: 55pt;
+}
+
+div.relatedProducts div.product:hover {
+    background-color: #bfbfbf;
+}
+
+div.relatedProducts div.product h3 {
+    font-size: 100%;
+    font-size: 0.75em;
+    font-weight: bold;
+    margin: 2pt 0pt;
+}
+
+div.relatedProducts div.product h3 a {
+    color: #000;
+    text-decoration: none;
+}
+
+div.relatedProducts div.product p {
+    font-size: 0.70em;
+}
