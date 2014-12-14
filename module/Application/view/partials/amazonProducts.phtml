@@ -18,10 +18,12 @@ $(function() {
     <?php foreach ($relatedProducts->Items->Item as $product): ?>
     <?php if (isset($product->Offers->Offer->OfferListing->Price->FormattedPrice)): ?>
     <div class="product">
+        <?php if ($product->SmallImage->URL): ?>
         <div class="productImage">
             <img src="<?php echo $product->SmallImage->URL; ?>">
         </div>
-        
+        <?php endif;?>
+        <?php $product->ItemAttributes->Title = str_replace('/', ' / ', $product->ItemAttributes->Title); ?>
         <h3><a href="<?php echo $product->DetailPageURL; ?>"><?php echo strlen($product->ItemAttributes->Title) > 65?substr($product->ItemAttributes->Title, 0, 65) . '...':$product->ItemAttributes->Title; ?></a></h3>
         <p><?php echo $product->ItemAttributes->Binding; ?> <strong><?php echo $product->Offers->Offer->OfferListing->Price->FormattedPrice; ?></strong></p>
         <div style="clear: both;"></div>
