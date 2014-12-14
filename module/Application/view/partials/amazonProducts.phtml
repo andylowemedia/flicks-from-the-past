@@ -14,7 +14,8 @@ $(function() {
 
 <div class="relatedProducts" style="float: right; width: 200pt;">
     <h2>Related Amazon Products</h2>
-    <?php foreach ($this->products->Items->Item as $product): ?>
+    <?php foreach ($this->products as $relatedProducts): ?> 
+    <?php foreach ($relatedProducts->Items->Item as $product): ?>
     <?php if (isset($product->Offers->Offer->OfferListing->Price->FormattedPrice)): ?>
     <div class="product">
         <div class="productImage">
@@ -27,5 +28,6 @@ $(function() {
     </div>
    
     <?php endif; ?>
+    <?php endforeach; ?>
     <?php endforeach; ?>
 </div>

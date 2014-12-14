@@ -236,26 +236,24 @@ class ArticlesController extends AbstractActionController
         $products = null;
         
         if ($result->response->article->articleProductKeywords) {
-            $productKeywords = current($result->response->article->articleProductKeywords);
-            
-            $params = array(
-                'Operation'         => 'ItemSearch', 
-                'ResponseGroup'     => 'ItemAttributes,Offers,Images',
-                'SearchIndex'       => 'DVD',
-                'Keywords'          => $productKeywords->keywords,
-//                'Operation'         => 'BrowseNodeLookup',
-//                'BrowseNodeId'      => 4121865031,
-//                'ResponseGroup'     => 'TopSellers',
-                'AssociateTag'      => $config['aws']['associateTag'],
-                'AWSAccessKeyId'    => $config['aws']['key'],
-                'Service'           => 'AWSECommerceService',
-                'Timestamp'         => gmdate('Y-m-d\TH:i:s\Z'),
-                'Version'           => '2013-08-01',
-            );
+            $products = array();
+            foreach ($result->response->article->articleProductKeywords as $productKeywords) {
+                $params = array(
+                    'Operation'         => 'ItemSearch', 
+                    'ResponseGroup'     => 'ItemAttributes,Offers,Images',
+                    'SearchIndex'       => 'DVD',
+                    'Keywords'          => $productKeywords->keywords,
+                    'AssociateTag'      => $config['aws']['associateTag'],
+                    'AWSAccessKeyId'    => $config['aws']['key'],
+                    'Service'           => 'AWSECommerceService',
+                    'Timestamp'         => gmdate('Y-m-d\TH:i:s\Z'),
+                    'Version'           => '2013-08-01',
+                );
 
-            $productSearch = new \Application\Service\Amazon\ProductSearch($params, $config['aws']['secret']);
+                $productSearch = new \Application\Service\Amazon\ProductSearch($params, $config['aws']['secret']);
 
-            $products = new \SimpleXMLElement($productSearch->sendRequest());
+                $products[] = new \SimpleXMLElement($productSearch->sendRequest());
+            }
         } else {
             $uriNews = "{$config['apis']['articles']}/api/article/type/1";
 

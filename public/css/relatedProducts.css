@@ -24,6 +24,7 @@ div.relatedProducts div.product {
 div.relatedProducts div.product div.productImage {
     float: left; 
     width: 55pt;
+    overflow: hidden;
 }
 
 div.relatedProducts div.product:hover {
