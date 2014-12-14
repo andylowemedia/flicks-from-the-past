@@ -115,39 +115,52 @@ class ArticlesController extends AbstractActionController
             return $this->getResponse();
         }
 
-        $uriNews = "{$config['apis']['articles']}/api/article/type/1";
-        
-        $configNews = array(
-            'adapter'   => 'Zend\Http\Client\Adapter\Curl',
-            'curloptions' => array(
-                CURLOPT_FOLLOWLOCATION => true, 
-                CURLOPT_SSL_VERIFYPEER => false
-            ),
+        $productKeywords = $search;
+
+        $params = array(
+            'Operation'         => 'ItemSearch', 
+            'ResponseGroup'     => 'ItemAttributes,Offers,Images',
+            'SearchIndex'       => 'DVD',
+            'Keywords'          => $productKeywords,
+            'AssociateTag'      => $config['aws']['associateTag'],
+            'AWSAccessKeyId'    => $config['aws']['key'],
+            'Service'           => 'AWSECommerceService',
+            'Timestamp'         => gmdate('Y-m-d\TH:i:s\Z'),
+            'Version'           => '2013-08-01',
         );
-        $newsClient = new \Zend\Http\Client($uriNews, $configNews);
-        $newsClient->setHeaders(array(
-            'offset'        => 0,
-            'limit'         => 10,
-            'order'         => 'date desc',
-            'consumerKey'   => $config['apis']['consumerKey'],
-            'sourceKey'     => $config['apis']['sourceKey'],
-            'token'         => $config['apis']['token'],
-        ));
-        
-//        $client->setMethod('POST')
-//                ->getRequest()
-//                ->setPost(new \Zend\Stdlib\Parameters(array('key' => 'value')))
-//                ;
-        
-        $newsResponse = $newsClient->send();
-        $newsResults = json_decode($newsResponse->getContent());
-        
+
+        $productSearch = new \Application\Service\Amazon\ProductSearch($params, $config['aws']['secret']);
+
+        $products = new \SimpleXMLElement($productSearch->sendRequest());
+
+//            $uriNews = "{$config['apis']['articles']}/api/article/type/1";
+//
+//            $configNews = array(
+//                'adapter'   => 'Zend\Http\Client\Adapter\Curl',
+//                'curloptions' => array(
+//                    CURLOPT_FOLLOWLOCATION => true, 
+//                    CURLOPT_SSL_VERIFYPEER => false
+//                ),
+//            );
+//            $newsClient = new \Zend\Http\Client($uriNews, $configNews);
+//            $newsClient->setHeaders(array(
+//                'offset'        => 0,
+//                'limit'         => 10,
+//                'order'         => 'date desc',
+//                'consumerKey'   => $config['apis']['consumerKey'],
+//                'sourceKey'     => $config['apis']['sourceKey'],
+//                'token'         => $config['apis']['token'],
+//            ));
+//
+//            $newsResponse = $newsClient->send();
+//            $newsResults = json_decode($newsResponse->getContent());
         
         return array(
             'articles'      => $results->response->articles, 
-            'news'          => $newsResults->response->articles,
+//            'news'          => isset($newsResults->response->articles)?$newsResults->response->articles:null,
             'searchText'    => $search,
             'type'          => $type,
+            'products'      => $products,
         );
     }
     
@@ -177,7 +190,8 @@ class ArticlesController extends AbstractActionController
         
         if (is_null($result)) {
             $this->getResponse()->setStatusCode(404);
-            return $this->getResponse();
+            $viewModel = array();
+            return $viewModel;
         }
         
         $showMedia = false;
@@ -218,40 +232,59 @@ class ArticlesController extends AbstractActionController
         } else {
             $showImage = true;
         }
+        
+        $products = null;
+        
+        if ($result->response->article->articleProductKeywords) {
+            $productKeywords = current($result->response->article->articleProductKeywords);
+            
+            $params = array(
+                'Operation'         => 'ItemSearch', 
+                'ResponseGroup'     => 'ItemAttributes,Offers,Images',
+                'SearchIndex'       => 'DVD',
+                'Keywords'          => $productKeywords->keywords,
+//                'Operation'         => 'BrowseNodeLookup',
+//                'BrowseNodeId'      => 4121865031,
+//                'ResponseGroup'     => 'TopSellers',
+                'AssociateTag'      => $config['aws']['associateTag'],
+                'AWSAccessKeyId'    => $config['aws']['key'],
+                'Service'           => 'AWSECommerceService',
+                'Timestamp'         => gmdate('Y-m-d\TH:i:s\Z'),
+                'Version'           => '2013-08-01',
+            );
 
-        
-        $uriNews = "{$config['apis']['articles']}/api/article/type/1";
-        
-        $configNews = array(
-            'adapter'   => 'Zend\Http\Client\Adapter\Curl',
-            'curloptions' => array(
-                CURLOPT_FOLLOWLOCATION => true, 
-                CURLOPT_SSL_VERIFYPEER => false
-            ),
-        );
-        $newsClient = new \Zend\Http\Client($uriNews, $configNews);
-        $newsClient->setHeaders(array(
-            'offset'        => 0,
-            'limit'         => 10,
-            'order'         => 'date desc',
-            'consumerKey'   => $config['apis']['consumerKey'],
-            'sourceKey'     => $config['apis']['sourceKey'],
-            'token'         => $config['apis']['token'],
-        ));
-        
-//        $client->setMethod('POST')
-//                ->getRequest()
-//                ->setPost(new \Zend\Stdlib\Parameters(array('key' => 'value')))
-//                ;
-        
-        $newsResponse = $newsClient->send();
-        $newsResults = json_decode($newsResponse->getContent());
-        
+            $productSearch = new \Application\Service\Amazon\ProductSearch($params, $config['aws']['secret']);
+
+            $products = new \SimpleXMLElement($productSearch->sendRequest());
+        } else {
+            $uriNews = "{$config['apis']['articles']}/api/article/type/1";
+
+            $configNews = array(
+                'adapter'   => 'Zend\Http\Client\Adapter\Curl',
+                'curloptions' => array(
+                    CURLOPT_FOLLOWLOCATION => true, 
+                    CURLOPT_SSL_VERIFYPEER => false
+                ),
+            );
+            $newsClient = new \Zend\Http\Client($uriNews, $configNews);
+            $newsClient->setHeaders(array(
+                'offset'        => 0,
+                'limit'         => 10,
+                'order'         => 'date desc',
+                'consumerKey'   => $config['apis']['consumerKey'],
+                'sourceKey'     => $config['apis']['sourceKey'],
+                'token'         => $config['apis']['token'],
+            ));
+
+            $newsResponse = $newsClient->send();
+            $newsResults = json_decode($newsResponse->getContent());
+        }
         return array(
-            'article' => $result->response->article,
-            'news' => $newsResults->response->articles,
-            'showImage' => $showImage,
-            'showMedia' => $showMedia,
+            'article'       => $result->response->article,
+            'news'          => isset($newsResults->response->articles)?$newsResults->response->articles:null,
+            'showImage'     => $showImage,
+            'showMedia'     => $showMedia,
+            'products'      => $products,
         );
     }
     

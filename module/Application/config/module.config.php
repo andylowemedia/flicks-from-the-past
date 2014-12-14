@@ -94,6 +94,15 @@ return array(
                             ),
                         ),
                     ),
+                    'request   ' => array(
+                        'type'    => 'Literal',
+                        'options' => array(
+                            'route'    => '/request',
+                            'defaults' => array(
+                                'action'     => 'request',
+                            ),
+                        ),
+                    ),
                 ),
             ),
         ),

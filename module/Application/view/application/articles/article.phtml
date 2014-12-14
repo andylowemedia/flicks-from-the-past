@@ -4,7 +4,7 @@ $this->headTitle("{$title} - ");
 $this->headMeta()->appendName('description', $article->summary);
 
 $this->headLink()
-        ->appendStylesheet('/css/article.css')
+        ->appendStylesheet($this->basePath('css/article.css'))
         ; 
 ?>
 <?php $this->headScript()->captureStart(); ?>
@@ -39,6 +39,11 @@ $(function() {
     <?php endif; ?>
 </article>
 
+<?php if ($this->products): ?>
+<?php echo $this->partial('partials/amazonProducts.phtml'); ?>
+<?php endif; ?>
+
+<?php if ($this->news): ?>
 <div id="news" class="articles">
     <h2>Latest News</h2>
     <?php foreach ($this->news as $newsArticle): ?>
@@ -50,51 +55,4 @@ $(function() {
     <?php endforeach; ?>
     <p class="more">See More...</p>
 </div>
-<!--
-<div id="related" class="articles" style="width: 515pt; float: left;">
-    <h2>Latest Related Articles</h2>
-
-    <article style="float: left;">
-        <h3>Something</h3>
-        <p>Something...</p>
-        <p class="date">Date: <?php echo $this->DisplayDate('2014-01-01'); ?></p>
-    </article>
-    <article style="float: left;">
-        <h3>Something</h3>
-        <p>Something...</p>
-        <p class="date">Date: <?php echo $this->DisplayDate('2014-01-01'); ?></p>
-    </article>
-    <article style="float: left;">
-        <h3>Something</h3>
-        <p>Something...</p>
-        <p class="date">Date: <?php echo $this->DisplayDate('2014-01-01'); ?></p>
-    </article>
-    <article style="float: left;">
-        <h3>Something</h3>
-        <p>Something...</p>
-        <p class="date">Date: <?php echo $this->DisplayDate('2014-01-01'); ?></p>
-    </article>
-    <p class="more" style="clear: both;">See More...</p>
-</div>
-
-<div id="relatedProducts" class="articles" style="width: 515pt; float: left;">
-    <h2>Latest Related Products</h2>
-
-    <article style="float: left;">
-        <h3>Something</h3>
-        <p>Something...</p>
-        <p class="date">Date: <?php echo $this->DisplayDate('2014-01-01'); ?></p>
-    </article>
-    <article style="float: left;">
-        <h3>Something</h3>
-        <p>Something...</p>
-        <p class="date">Date: <?php echo $this->DisplayDate('2014-01-01'); ?></p>
-    </article>
-    <article style="float: left;">
-        <h3>Something</h3>
-        <p>Something...</p>
-        <p class="date">Date: <?php echo $this->DisplayDate('2014-01-01'); ?></p>
-    </article>
-    <p class="more" style="clear: both;">See More...</p>
-</div>
--->
+<?php endif; ?>

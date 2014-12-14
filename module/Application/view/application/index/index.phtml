@@ -98,6 +98,8 @@ $(function() {
 </div>
 <?php endif; ?>
 <div id="news" class="articles">
+    <!--<iframe style="margin-left: 5pt;" src="http://rcm-eu.amazon-adsystem.com/e/cm?t=lowemedi-21&o=2&p=12&l=ur1&category=video&banner=176RYV8RJGTW0BD292G2&f=ifr" width="300" height="250" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>-->
+    <iframe style="margin-left: 5pt;" src="http://rcm-eu.amazon-adsystem.com/e/cm?t=lowemedi-21&o=2&p=12&l=ur1&category=piv&banner=066SJ0SXHYEH1KTC9D82&f=ifr" width="300" height="250" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>
     <h2>Latest News</h2>
     <?php foreach ($this->articles->news as $newsArticle): ?>
     <article>
@@ -108,7 +110,27 @@ $(function() {
     <?php endforeach; ?>
     <p class="more"><a href='<?php echo $this->url('articles', array('type' => 'news')); ?>'>See More...</a></p>
 </div>
-
+<div style="margin-left: 35pt;">
+<script type='text/javascript'>
+var amzn_wdgt={widget:'Carousel'};
+amzn_wdgt.tag='lowemedi-21';
+amzn_wdgt.widgetType='Bestsellers';
+amzn_wdgt.searchIndex='DVD';
+// amzn_wdgt.browseNode='283926'; // blu-ray & dvd
+// amzn_wdgt.browseNode='293962011'; // blu-ray
+// amzn_wdgt.browseNode='4121865031'; // hotest movies in 2014
+// amzn_wdgt.browseNode='4188180031'; // BAFTA 2014
+// amzn_wdgt.browseNode='2415609031'; // in cinemas now
+// amzn_wdgt.browseNode='4192569031'; // Academy Awards 2014
+amzn_wdgt.browseNode='501976'; // Classics
+amzn_wdgt.title='Latest titles from Amazon';
+amzn_wdgt.width='570';
+amzn_wdgt.height='200';
+amzn_wdgt.marketPlace='GB';
+</script>
+<script type='text/javascript' src='http://wms-eu.amazon-adsystem.com/20070822/GB/js/swfobject_1_5.js'>
+</script>
+</div>
 <div id="reviews" class="articles">
     <h2>Latest Reviews</h2>
     <?php foreach ($this->articles->reviews as $reviewArticle): ?>
