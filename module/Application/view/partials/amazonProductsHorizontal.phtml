@@ -1,0 +1,55 @@
+<?php
+$this->headLink()->appendStylesheet($this->basePath('css/relatedProductsHorizontal.css'));
+?>
+<?php $this->headScript()->captureStart(); ?>
+$(function() {
+    $('div.relatedProducts div.product').click(function() {
+        window.open($(this).children('h3').children('a').attr('href'), '_blank');
+    });
+    $('div.relatedProducts div.product h3 a').click(function(event) {
+        event.preventDefault();
+    });
+});
+<?php $this->headScript()->captureEnd(); ?>
+
+<div class="relatedProducts" style="float: left; width: 482pt; overflow: auto;">
+    <h2 style="width: 950pt;"><?php echo $this->title; ?></h2>
+    <div style="width: 950pt;padding: 0pt 5pt">
+    <?php if (is_array($this->products)): ?>
+    <?php foreach ($this->products as $relatedProducts): ?> 
+    <?php foreach ($relatedProducts->Items->Item as $product): ?>
+    <?php if (isset($product->Offers->Offer->OfferListing->Price->FormattedPrice)): ?>
+    <div class="product">
+        <?php if ($product->SmallImage->URL): ?>
+        <div class="productImage">
+            <img src="<?php echo $product->SmallImage->URL; ?>">
+        </div>
+        <?php endif;?>
+        <?php $product->ItemAttributes->Title = str_replace('/', ' / ', $product->ItemAttributes->Title); ?>
+        <h3><a href="<?php echo $product->DetailPageURL; ?>"><?php echo strlen($product->ItemAttributes->Title) > 65?substr($product->ItemAttributes->Title, 0, 65) . '...':$product->ItemAttributes->Title; ?></a></h3>
+        <p><?php echo $product->ItemAttributes->Binding; ?> <strong><?php echo $product->Offers->Offer->OfferListing->Price->FormattedPrice; ?></strong></p>
+        <div style="clear: both;"></div>
+    </div>
+    <?php endif; ?>
+    <?php endforeach; ?>
+    <?php endforeach; ?>
+    <?php else: ?>
+    <?php foreach ($this->products->Items->Item as $product): ?>
+    <?php if (isset($product->Offers->Offer->OfferListing->Price->FormattedPrice)): ?>
+    <div class="product">
+        <?php if ($product->SmallImage->URL): ?>
+        <div class="productImage">
+            <img src="<?php echo $product->SmallImage->URL; ?>">
+        </div>
+        <?php endif;?>
+        <?php $product->ItemAttributes->Title = str_replace('/', ' / ', $product->ItemAttributes->Title); ?>
+        <h3><a href="<?php echo $product->DetailPageURL; ?>"><?php echo strlen($product->ItemAttributes->Title) > 65?substr($product->ItemAttributes->Title, 0, 65) . '...':$product->ItemAttributes->Title; ?></a></h3>
+        <p><?php echo $product->ItemAttributes->Binding; ?> <strong><?php echo $product->Offers->Offer->OfferListing->Price->FormattedPrice; ?></strong></p>
+        <div style="clear: both;"></div>
+    </div>
+    <?php endif; ?>
+    <?php endforeach; ?>
+    
+    <?php endif; ?>
+    </div>
+</div>

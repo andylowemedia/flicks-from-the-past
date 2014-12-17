@@ -119,6 +119,12 @@ return array(
             'Application\Controller\Amazon' => 'Application\Controller\AmazonController',
         ),
     ),
+   'controller_plugins' => array(
+        'invokables' => array(
+            'AmazonCategorySearch' => 'Application\Controller\Plugin\AmazonCategorySearch',
+        )
+    ),
+
     'view_manager' => array(
         'display_not_found_reason' => true,
         'display_exceptions'       => true,
