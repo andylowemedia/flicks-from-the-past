@@ -182,6 +182,7 @@ class ArticlesController extends AbstractActionController
         
         if (strstr($result->response->article->content, '<!-- image number ')) {
             if (count($result->response->article->articleImages) > 0) {
+                
                 $countImage = 1;
                 foreach ($result->response->article->articleImages as $articleImage) {
                     if (file_exists($articleImage->url) || strstr($articleImage->url, 'http')) {

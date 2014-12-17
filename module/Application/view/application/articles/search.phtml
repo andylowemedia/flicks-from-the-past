@@ -35,5 +35,5 @@ $(function() {
     <?php endforeach; ?>
 </div>
 <?php if ($this->products): ?>
-<?php echo $this->partial('partials/amazonProducts.phtml'); ?>
+<?php echo $this->partial('partials/amazonProducts.phtml', array('products' => $this->products, 'title'=>'Related Amazon Products')); ?>
 <?php endif; ?>
