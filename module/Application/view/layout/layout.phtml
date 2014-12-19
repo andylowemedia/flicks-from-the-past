@@ -44,7 +44,7 @@
         }
         $(function() {
             
-            //setCookie('cookies', '', -1);
+            // setCookie('cookies', '', -1);
             $('header h1').click(function() {
                 location.href = '<?php echo $this->url('home'); ?>';
             });
@@ -64,7 +64,6 @@
                 });
             });
             $('div#cookiePolicy p span').click(function() {
-                setCookie('cookies', 'agreed', 365);
                 $('.lightbox').show();
                 $('.lightbox').animate({
                     opacity: 1
@@ -73,6 +72,7 @@
                 });
             });
             $('div#cookiePolicy p.btn').click(function() {
+                setCookie('cookies', 'agreed', 365);
                 $('div#cookiePolicy').animate({
                     opacity: 0
                 }, 500, function() {
@@ -81,7 +81,6 @@
             });
             
             var cookie = getCookie('cookies');
-            console.log(cookie);
             if (cookie != "") {
                 $('div#cookiePolicy').css('opacity', 0);
                 $('div#cookiePolicy').hide();
