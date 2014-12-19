@@ -20,6 +20,7 @@ form#mainSearch select {
     padding: 0pt 10pt;
     border: none;
     border-left: 1pt solid #acacac;
+    background-color: #ffffff;
     height: 29px;
     border-radius: 0em;
     appearance: none;
