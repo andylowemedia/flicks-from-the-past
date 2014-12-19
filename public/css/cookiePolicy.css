@@ -1,0 +1,35 @@
+div#cookiePolicy {
+    position: fixed;
+/*    display:none;
+    opacity: 0;*/
+    bottom: 0pt;
+    background-color: #000;
+    color: #fff;
+    font-size: 0.75em;
+    width: 100%;
+    text-align: center;
+}
+div#cookiePolicy p {
+    padding: 10pt 0pt;
+}
+
+div#cookiePolicy p span {
+    color: #cccccc;
+    cursor: pointer;
+}
+
+div#cookiePolicy p span:hover {
+    text-decoration: underline;
+}
+
+div#cookiePolicy p.btn {
+    float: right;
+    margin: 5pt 15pt;
+    padding: 5pt 15pt;
+    background-color: #555555;
+    cursor: pointer;
+}
+
+div#cookiePolicy p.btn:hover {
+    background-color: #999999;
+}

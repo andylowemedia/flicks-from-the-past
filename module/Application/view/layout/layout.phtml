@@ -16,6 +16,8 @@
                 ->prependStylesheet($this->basePath('css/fonts.css'))
                 ->appendStylesheet($this->basePath('css/layout.css'))
                 ->appendStylesheet($this->basePath('css/mainSearch.css'))
+                ->appendStylesheet($this->basePath('css/lightbox.css'))
+                ->appendStylesheet($this->basePath('css/cookiePolicy.css'))
                 ;
         
         $this->headScript()
@@ -24,7 +26,25 @@
         ?>
         
         <?php $this->headScript()->captureStart(); ?>
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays*24*60*60*1000));
+            var expires = "expires="+d.toUTCString();
+            document.cookie = cname + "=" + cvalue + "; " + expires + "; path=/";
+        }
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0; i<ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1);
+                if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+            }
+            return "";
+        }
         $(function() {
+            
+            //setCookie('cookies', '', -1);
             $('header h1').click(function() {
                 location.href = '<?php echo $this->url('home'); ?>';
             });
@@ -34,6 +54,39 @@
                     event.preventDefault();
                 }
             });
+            
+            $('.lightbox .window nav p.btn').click(function() {
+                $(this).parent().parent().parent().animate({
+                    opacity: 0,
+                }, 500, function() {
+                    $(this).hide();
+                    $('html, body').css('overflow', 'auto');
+                });
+            });
+            $('div#cookiePolicy p span').click(function() {
+                setCookie('cookies', 'agreed', 365);
+                $('.lightbox').show();
+                $('.lightbox').animate({
+                    opacity: 1
+                }, 500, function() {
+                    $('html, body').css('overflow', 'hidden');
+                });
+            });
+            $('div#cookiePolicy p.btn').click(function() {
+                $('div#cookiePolicy').animate({
+                    opacity: 0
+                }, 500, function() {
+                    $(this).hide();
+                });
+            });
+            
+            var cookie = getCookie('cookies');
+            console.log(cookie);
+            if (cookie != "") {
+                $('div#cookiePolicy').css('opacity', 0);
+                $('div#cookiePolicy').hide();
+            }
+            
         });
         <?php $this->headScript()->captureEnd(); ?>
         
@@ -78,7 +131,24 @@
         
             <footer>
                 <p>&copy;<?php echo date('Y'); ?> <span class='company'>Low-Emedia</span></p>
+
             </footer>
         </div>
+        <div id="cookiePolicyDetails" class="lightbox">
+            <div class="window">
+                <div class="content">
+                    <?php echo $this->partial('partials/cookiePolicy.phtml'); ?>
+                </div>
+                <nav>
+                    <p class="btn">Close</p>
+                </nav>
+            </div>
+        </div>
+            <div id='cookiePolicy'>
+                <p class='btn'>Hide</p>
+                <p>We use cookies on this website. By using this site, you agree 
+                    that we may store and access cookies on your device. Find out 
+                    more <span>here</span>.</p>
+            </div>
     </body>
 </html>
