@@ -19,13 +19,14 @@ class IndexController extends AbstractActionController
         );
         $client = new Http\Client($uri, $curlConfig);
         $client->setHeaders(array(
-            'offset'        => 0,
-            'limit'         => 10,
-            'order'         => 'date desc',
-            'summary'       => 1,
-            'consumerKey'   => $config['apis']['consumerKey'],
-            'sourceKey'     => $config['apis']['sourceKey'],
-            'token'         => $config['apis']['token'],
+            'offset'            => 0,
+            'limit'             => 10,
+            'order'             => 'date desc',
+            'summary'           => 1,
+            'featuredArticle'   => 6,
+            'consumerKey'       => $config['apis']['consumerKey'],
+            'sourceKey'         => $config['apis']['sourceKey'],
+            'token'             => $config['apis']['token'],
         ));
         
 //        $client->setMethod('POST')
