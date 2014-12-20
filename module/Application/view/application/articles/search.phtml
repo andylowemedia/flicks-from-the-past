@@ -11,7 +11,7 @@ $(function() {
     $('div.articles article').click(function() {
         location.href = $(this).children('h3').children('a').attr('href');
     });
-    $('form#mainSearch input[name=search]').val('<?php echo $this->searchText ?>');
+    $('form#mainSearch input[name=search]').val('<?php echo addslashes($this->searchText); ?>');
     $('form#mainSearch select').val('<?php echo $this->type ?>');
 });
 <?php $this->headScript()->captureEnd(); ?>
