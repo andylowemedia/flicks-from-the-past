@@ -116,11 +116,13 @@ $(function() {
     <?php foreach ($this->articles->reviews as $reviewArticle): ?>
     <article>
         <?php if (count($reviewArticle->articleImages) > 0): ?>
-        <img src="<?php echo current($reviewArticle->articleImages)->url; ?>" style="width: 100%"/>
+        <?php $image = current($reviewArticle->articleImages)->url; $imageDetails = getimagesize($image); ?>
+        <img src="<?php echo $image; ?>" style="<?php echo $imageDetails[0] > $imageDetails[1]?'width: 100%':'height: 100pt; float: left; margin-right:10pt' ?>"/>
         <?php endif; ?>
         <h3><a href='<?php echo $this->url('article/profile', array('slug' => $reviewArticle->slug)); ?>'><?php echo $reviewArticle->title; ?></a></h3>
         <p><?php echo trim($reviewArticle->summary); ?>...</p>
         <p class="date">Date: <?php echo $this->DisplayDate($reviewArticle->publishDate); ?></p>
+        <div style="clear: both;"></div>
     </article>
     <?php endforeach; ?>
     <p class="more"><a href='<?php echo $this->url('articles', array('type' => 'reviews')); ?>'>See More...</a></p>
@@ -131,11 +133,13 @@ $(function() {
     <?php foreach ($this->articles->features as $featureArticle): ?>
     <article>
         <?php if (count($featureArticle->articleImages) > 0): ?>
-        <img src="<?php echo current($featureArticle->articleImages)->url; ?>" style="width: 100%;"/>
+        <?php $image = current($featureArticle->articleImages)->url; $imageDetails = getimagesize($image); ?>
+        <img src="<?php echo $image; ?>" style="<?php echo $imageDetails[0] > $imageDetails[1]?'width: 100%':'height: 100pt; float: left; margin-right:10pt' ?>"/>
         <?php endif; ?>
         <h3><a href='<?php echo $this->url('article/profile', array('slug' => $featureArticle->slug)); ?>'><?php echo $featureArticle->title; ?></a></h3>
         <p><?php echo trim($featureArticle->summary); ?>...</p>
         <p class="date">Date: <?php echo $this->DisplayDate($featureArticle->publishDate); ?></p>
+        <div style="clear: both;"></div>
     </article>
     <?php endforeach; ?>
     <?php endif; ?>
