@@ -23,8 +23,7 @@ $(function() {
         <?php if (count($article->articleImages) > 0): ?>
         <?php $image = current($article->articleImages); ?>
         <?php if (file_exists($image->url) || strstr($image->url, 'http')): ?>
-        <?php $image = $image->url; $imageDetails = getimagesize($image); ?>
-        <img src='<?php echo $image; ?>' style='float: left; <?php echo $imageDetails[0] > $imageDetails[1]?'width: 100pt; margin-right: 10pt;':'height: 75pt; margin-left: 25pt; margin-right: 35pt;'; ?>'>
+        <img src='<?php echo $image->url; ?>' style="float: left; width: 100pt; margin-right: 10pt;">
         <?php endif; ?>
         <?php endif; ?>
 
