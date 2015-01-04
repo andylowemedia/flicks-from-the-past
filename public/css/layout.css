@@ -42,11 +42,19 @@ header {
 
 header h1 {
     float: left;
-    font-family: Conv_BADABB__;
+/*    font-family: Conv_BADABB__;
     color: #f0f0f0;
     text-shadow: 1pt 1pt 2pt #000000;
     padding: 9pt 15pt 0pt 20pt;
-    font-size: 2.5em;
+    font-size: 2.5em;*/
+    width: 228px;
+    margin: 10pt 30pt;
+    height: 0pt;
+    padding-top: 40pt;
+    background-size: 229px 43px;
+    overflow: hidden;
+    background-image: url('/images/white-on-black-logo.png');
+    background-repeat: no-repeat;
     cursor: pointer;
 }
 
