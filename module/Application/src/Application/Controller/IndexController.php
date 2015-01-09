@@ -23,7 +23,7 @@ class IndexController extends AbstractActionController
             'limit'             => 10,
             'order'             => 'date desc',
             'summary'           => 1,
-            'featuredArticle'   => 6,
+            'featuredLimit'     => 6,
             'consumerKey'       => $config['apis']['consumerKey'],
             'sourceKey'         => $config['apis']['sourceKey'],
             'token'             => $config['apis']['token'],
@@ -35,6 +35,7 @@ class IndexController extends AbstractActionController
 //                ;
         
         $response = $client->send();
+        
         $results = json_decode($response->getContent());
         
         return array(
