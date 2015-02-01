@@ -1,6 +1,6 @@
 <?php 
 $title = html_entity_decode($article->title);
-$this->headTitle("{$title} - ");
+$this->headTitle(" - {$title}");
 $this->headMeta()->appendName('description', $article->summary);
 
 $this->headLink()
