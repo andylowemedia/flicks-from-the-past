@@ -15,6 +15,8 @@ $(function() {
     $('div.articles article').click(function() {
         location.href = $(this).children('h3').children('a').attr('href');
     });
+    $('div.fb-comments').attr('date-href', location.href);
+    alert(location.href);
 });
 <?php $this->headScript()->captureEnd(); ?>
 <article id='main' style="float: left;">
@@ -37,7 +39,20 @@ $(function() {
     <?php echo $media->code;?>
     <?php endforeach; ?>
     <?php endif; ?>
+    
+    
 </article>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+$('article').append('<div class="fb-comments" style="padding: 20pt 45pt 10pt;" data-href="' + location.href + '" data-numposts="5" data-colorscheme="light"></div>');
+</script>
+
 
 <?php if ($this->products): ?>
 <?php echo $this->partial('partials/amazonProducts.phtml', array('products' => $this->products, 'title'=>'Related Amazon Products')); ?>
