@@ -15,8 +15,6 @@ $(function() {
     $('div.articles article').click(function() {
         location.href = $(this).children('h3').children('a').attr('href');
     });
-    $('div.fb-comments').attr('date-href', location.href);
-    alert(location.href);
 });
 <?php $this->headScript()->captureEnd(); ?>
 <article id='main' style="float: left;">
