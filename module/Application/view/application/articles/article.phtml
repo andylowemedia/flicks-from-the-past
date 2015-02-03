@@ -49,6 +49,7 @@ $(function() {
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 $('article').append('<div class="fb-comments" style="padding: 20pt 45pt 10pt;" data-href="' + location.href + '" data-numposts="5" data-colorscheme="light"></div>');
+$('article p.date').after('<div class="fb-like" style="margin: 10pt 0pt 0pt;" data-href="' + location.href + '" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>');
 </script>
 
 
