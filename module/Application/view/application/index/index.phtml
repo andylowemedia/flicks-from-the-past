@@ -125,9 +125,10 @@ $(function() {
     <?php foreach ($this->articles->reviews as $reviewArticle): ?>
     <article>
         <?php if (count($reviewArticle->articleImages) > 0): ?>
-        <!--<div style="height: 100pt; overflow: hidden;">-->
-        <img src="<?php echo current($reviewArticle->articleImages)->url; ?>" style="width: 100%" />
-        <!--</div>-->
+        <div style="height: 120pt; overflow: hidden;">
+        
+        <img src="<?php echo current($reviewArticle->articleImages)->url; ?>" style="width: 100%;" />
+        </div>
         <?php endif; ?>
         <h3><a href='<?php echo $this->url('article/profile', array('slug' => $reviewArticle->slug)); ?>'><?php echo $reviewArticle->title; ?></a></h3>
         <p><?php echo trim($reviewArticle->summary); ?>...</p>
