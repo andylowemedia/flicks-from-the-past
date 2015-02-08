@@ -20,9 +20,9 @@ $(function() {
     <article style='clear: both;'>
         <?php if (count($article->articleImages) > 0): ?>
         <?php $image = current($article->articleImages); ?>
-        <?php if (file_exists($image->url) || strstr($image->url, 'http')): ?>
+        <?php //if (file_exists($image->url) || strstr($image->url, 'http')): ?>
             <img src='<?php echo $image->url; ?>' style="float: left; width: 100pt; margin-right: 10pt;">
-        <?php endif; ?>
+        <?php //endif; ?>
         <?php endif; ?>
         <h3><a href='<?php echo $this->url('article/profile', array('slug' => $article->slug)); ?>'><?php echo $article->title; ?></a></h3>
         <p><?php echo trim($article->summary); ?>...</p>
