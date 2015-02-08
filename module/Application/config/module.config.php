@@ -72,6 +72,18 @@ return array(
                             ),
                         ),
                     ),
+                    'title' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/title[/:slug]',
+                            'defaults' => array(
+                                'action'     => 'article',
+                            ),
+                            'constraints' => array(
+                                'slug' => '[0-9a-zA-Z-]+'
+                            ),
+                        ),
+                    ),
                 ),
 
             ),
