@@ -19,9 +19,14 @@ $(function() {
 <?php $this->headScript()->captureEnd(); ?>
 <article id='main' style="float: left;">
     <h2><?php echo $article->title; ?></h2>
+    <?php if ($article->subtitle): ?>
     <h3><?php echo $article->subtitle; ?></h3>
+    <?php endif; ?>
     <h3>Written By: <?php echo $article->author; ?> </h3>
     <p class='date'>Date: <?php echo $this->DisplayDate($article->publishDate); ?></p>
+    <?php if (!strstr(strip_tags($article->content), $article->summary)): ?>
+    <p><?php echo $article->summary; ?></p>
+    <?php endif; ?>
     <?php echo $article->content; ?>
     <?php if (!strstr($article->originalUrl, 'http://www.flicksfromthepast.com')): ?>
     <p>Original Link: <a href="<?php echo $article->originalUrl; ?>" target="_blank"><?php echo $article->originalUrl; ?></a></p>
