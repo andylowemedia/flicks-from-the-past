@@ -20,7 +20,7 @@ class IndexController extends AbstractActionController
         $client = new Http\Client($uri, $curlConfig);
         $client->setHeaders(array(
             'offset'            => 0,
-            'limit'             => 10,
+//            'limit'             => 10,
             'order'             => 'date desc',
             'summary'           => 1,
             'featuredLimit'     => 6,
@@ -59,7 +59,7 @@ class IndexController extends AbstractActionController
         $client = new Http\Client($uri, $curlConfig);
         $client->setHeaders(array(
             'offset'        => 0,
-            'limit'         => 2000,
+            'limit'         => 4000,
             'order'         => 'date desc',
             'consumerKey'   => $config['apis']['consumerKey'],
             'sourceKey'     => $config['apis']['sourceKey'],
