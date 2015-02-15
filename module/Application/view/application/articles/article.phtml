@@ -5,6 +5,7 @@ $this->headMeta()->appendName('description', $article->summary);
 
 $this->headLink()
         ->appendStylesheet($this->basePath('css/article.css'))
+        ->appendStylesheet($this->basePath('css/breadcrumbs.css'))
         ; 
 ?>
 <?php $this->headScript()->captureStart(); ?>
@@ -17,6 +18,19 @@ $(function() {
     });
 });
 <?php $this->headScript()->captureEnd(); ?>
+<div class="breadcrumbs">
+    <p>
+        <a href='<?php echo $this->url('home'); ?>'>Home</a>
+        <?php if ($article->articleTypeId == 1): ?>
+         > <a href='<?php echo $this->url('articles', array('type' => 'news')); ?>'>News</a>
+        <?php elseif ($article->articleTypeId == 2): ?>
+         > <a href='<?php echo $this->url('articles', array('type' => 'features')); ?>'>Features</a>
+        <?php elseif ($article->articleTypeId == 3): ?>
+         > <a href='<?php echo $this->url('articles', array('type' => 'reviews')); ?>'>Reviews</a>
+        <?php endif; ?> 
+         > <a href='<?php echo $this->url('article/profile', array('slug' => $article->slug)); ?>'><?php echo $article->title; ?></a>
+    </p>
+</div>
 <article id='main' style="float: left;">
     <h2><?php echo $article->title; ?></h2>
     <?php if ($article->subtitle): ?>
@@ -64,6 +78,15 @@ $('article p.date').after('<div class="fb-like" style="margin: 10pt 0pt 0pt;" da
 
 <?php if ($this->news): ?>
 <div id="news" class="articles">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- Flicks from the Past! Home page -->
+    <ins class="adsbygoogle"
+         style="display:inline-block;width:300px;height:250px"
+         data-ad-client="ca-pub-8104336807776739"
+         data-ad-slot="3232573200"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
     <h2>Latest News</h2>
     <?php foreach ($this->news as $newsArticle): ?>
     <article>

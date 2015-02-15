@@ -1,6 +1,7 @@
 <?php
 $this->headLink()
         ->appendStylesheet($this->basePath('css/articles.css'))
+        ->appendStylesheet($this->basePath('css/breadcrumbs.css'))
         ;
 ?>
 <?php $this->headScript()->captureStart(); ?>
@@ -13,7 +14,18 @@ $(function() {
     });
 });
 <?php $this->headScript()->captureEnd(); ?>
-
+<div class="breadcrumbs">
+    <p>
+        <a href='<?php echo $this->url('home'); ?>'>Home</a>
+        <?php if ($this->type == 'news'): ?>
+         > <a href='<?php echo $this->url('articles', array('type' => 'news')); ?>'>News</a>
+        <?php elseif ($this->type == 'features'): ?>
+         > <a href='<?php echo $this->url('articles', array('type' => 'features')); ?>'>Features</a>
+        <?php elseif ($this->type == 'reviews'): ?>
+         > <a href='<?php echo $this->url('articles', array('type' => 'reviews')); ?>'>Reviews</a>
+        <?php endif; ?> 
+    </p>
+</div>
 <div class="articles" style="width: 515pt; float: left;">
     <h2><?php echo ucfirst($this->type); ?></h2>
     <?php foreach ($this->articles as $article): ?>
