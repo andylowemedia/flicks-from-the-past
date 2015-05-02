@@ -47,7 +47,7 @@ $(function() {
     <?php endif; ?>
     <?php if ($showImage): ?>
     <?php foreach ($article->articleImages as $image): ?>
-    <?php $data = getimagesize($image->url); ?> 
+    <?php $data = @getimagesize($image->url); ?> 
     <img src='<?php echo $image->url;?>' style='width:<?php echo $data[0] < 650?$data['width']:'100%' ?>;'>
     <?php endforeach; ?>
     <?php endif; ?>
