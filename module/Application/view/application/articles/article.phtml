@@ -1,7 +1,9 @@
 <?php 
 $title = html_entity_decode($article->title);
 $this->headTitle(" - {$title}");
-$this->headMeta()->appendName('description', $article->summary);
+$this->headMeta()
+        ->appendName('description', $article->summary)
+        ->appendName('fb:app_id', 405063529618578);
 
 $this->headLink()
         ->appendStylesheet($this->basePath('css/article.css'))
