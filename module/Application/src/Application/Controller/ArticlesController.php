@@ -49,6 +49,7 @@ class ArticlesController extends AbstractActionController
             'articles'      => $results->response->articles,
             'products'      => $this->AmazonCategorySearch()->search(),
             'type'          => $type,
+            'fbAppId'       => $config['facebook']['appId'],
         );
      }
     
