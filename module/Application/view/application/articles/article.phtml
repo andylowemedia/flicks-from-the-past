@@ -62,11 +62,12 @@ $(function() {
     
 </article>
 <div id="fb-root"></div>
-<script>(function(d, s, id) {
+<script>
+(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
   js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.0";
+  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.3&appId=<?php echo $this->fbAppId ?>";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 $('article').append('<div class="fb-comments" style="padding: 20pt 45pt 10pt;" data-href="' + location.href + '" data-numposts="5" data-colorscheme="light"></div>');
