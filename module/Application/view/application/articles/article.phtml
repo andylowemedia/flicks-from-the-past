@@ -6,7 +6,7 @@ $this->headMeta()
         ->appendProperty('og:type', 'website')
         ->appendProperty('og:url', $this->url('article/profile', array('slug' => $article->slug), array('force_canonical' => true)))
         ->appendProperty('og:title', $article->title)
-        ->appendProperty('og:description', $article->summary, ENT_QUOTES)
+        ->appendProperty('og:description', $article->summary)
         ->appendName('description', $article->summary)
         ;
 
