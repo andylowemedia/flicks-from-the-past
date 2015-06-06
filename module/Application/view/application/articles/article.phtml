@@ -3,7 +3,17 @@ $title = html_entity_decode($article->title);
 $this->headTitle(" - {$title}");
 $this->headMeta()
         ->appendName('description', $article->summary)
-        ->appendName('fb:app_id', $this->fbAppId);
+        ->appendName('fb:app_id', $this->fbAppId)
+        ->appendName('og:url', "URL")
+        ->appendName('og:title', "TITLE")
+        ->appendName('og:description', "DESC")
+        ->appendName('og:image', "IMG")
+        ;
+
+//<meta property="og:url" content="URL" />
+//<meta property="og:title" content="TITLE" />
+//<meta property="og:description" content="DESC" />
+//<meta property="og:image" content="IMG"/>
 
 $this->headLink()
         ->appendStylesheet($this->basePath('css/article.css'))
