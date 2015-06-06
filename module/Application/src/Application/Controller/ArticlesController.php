@@ -229,6 +229,7 @@ class ArticlesController extends AbstractActionController
         } else {
             $products = $this->AmazonCategorySearch()->search();
         }
+
         return array(
             'article'       => $result->response->article,
             'showImage'     => $showImage,

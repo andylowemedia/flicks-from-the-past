@@ -11,7 +11,8 @@ $this->headMeta()
         ;
 
 if (count($article->articleImages) > 0 ):
-    $this->headMeta()->appendName('og:image', current($article->articleImages)->current());
+    $image = reset($article->articleImages);
+    $this->headMeta()->appendName('og:image', $image->url);
 endif;
 
 
