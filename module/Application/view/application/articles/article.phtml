@@ -4,9 +4,9 @@ $this->headTitle(" - {$title}");
 $this->headMeta()
         ->appendProperty('fb:app_id', $this->fbAppId)
         ->appendProperty('og:url', $this->url('article/profile', array('slug' => $article->slug), array('force_canonical' => true)))
-        ->appendProperty('og:title', htmlentities($article->title, ENT_QUOTES))
-        ->appendProperty('og:description', htmlentities($article->summary, ENT_QUOTES))
-        ->appendName('description', htmlentities($article->summary, ENT_QUOTES))
+        ->appendProperty('og:title', $article->title)
+        ->appendProperty('og:description', $article->summary, ENT_QUOTES)
+        ->appendName('description', $article->summary)
         ;
 
 if (count($article->articleImages) > 0 ):
