@@ -2,23 +2,17 @@
 $title = html_entity_decode($article->title);
 $this->headTitle(" - {$title}");
 $this->headMeta()
-        ->appendName('fb:app_id', $this->fbAppId)
-        ->appendName('og:url', $this->url('article/profile', array('slug' => $article->slug), array('force_canonical' => true)))
-        ->appendName('og:title', htmlentities($article->title, ENT_QUOTES))
-        ->appendName('og:description', htmlentities($article->summary, ENT_QUOTES))
+        ->appendProperty('fb:app_id', $this->fbAppId)
+        ->appendProperty('og:url', $this->url('article/profile', array('slug' => $article->slug), array('force_canonical' => true)))
+        ->appendProperty('og:title', htmlentities($article->title, ENT_QUOTES))
+        ->appendProperty('og:description', htmlentities($article->summary, ENT_QUOTES))
         ->appendName('description', htmlentities($article->summary, ENT_QUOTES))
         ;
 
 if (count($article->articleImages) > 0 ):
     $image = reset($article->articleImages);
-    $this->headMeta()->appendName('og:image', $image->url);
+    $this->headMeta()->appendProperty('og:image', $image->url);
 endif;
-
-
-//<meta property="og:url" content="URL" />
-//<meta property="og:title" content="TITLE" />
-//<meta property="og:description" content="DESC" />
-//<meta property="og:image" content="IMG"/>
 
 $this->headLink()
         ->appendStylesheet($this->basePath('css/article.css'))
