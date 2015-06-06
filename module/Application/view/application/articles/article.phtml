@@ -1,13 +1,12 @@
-<?php 
+<?php  
 $title = html_entity_decode($article->title);
 $this->headTitle(" - {$title}");
 $this->headMeta()
-        ->appendName('description', $article->summary)
         ->appendName('fb:app_id', $this->fbAppId)
-        ->appendName('og:url', "URL")
-        ->appendName('og:title', $article->title)
-        ->appendName('og:description', $article->summary)
-        
+        ->appendName('og:url', $this->url('article/profile', array('slug' => $article->slug), array('force_canonical' => true)))
+        ->appendName('og:title', htmlentities($article->title, ENT_QUOTES))
+        ->appendName('og:description', htmlentities($article->summary, ENT_QUOTES))
+        ->appendName('description', htmlentities($article->summary, ENT_QUOTES))
         ;
 
 if (count($article->articleImages) > 0 ):
@@ -28,6 +27,7 @@ $this->headLink()
 ?>
 <?php $this->headScript()->captureStart(); ?>
 $(function() {
+    
     $('div.articles article h3 a').click(function(event) {
         event.preventDefault();
     });
