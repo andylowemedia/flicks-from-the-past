@@ -3,6 +3,7 @@ $title = html_entity_decode($article->title);
 $this->headTitle(" - {$title}");
 $this->headMeta()
         ->appendProperty('fb:app_id', $this->fbAppId)
+        ->appendProperty('og:type', 'website')
         ->appendProperty('og:url', $this->url('article/profile', array('slug' => $article->slug), array('force_canonical' => true)))
         ->appendProperty('og:title', $article->title)
         ->appendProperty('og:description', $article->summary, ENT_QUOTES)
