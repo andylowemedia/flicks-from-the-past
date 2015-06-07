@@ -22,10 +22,25 @@ $this->headLink()
 ?>
 <?php $this->headScript()->captureStart(); ?>
 $(function() {
-    
+    $(window).on("orientationchange",function(){
+        if ($('div#content article img').css('float') === 'left') {
+            if ($('div#content article img').width() > $('div#content article').width()) {
+                $('div#content article img').width('100%');
+                $('div#content article img').css('margin', '0');
+                $('div#content article img').css('margin-bottom', '10pt');
+            }
+        }
+    });
     $('div.articles article h3 a').click(function(event) {
         event.preventDefault();
     });
+    if ($('div#content article img').css('float') === 'left') {
+        if ($('div#content article img').width() > $('div#content article').width()) {
+            $('div#content article img').width('100%');
+            $('div#content article img').css('margin', '0');
+            $('div#content article img').css('margin-bottom', '10pt');
+        }
+    }
     $('div.articles article').click(function() {
         location.href = $(this).children('h3').children('a').attr('href');
     });
@@ -44,7 +59,7 @@ $(function() {
          > <a href='<?php echo $this->url('article/profile', array('slug' => $article->slug)); ?>'><?php echo $article->title; ?></a>
     </p>
 </div>
-<article id='main'>
+<article id='main' style='overflow: hidden;'>
     <h2><?php echo $article->title; ?></h2>
     <?php if ($article->subtitle): ?>
     <h3><?php echo $article->subtitle; ?></h3>
