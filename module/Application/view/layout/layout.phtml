@@ -6,6 +6,7 @@
 
         <?php 
         $this->headMeta()
+            ->appendName("viewport", "width=device-width, initial-scale=1.0")
             ->setCharset('UTF-8')
             ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
             ->appendHttpEquiv('Content-Type','text/html')
@@ -89,6 +90,28 @@
         });
         <?php $this->headScript()->captureEnd(); ?>
         
+        <?php $this->headStyle()->captureStart(); ?>
+            @media all and (min-width: 769px) {
+                div.ad, div.ad ins.adsbygoogle  {
+                    width: 728px;
+                }
+            }
+            
+            @media all and (max-width: 768px) {
+                div.ad, div.ad ins.adsbygoogle  {
+                    width: 600px;
+                }
+            }
+            
+            div.ad {
+                 margin: 0px auto 10px;
+            }
+            div.ad ins.adsbygoogle {
+                display:inline-block;height:90px;
+            }
+            
+        <?php $this->headStyle()->captureEnd(); ?>
+        
         <?php
         echo $this->headMeta() . "\n";
         echo $this->headLink() . "\n";
@@ -99,6 +122,7 @@
     <body>
         <?php if ($this->GoogleAnalytics()): ?>
         <script>
+ 
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
           (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
           m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -110,17 +134,17 @@
           ga('send', 'pageview');
         </script>
         <?php endif; ?>
-        <div style='width: 728px; margin: 0px auto 10px;'>
+<!--        <div class="ad" style=''>
             <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-            <!-- Flicks from the Past! Layout -->
+             Flicks from the Past! Layout 
             <ins class="adsbygoogle"
-                 style="display:inline-block;width:728px;height:90px"
+                 style=""
                  data-ad-client="ca-pub-8104336807776739"
                  data-ad-slot="8052721204"></ins>
             <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
+                (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
-        </div>
+        </div>-->
         <div id="main">
             <header>
                 <h1>Flicks From The Past!</h1>
@@ -129,7 +153,7 @@
                 <?php echo $this->formRow($this->MainSearch()->get('type')); ?>
                 <?php echo $this->formElement($this->MainSearch()->get('submit')); ?>
                 <?php echo $this->form()->closeTag(); ?>
-                <div style='float: right;'>
+                <div class="social">
                     <a href='https://www.youtube.com/channel/UCuJZlbQ9iB5VoFCWZYGY_Jg' target='_blank'><img src='/images/YouTube-logo-light.png' border="0" style='width: 100px; float: right;margin: 3pt 0pt;' /></a>
                     <a href='https://twitter.com/FlicksFromPast' target='_blank'><img src='/images/Twitter_logo_white.png' border="0" style='width: 40px; float: right; margin: 15pt 0pt 10pt 10pt' /></a>
                     <a href='https://www.facebook.com/flicksfromthepast' target='_blank'><img src='/images/FB-f-Logo__blue_50.png' border="0" style='width: 35px; float: right; border: 1pt solid #9f9f9f; border-radius: 0.5em; margin: 11pt 6pt' /></a>

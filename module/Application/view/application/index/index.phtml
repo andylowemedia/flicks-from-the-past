@@ -12,19 +12,33 @@ $this->headLink()
         ;
 ?>
 <?php $this->headStyle()->captureStart(); ?>
-div#news {
-    float: right;
-    width: 234pt;
-}
+@media all and (min-width: 769px) {
+    div#news {
+        float: right;
+        width: 234pt;
+    }
 
-div#reviews, div#features {
-    float: left;
-    width: 231pt;
+    div#reviews, div#features {
+        float: left;
+        width: 231pt;
+    }
+}
+@media all and (max-width: 768px) {
+    div.relatedProducts {
+        display: none;
+    }
 }
 <?php $this->headStyle()->captureEnd(); ?>
 <?php $this->headScript()->captureStart(); ?>
 $(function() {
     <?php if (isset($this->articles->featuredArticles)): ?>
+
+    if ($(window).width() < 769) {
+        $(window).on("orientationchange",function(){
+            $('div#featured article div.image').css('height', $(window).width() / 2.47);
+        });
+        $('div#featured article div.image').css('height', $(window).width() / 2.47);
+    }
     var changeSlide = new AutoChangeSlide({
         maxSlides : <?php echo isset($this->articles->featuredArticles)?count($this->articles->featuredArticles):0; ?>,
         startSlide : 1
@@ -116,10 +130,10 @@ $(function() {
     <?php foreach ($this->articles->reviews as $reviewArticle): ?>
     <article>
         <?php if (count($reviewArticle->articleImages) > 0): ?>
-        <div style="height: 120pt; overflow: hidden;">
+        <!--<div style="height: 120pt; overflow: hidden;">-->
         
         <img src="<?php echo current($reviewArticle->articleImages)->url; ?>" style="width: 100%;" />
-        </div>
+        <!--</div>-->
         <?php endif; ?>
         <h3><a href='<?php echo $this->url('article/profile', array('slug' => $reviewArticle->slug)); ?>'><?php echo $reviewArticle->title; ?></a></h3>
         <p><?php echo trim($reviewArticle->summary); ?>...</p>

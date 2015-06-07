@@ -1,3 +1,14 @@
+@media all and (min-width: 769px) {
+    article#main {
+        float: left;
+        width: 505pt;
+    }
+}
+@media all and (max-width: 768px) {
+    div.relatedProducts {
+        display: none;
+    }
+}
 article#main {
     border-radius: 0.5em;
     background-color: #f0f0f0;
@@ -7,8 +18,6 @@ article#main {
     font-size: 100%;
     box-shadow: 0pt 1pt 2pt #9f9f9f;
     padding: 5pt;
-    float: left;
-    width: 505pt;
 }
 
 article#main h2 {

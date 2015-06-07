@@ -1,3 +1,15 @@
+@media all and (min-width: 769px) {
+    div.articles {
+        width: 515pt; 
+        float: left;
+    }
+}
+@media all and (max-width: 768px) {
+    div.relatedProducts {
+        display: none;
+    }
+}
+
 div.articles {
     border-radius: 0.5em;
     background-color: #f0f0f0;
