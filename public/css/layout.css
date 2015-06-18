@@ -1,7 +1,9 @@
 .icons {
     font-family: 'Glyphicons Halflings';
 }
-
+/** {
+    box-sizing: border-box;
+}*/
 body, h1, h2, h3, h4, h5, h6, p, ul, li {
     padding: 0pt;
     margin: 0pt;
