@@ -46,6 +46,13 @@ class IndexController extends AbstractActionController
     
     public function sitemapAction()
     {
+        $page = (int) $this->params()->fromQuery('page', null);
+        
+        $offset = 0;
+        if ($page > 1) {
+            $offset = 2000 * ($page - 1);
+        }
+        
         $config = $this->getServiceLocator()->get('config');
         $uri = "{$config['apis']['articles']}/api/article";
         
@@ -58,7 +65,7 @@ class IndexController extends AbstractActionController
         );
         $client = new Http\Client($uri, $curlConfig);
         $client->setHeaders(array(
-            'offset'        => 0,
+            'offset'        => $offset,
             'limit'         => 2000,
             'order'         => 'date desc',
             'consumerKey'   => $config['apis']['consumerKey'],
