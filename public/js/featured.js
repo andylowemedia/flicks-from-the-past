@@ -1,6 +1,7 @@
 var AutoChangeSlide = function(params) {
-    this.maxSlides = params.maxSlides;
-    this.currentSlide = params.startSlide;
+    var maxSlides = params.maxSlides;
+    var currentSlide = params.startSlide;
+    var element = params.element;
 
     this.setupTiming = function() {
         var t = this;
@@ -10,17 +11,25 @@ var AutoChangeSlide = function(params) {
     };
         
     this.autoSwitch = function() {
-        this.currentSlide++;
-        if (this.currentSlide > this.maxSlides) {
-            this.currentSlide = 1;
+        currentSlide++;
+        if (currentSlide > maxSlides) {
+            currentSlide = 1;
         }
         
-        $('div#featured div#featuredArticles article').hide();
+        $('div#featuredArticles article').hide();
         
-        var t = this;
-        $('div#featured div#featuredArticles article').each(function() {
- 
-            if ($(this).attr('value') == t.currentSlide) {
+        var slide = currentSlide;
+        $('div#featuredArticles article').each(function() {
+            if ($(this).attr('value') == slide) {
+                $(this).show();
+            }
+        });
+    };
+    
+    this.firstSlide = function() {
+        $('div#featuredArticles article').each(function() {
+            $(this).hide();
+            if ($(this).attr('value') == '1') {
                 $(this).show();
             }
         });

@@ -15,12 +15,13 @@ if (count($article->articleImages) > 0 ):
     $this->headMeta()->appendProperty('og:image', $image->url);
 endif;
 
-$this->headLink()
-        ->appendStylesheet($this->basePath('css/article.css'))
-        ->appendStylesheet($this->basePath('css/breadcrumbs.css'))
-        ; 
+//$this->headLink()
+//        ->appendStylesheet($this->basePath('css/article.css'))
+//        ->appendStylesheet($this->basePath('css/breadcrumbs.css'))
+//        ; 
 ?>
-<?php $this->headScript()->captureStart(); ?>
+<?php //$this->headScript()->captureStart(); ?>
+<script>
 $(function() {
     $(window).on("orientationchange",function(){
         if ($('div#content article img').css('float') === 'left') {
@@ -45,26 +46,80 @@ $(function() {
         location.href = $(this).children('h3').children('a').attr('href');
     });
 });
-<?php $this->headScript()->captureEnd(); ?>
+</script>
+<?php //$this->headScript()->captureEnd(); ?>
+<style>
+    div#mainWrapper {
+        clear: left;
+        float: left;
+        width: 596pt;
+        padding: 5pt;
+        margin: 10pt 0pt 0pt 10pt;
+    }
+    article {
+        border-left: 2pt solid #e0e0e0;
+        border-right: 2pt solid #e0e0e0;
+        padding: 2pt 10pt;
+    }
+    article h2 {
+        font-size: 1.5em;
+        font-weight: bold;
+        margin: 5pt 0pt;
+    }
+    article h3 {
+        font-size: 1.2em;
+        font-weight: normal;
+        margin: 5pt 0pt;
+    }
+    article h4 {
+        font-size: 1em;
+        font-weight: normal;
+        margin: 5pt 0pt;
+    }
+    
+    article p {
+        font-size: 0.9em;
+        margin: 5pt 0pt;
+        line-height: 130%;
+    }
+    .breadcrumbs {
+        background-color: #d3222a;
+        padding: 10pt;
+        margin: 0pt 10pt;
+    }
+    
+    .breadcrumbs p {
+        font-size: 0.75em;
+        font-weight: normal;
+    }
+    
+    .breadcrumbs a, .breadcrumbs p {
+        color: #fff;
+        text-decoration: none;
+    }
+    
+</style>
 <div class="breadcrumbs">
-    <p>
-        <a href='<?php echo $this->url('home'); ?>'>Home</a>
-        <?php if ($article->articleTypeId == 1): ?>
-         > <a href='<?php echo $this->url('articles', array('type' => 'news')); ?>'>News</a>
-        <?php elseif ($article->articleTypeId == 2): ?>
-         > <a href='<?php echo $this->url('articles', array('type' => 'features')); ?>'>Features</a>
-        <?php elseif ($article->articleTypeId == 3): ?>
-         > <a href='<?php echo $this->url('articles', array('type' => 'reviews')); ?>'>Reviews</a>
-        <?php endif; ?> 
-         > <a href='<?php echo $this->url('article/profile', array('slug' => $article->slug)); ?>'><?php echo $article->title; ?></a>
-    </p>
-</div>
-<article id='main' style='overflow: hidden;'>
+        <p>
+            <a href='<?php echo $this->url('home'); ?>'>Home</a>
+            <?php if ($article->articleTypeId == 1): ?>
+             > <a href='<?php echo $this->url('articles', array('type' => 'news')); ?>'>News</a>
+            <?php elseif ($article->articleTypeId == 2): ?>
+             > <a href='<?php echo $this->url('articles', array('type' => 'features')); ?>'>Features</a>
+            <?php elseif ($article->articleTypeId == 3): ?>
+             > <a href='<?php echo $this->url('articles', array('type' => 'reviews')); ?>'>Reviews</a>
+            <?php endif; ?> 
+             > <a href='<?php echo $this->url('article/profile', array('slug' => $article->slug)); ?>'><?php echo $article->title; ?></a>
+        </p>
+    </div>
+<div id="mainWrapper">
+<article>
+    
     <h2><?php echo $article->title; ?></h2>
     <?php if ($article->subtitle): ?>
     <h3><?php echo $article->subtitle; ?></h3>
     <?php endif; ?>
-    <h3>Written By: <?php echo $article->author; ?> </h3>
+    <h4>Written By: <?php echo $article->author; ?> </h4>
     <p class='date'>Date: <?php echo $this->DisplayDate($article->publishDate); ?></p>
     <?php if (!strstr(strip_tags($article->content), $article->summary)): ?>
     <p><?php echo $article->summary; ?></p>
@@ -85,8 +140,8 @@ $(function() {
     <?php endforeach; ?>
     <?php endif; ?>
     
-    
 </article>
+</div>
 <div id="fb-root"></div>
 <script>
 (function(d, s, id) {
@@ -96,14 +151,14 @@ $(function() {
   js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.3&appId=<?php echo $this->fbAppId ?>";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
-$('article').append('<div class="fb-comments" style="padding: 20pt 0pt 10pt;" data-href="' + location.href + '" data-numposts="5" data-colorscheme="light"></div>');
+$('article').append('<div class="fb-comments" style="padding: 20pt 0pt 10pt; margin: 0pt 85pt;" data-href="' + location.href + '" data-numposts="5" data-colorscheme="light"></div>');
 $('article p.date').after('<div class="fb-like" style="margin: 10pt 0pt 0pt;" data-href="' + location.href + '" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>');
 </script>
 
 
-<?php if ($this->products): ?>
-<?php echo $this->partial('partials/amazonProducts.phtml', array('products' => $this->products, 'title'=>'Related Amazon Products')); ?>
-<?php  endif; ?>
+<?php //if ($this->products): ?>
+<?php //echo $this->partial('partials/amazonProducts.phtml', array('products' => $this->products, 'title'=>'Related Amazon Products')); ?>
+<?php //endif; ?>
 
 <?php if ($this->news): ?>
 <div id="news" class="articles">

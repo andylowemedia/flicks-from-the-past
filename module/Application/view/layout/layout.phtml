@@ -16,9 +16,6 @@
         $this->headLink()
                 ->prependStylesheet($this->basePath('css/fonts.css'))
                 ->appendStylesheet($this->basePath('css/layout.css'))
-                ->appendStylesheet($this->basePath('css/mainSearch.css'))
-                ->appendStylesheet($this->basePath('css/lightbox.css'))
-                ->appendStylesheet($this->basePath('css/cookiePolicy.css'))
                 ;
         
         $this->headScript()
@@ -27,89 +24,133 @@
         ?>
         
         <?php $this->headScript()->captureStart(); ?>
-        function setCookie(cname, cvalue, exdays) {
-            var d = new Date();
-            d.setTime(d.getTime() + (exdays*24*60*60*1000));
-            var expires = "expires="+d.toUTCString();
-            document.cookie = cname + "=" + cvalue + "; " + expires + "; path=/";
-        }
-        function getCookie(cname) {
-            var name = cname + "=";
-            var ca = document.cookie.split(';');
-            for(var i=0; i<ca.length; i++) {
-                var c = ca[i];
-                while (c.charAt(0)==' ') c = c.substring(1);
-                if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
-            }
-            return "";
-        }
-        $(function() {
-            
-            // setCookie('cookies', '', -1);
-            $('header h1').click(function() {
-                location.href = '<?php echo $this->url('home'); ?>';
-            });
-            
-            $('form#mainSearch input[type=submit]').click(function(event) {
-                if (!$('form#mainSearch input[name=search]').val()) {
-                    event.preventDefault();
-                }
-            });
-            
-            $('.lightbox .window nav p.btn').click(function() {
-                $(this).parent().parent().parent().animate({
-                    opacity: 0,
-                }, 500, function() {
-                    $(this).hide();
-                    $('html, body').css('overflow', 'auto');
-                });
-            });
-            $('div#cookiePolicy p span').click(function() {
-                $('.lightbox').show();
-                $('.lightbox').animate({
-                    opacity: 1
-                }, 500, function() {
-                    $('html, body').css('overflow', 'hidden');
-                });
-            });
-            $('div#cookiePolicy p.btn').click(function() {
-                setCookie('cookies', 'agreed', 365);
-                $('div#cookiePolicy').animate({
-                    opacity: 0
-                }, 500, function() {
-                    $(this).hide();
-                });
-            });
-            
-            var cookie = getCookie('cookies');
-            if (cookie != "") {
-                $('div#cookiePolicy').css('opacity', 0);
-                $('div#cookiePolicy').hide();
-            }
-            
-        });
         <?php $this->headScript()->captureEnd(); ?>
         
         <?php $this->headStyle()->captureStart(); ?>
-            @media all and (min-width: 769px) {
-                div.ad, div.ad ins.adsbygoogle  {
-                    width: 728px;
-                }
-            }
-            
-            @media all and (max-width: 768px) {
-                div.ad, div.ad ins.adsbygoogle  {
-                    width: 600px;
-                }
-            }
-            
-            div.ad {
-                 margin: 0px auto 10px;
-            }
-            div.ad ins.adsbygoogle {
-                display:inline-block;height:90px;
-            }
-            
+        body {
+            font-size: 100%;
+        }
+        
+        #main {
+            width: 850pt;
+            margin: 0 auto;
+        }
+        
+        header div.top {
+            /*width: 139px;*/
+            height: 45pt;
+
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        div.section {
+            position: relative;
+
+            height: 89pt;
+        }
+
+        div.sectionTop {
+            width: 144pt;
+            background-color: #d3222a;
+            height: 40pt;
+            border-bottom: 1px solid #ba1e25;
+            background-image: url('../images/white-on-black-logo.png');
+            background-size: 162px 30px;
+            background-position: 12pt 8pt;
+            background-repeat: no-repeat;
+            float: left;
+            margin: 5pt 0 0 35pt;
+        }
+        
+        input[type=text] {
+            float: left;
+            width: 160pt;
+            height: 10pt;
+            display: block;
+            border: 1pt solid #e0e0e0;
+            padding: 10pt;
+            font-size: 0.9em;
+            border-radius: 5pt 0pt 0pt 5pt;
+            border-right: none;
+            background-color: #f2f2f2;
+            margin: 10pt 0pt 0pt 10pt;
+        }
+
+        div#searchBtn {
+            float: left;
+            font-family: 'Glyphicons Halflings' !important;
+            border: 1pt solid #e0e0e0;
+            border-left: none;
+            width: 20pt;
+            height: 10pt;
+            padding: 8pt 10pt 12pt;
+            background-color: #f2f2f2;
+            border-radius: 0pt 5pt 5pt 0pt;
+            margin: 10pt 10pt 0pt 0pt;
+        }
+        div#searchBtn:after {
+
+            content:"\e003";
+        }
+        
+        div.bottom {
+        }
+        
+        div#menu {
+            clear: both;
+            float: left;
+            width: 144pt;
+            color: #fff;
+            height: 30pt;
+            font-family: sans-serif;
+            text-decoration: none;
+            background-color: #d3222a;
+            margin: 0 0 0 35pt;
+        }
+
+        div#menu p {
+            padding: 8pt;
+        }
+
+        div#menu:hover {
+            background-color: #000;
+
+        }
+        
+        nav#mainNav {
+            width: 110pt;
+            float: left;
+            background-color: #fff;
+        }
+
+        nav#mainNav ul {
+            width: 311pt;
+            list-style-type: none;
+            height: 31pt;
+        }
+
+        nav#mainNav ul li {
+            padding: 8pt 15pt;
+            float: left;
+            /**/
+        }
+
+        nav#mainNav ul li a {
+            text-decoration: none;
+            color: #d3222a;
+            font-size: 0.8em;
+        }
+
+        nav#mainNav ul li a:hover {
+            color: #000;
+        }
+        
+        div#body {
+            clear: both;
+            margin: 10pt 15pt;
+            padding: 0pt 10pt;
+        }
+        
         <?php $this->headStyle()->captureEnd(); ?>
         
         <?php
@@ -120,69 +161,29 @@
         ?>
     </head>
     <body>
-        <?php if ($this->GoogleAnalytics()): ?>
-        <script>
- 
-          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-          ga('create', 'UA-15536564-4', 'auto');
-          ga('require', 'displayfeatures');
-          ga('require', 'linkid', 'linkid.js');
-          ga('send', 'pageview');
-        </script>
-        <?php endif; ?>
-<!--        <div class="ad" style=''>
-            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-             Flicks from the Past! Layout 
-            <ins class="adsbygoogle"
-                 style=""
-                 data-ad-client="ca-pub-8104336807776739"
-                 data-ad-slot="8052721204"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-        </div>-->
         <div id="main">
             <header>
-                <h1>Flicks From The Past!</h1>
-                <?php echo $this->form()->openTag($this->MainSearch()->setAttributes(array('method' => 'get', 'action' => $this->url('search')))); ?>
-                <?php echo $this->formRow($this->MainSearch()->get('search')); ?>
-                <?php echo $this->formRow($this->MainSearch()->get('type')); ?>
-                <?php echo $this->formElement($this->MainSearch()->get('submit')); ?>
-                <?php echo $this->form()->closeTag(); ?>
-                <div class="social">
-                    <a href='https://www.youtube.com/channel/UCuJZlbQ9iB5VoFCWZYGY_Jg' target='_blank'><img src='/images/YouTube-logo-light.png' border="0" style='width: 100px; float: right;margin: 3pt 0pt;' /></a>
-                    <a href='https://twitter.com/FlicksFromPast' target='_blank'><img src='/images/Twitter_logo_white.png' border="0" style='width: 40px; float: right; margin: 15pt 0pt 10pt 10pt' /></a>
-                    <a href='https://www.facebook.com/flicksfromthepast' target='_blank'><img src='/images/FB-f-Logo__blue_50.png' border="0" style='width: 35px; float: right; border: 1pt solid #9f9f9f; border-radius: 0.5em; margin: 11pt 6pt' /></a>
+                <div class="top">
+                    <div class="sectionTop"></div>
+                    <input id="search-input" type="text" maxlength="60" placeholder="Search" name="query" autocomplete="off">
+                    <div id="searchBtn"></div>
                 </div>
-            </header>
-            <div id="content" style='clear: both;'>
-            <?php echo $this->content . "\n"; ?>
-            </div>
-        
-            <footer>
-                <p>&copy;<?php echo date('Y'); ?> <span class='company'>Low-Emedia</span></p>
-
-            </footer>
-        </div>
-        <div id="cookiePolicyDetails" class="lightbox">
-            <div class="window">
-                <div class="content">
-                    <?php echo $this->partial('partials/cookiePolicy.phtml'); ?>
-                </div>
-                <nav>
-                    <p class="btn">Close</p>
+                <div class="bottom">
+                    <div id="menu"><p>Menu</p></div>
+                    <nav id="mainNav">
+                    <ul>
+                        <li><a href="#">News</a></li>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Reviews</a></li>
+                    </ul>
                 </nav>
+                </div>
+                <div style="clear: both;"></div>
+<!--                -->
+            </header>
+            <div id="body">
+                <?php echo $this->content . "\n"; ?>
             </div>
         </div>
-            <div id='cookiePolicy'>
-                <p class='btn'>Hide</p>
-                <p>We use cookies on this website. By using this site, you agree 
-                    that we may store and access cookies on your device. Find out 
-                    more <span>here</span>.</p>
-            </div>
     </body>
 </html>

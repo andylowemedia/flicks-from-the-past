@@ -1,0 +1,185 @@
+<?php echo $this->doctype(); ?>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle('Flicks From The Past!', 'PREPEND'); ?>
+
+        <?php 
+        $this->headMeta()
+            ->appendName("viewport", "width=device-width, initial-scale=1.0")
+            ->setCharset('UTF-8')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+            ->appendHttpEquiv('Content-Type','text/html')
+            ->appendHttpEquiv('Content-Language', 'en-GB')
+            ;
+        
+        $this->headLink()
+                ->prependStylesheet($this->basePath('css/fonts.css'))
+                ->appendStylesheet($this->basePath('css/layout.css'))
+                ;
+        
+        $this->headScript()
+                ->prependFile($this->basePath() . '/js/jquery-1.10.2.min.js')
+                ;
+        ?>
+        
+        <?php $this->headScript()->captureStart(); ?>
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays*24*60*60*1000));
+            var expires = "expires="+d.toUTCString();
+            document.cookie = cname + "=" + cvalue + "; " + expires + "; path=/";
+        }
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0; i<ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1);
+                if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+            }
+            return "";
+        }
+        $(function() {
+            
+            // setCookie('cookies', '', -1);
+            $('header h1').click(function() {
+                location.href = '<?php echo $this->url('home'); ?>';
+            });
+            
+            $('form#mainSearch input[type=submit]').click(function(event) {
+                if (!$('form#mainSearch input[name=search]').val()) {
+                    event.preventDefault();
+                }
+            });
+            
+            $('.lightbox .window nav p.btn').click(function() {
+                $(this).parent().parent().parent().animate({
+                    opacity: 0,
+                }, 500, function() {
+                    $(this).hide();
+                    $('html, body').css('overflow', 'auto');
+                });
+            });
+            $('div#cookiePolicy p span').click(function() {
+                $('.lightbox').show();
+                $('.lightbox').animate({
+                    opacity: 1
+                }, 500, function() {
+                    $('html, body').css('overflow', 'hidden');
+                });
+            });
+            $('div#cookiePolicy p.btn').click(function() {
+                setCookie('cookies', 'agreed', 365);
+                $('div#cookiePolicy').animate({
+                    opacity: 0
+                }, 500, function() {
+                    $(this).hide();
+                });
+            });
+            
+            var cookie = getCookie('cookies');
+            if (cookie != "") {
+                $('div#cookiePolicy').css('opacity', 0);
+                $('div#cookiePolicy').hide();
+            }
+            
+        });
+        <?php $this->headScript()->captureEnd(); ?>
+        
+        <?php $this->headStyle()->captureStart(); ?>
+            @media all and (min-width: 769px) {
+                div.ad, div.ad ins.adsbygoogle  {
+                    width: 728px;
+                }
+            }
+            
+            @media all and (max-width: 768px) {
+                div.ad, div.ad ins.adsbygoogle  {
+                    width: 600px;
+                }
+            }
+            
+            div.ad {
+                 margin: 0px auto 10px;
+            }
+            div.ad ins.adsbygoogle {
+                display:inline-block;height:90px;
+            }
+            
+        <?php $this->headStyle()->captureEnd(); ?>
+        
+        <?php
+        echo $this->headMeta() . "\n";
+        echo $this->headLink() . "\n";
+        echo $this->headScript() . "\n";
+        echo $this->headStyle() . "\n";
+        ?>
+    </head>
+    <body>
+        <?php if ($this->GoogleAnalytics()): ?>
+        <script>
+ 
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-15536564-4', 'auto');
+          ga('require', 'displayfeatures');
+          ga('require', 'linkid', 'linkid.js');
+          ga('send', 'pageview');
+        </script>
+        <?php endif; ?>
+<!--        <div class="ad" style=''>
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+             Flicks from the Past! Layout 
+            <ins class="adsbygoogle"
+                 style=""
+                 data-ad-client="ca-pub-8104336807776739"
+                 data-ad-slot="8052721204"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>-->
+        <div id="main">
+            <header>
+                <h1>Flicks From The Past!</h1>
+                <?php echo $this->form()->openTag($this->MainSearch()->setAttributes(array('method' => 'get', 'action' => $this->url('search')))); ?>
+                <?php echo $this->formRow($this->MainSearch()->get('search')); ?>
+                <?php echo $this->formRow($this->MainSearch()->get('type')); ?>
+                <?php echo $this->formElement($this->MainSearch()->get('submit')); ?>
+                <?php echo $this->form()->closeTag(); ?>
+                <div class="social">
+                    <a href='https://www.youtube.com/channel/UCuJZlbQ9iB5VoFCWZYGY_Jg' target='_blank'><img src='/images/YouTube-logo-light.png' border="0" style='width: 100px; float: right;margin: 3pt 0pt;' /></a>
+                    <a href='https://twitter.com/FlicksFromPast' target='_blank'><img src='/images/Twitter_logo_white.png' border="0" style='width: 40px; float: right; margin: 15pt 0pt 10pt 10pt' /></a>
+                    <a href='https://www.facebook.com/flicksfromthepast' target='_blank'><img src='/images/FB-f-Logo__blue_50.png' border="0" style='width: 35px; float: right; border: 1pt solid #9f9f9f; border-radius: 0.5em; margin: 11pt 6pt' /></a>
+                </div>
+            </header>
+            <div id="content" style='clear: both;'>
+            <?php echo $this->content . "\n"; ?>
+            </div>
+        
+            <footer>
+                <p>&copy;<?php echo date('Y'); ?> <span class='company'>Low-Emedia</span></p>
+
+            </footer>
+        </div>
+        <div id="cookiePolicyDetails" class="lightbox">
+            <div class="window">
+                <div class="content">
+                    <?php echo $this->partial('partials/cookiePolicy.phtml'); ?>
+                </div>
+                <nav>
+                    <p class="btn">Close</p>
+                </nav>
+            </div>
+        </div>
+            <div id='cookiePolicy'>
+                <p class='btn'>Hide</p>
+                <p>We use cookies on this website. By using this site, you agree 
+                    that we may store and access cookies on your device. Find out 
+                    more <span>here</span>.</p>
+            </div>
+    </body>
+</html>

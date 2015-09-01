@@ -40,8 +40,16 @@ class IndexController extends AbstractActionController
         
         return array(
             'articles' => $results->response->articles,
-            'products' => $this->AmazonCategorySearch()->search(),
+            // 'youtube' => $videoList = json_decode(file_get_contents('https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId=UCuJZlbQ9iB5VoFCWZYGY_Jg&maxResults=25&key=AIzaSyAsiAMU4m6h8ICJDsf6NIxfxnyHrlP1-iY')),
+//            'products' => $this->AmazonCategorySearch()->search(),
         );
+    }
+    
+    public function youtubeAction()
+    {
+        return new \Zend\View\Model\JsonModel(array(
+            'videos' => json_decode(file_get_contents('https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId=UCuJZlbQ9iB5VoFCWZYGY_Jg&maxResults=25&key=AIzaSyAsiAMU4m6h8ICJDsf6NIxfxnyHrlP1-iY'), true)
+        ));
     }
     
     public function sitemapAction()

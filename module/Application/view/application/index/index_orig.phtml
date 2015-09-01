@@ -1,0 +1,162 @@
+<?php 
+$this->headTitle(' - The very latest in film & movie news, taken from the most popular sources', 'SET');
+$this->headScript()
+        ->appendFile('js/featured.js')
+        ;
+
+$this->headMeta()->appendName('description', "Articles on the greatest films ever made, and the very latest news on today's movie industry.");
+
+$this->headLink()
+        ->appendStylesheet($this->basePath('css/articles.css'))
+        ->appendStylesheet($this->basePath('css/featured.css'))
+        ;
+?>
+<?php $this->headStyle()->captureStart(); ?>
+@media all and (min-width: 769px) {
+    div#news {
+        float: right;
+        width: 234pt;
+    }
+
+    div#reviews, div#features {
+        float: left;
+        width: 231pt;
+    }
+}
+@media all and (max-width: 768px) {
+    div.relatedProducts {
+        display: none;
+    }
+}
+<?php $this->headStyle()->captureEnd(); ?>
+<?php $this->headScript()->captureStart(); ?>
+$(function() {
+    <?php if (isset($this->articles->featuredArticles)): ?>
+
+    if ($(window).width() < 769) {
+        $(window).on("orientationchange",function(){
+            $('div#featured article div.image').css('height', $(window).width() / 2.47);
+        });
+        $('div#featured article div.image').css('height', $(window).width() / 2.47);
+    }
+    var changeSlide = new AutoChangeSlide({
+        maxSlides : <?php echo isset($this->articles->featuredArticles)?count($this->articles->featuredArticles):0; ?>,
+        startSlide : 1
+    });
+
+    var intervalId = changeSlide.setupTiming();
+    
+    $('div#featured div#featuredArticles article').each(function() {
+        $(this).hide();
+        if ($(this).attr('value') == '1') {
+            $(this).show();
+        }
+    });
+
+    $('div#featured nav img').click(function() {
+        window.clearInterval(intervalId);
+        var articleId = $(this).attr('value');
+        $('div#featured div#featuredArticles article').hide();
+        $('div#featured div#featuredArticles article').each(function() {
+            if ($(this).attr('value') === articleId) {
+                $(this).show();
+            }
+        });
+        intervalId = changeSlide.setupTiming();
+    });
+    <?php endif; ?>
+    
+    $('div.articles article').click(function() {
+        location.href = $(this).children('h3').children('a').attr('href');
+    });
+    
+    $('div#featuredArticles article').click(function() {
+        location.href = $(this).children('section').children('h3').children('a').attr('href');
+    });
+    
+    $('div.articles article h3 a, div#featuredArticles article section h3 a').click(function(event) {
+        event.preventDefault();
+    });
+});
+<?php $this->headScript()->captureEnd(); ?>
+
+<?php if (isset($this->articles->featuredArticles) && count($this->articles->featuredArticles) > 0): ?>
+<div id="featured">
+    <div id='featuredArticles'>
+        <?php $count = 1; ?>
+        <?php foreach ($this->articles->featuredArticles as $featuredArticle): ?>
+        <article value='<?php echo $count; ?>'>
+            <?php $image = current($featuredArticle->articleImages); ?>
+            <div class="image">
+                <img src="<?php echo $image->url; ?>" />
+            </div>
+            <section>
+                <h3><a href="<?php echo $this->url('article/profile', array('slug' => $featuredArticle->slug)); ?>"><?php echo $featuredArticle->title; ?></a></h3>
+                <p class="subtitle"><?php echo $featuredArticle->subtitle; ?></p>
+                <p><?php echo $featuredArticle->summary; ?>...</p>
+            </section>
+        </article>
+        <?php $count++; ?>
+        <?php endforeach; ?>
+    </div>
+    <nav>
+        <?php $imageCount = 1; ?>
+        <?php foreach ($this->articles->featuredArticles as $featuredArticle): ?>
+            <?php $image = current($featuredArticle->articleImages); ?>
+        <div class="nav">
+            <img src="<?php echo $image->url; ?>" value='<?php echo $imageCount; ?>' />
+        </div>
+            <?php $imageCount++; ?>
+        <?php endforeach; ?>
+    </nav>
+</div>
+<?php endif; ?>
+<div id="news" class="articles">
+    <!--<iframe style="margin-left: 5pt;" src="http://rcm-eu.amazon-adsystem.com/e/cm?t=lowemedi-21&o=2&p=12&l=ur1&category=video&banner=176RYV8RJGTW0BD292G2&f=ifr" width="300" height="250" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>-->
+    <!--<iframe style="margin-left: 5pt;" src="http://rcm-eu.amazon-adsystem.com/e/cm?t=lowemedi-21&o=2&p=12&l=ur1&category=piv&banner=066SJ0SXHYEH1KTC9D82&f=ifr" width="300" height="250" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>-->
+    <h2>Latest News</h2>
+    <?php foreach ($this->articles->news as $newsArticle): ?>
+    <article>
+        <h3><a href='<?php echo $this->url('article/profile', array('slug' => $newsArticle->slug)); ?>'><?php echo $newsArticle->title; ?></a></h3>
+        <p><?php echo trim($newsArticle->summary); ?>...</p>
+        <p class="date">Date: <?php echo $this->DisplayDate($newsArticle->publishDate); ?></p>
+    </article>
+    <?php endforeach; ?>
+    <p class="more"><a href='<?php echo $this->url('articles', array('type' => 'news')); ?>'>See More...</a></p>
+</div>
+<?php echo $this->partial('partials/amazonProductsHorizontal.phtml', array('products' => $this->products, 'title' => 'Top Seller Amazon Products')); ?>
+<div id="reviews" class="articles">
+    <h2>Latest Reviews</h2>
+    <?php foreach ($this->articles->reviews as $reviewArticle): ?>
+    <article>
+        <?php if (count($reviewArticle->articleImages) > 0): ?>
+        <!--<div style="height: 120pt; overflow: hidden;">-->
+        
+        <img src="<?php echo current($reviewArticle->articleImages)->url; ?>" style="width: 100%;" />
+        <!--</div>-->
+        <?php endif; ?>
+        <h3><a href='<?php echo $this->url('article/profile', array('slug' => $reviewArticle->slug)); ?>'><?php echo $reviewArticle->title; ?></a></h3>
+        <p><?php echo trim($reviewArticle->summary); ?>...</p>
+        <p class="date">Date: <?php echo $this->DisplayDate($reviewArticle->publishDate); ?></p>
+        <div style="clear: both;"></div>
+    </article>
+    <?php endforeach; ?>
+    <p class="more"><a href='<?php echo $this->url('articles', array('type' => 'reviews')); ?>'>See More...</a></p>
+</div>
+<div id="features" class="articles">
+    <h2>Latest Features</h2>
+    <?php if (isset($this->articles->features)): ?>
+    <?php foreach ($this->articles->features as $featureArticle): ?>
+    <article>
+        <?php if (count($featureArticle->articleImages) > 0): ?>
+        <img src="<?php echo current($featureArticle->articleImages)->url; ?>" style="width: 100%"/>
+        <?php endif; ?>
+        <h3><a href='<?php echo $this->url('article/profile', array('slug' => $featureArticle->slug)); ?>'><?php echo $featureArticle->title; ?></a></h3>
+        <p><?php echo trim($featureArticle->summary); ?>...</p>
+        <p class="date">Date: <?php echo $this->DisplayDate($featureArticle->publishDate); ?></p>
+        <div style="clear: both;"></div>
+    </article>
+    <?php endforeach; ?>
+    <?php endif; ?>
+    <p class="more"><a href='<?php echo $this->url('articles', array('type' => 'features')); ?>'>See More...</a></p>
+</div>

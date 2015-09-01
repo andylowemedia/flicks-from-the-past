@@ -87,32 +87,22 @@ return array(
                 ),
 
             ),
-            'amazon' => array(
+            
+            'youtube' => array(
                 'type' => 'Literal',
                 'options' => array(
-                    'route'    => '/amazon',
+                    'route'    => '/youtube',
                     'defaults' => array(
-                        'controller' => 'Application\Controller\Amazon',
+                        'controller' => 'Application\Controller\Index',
+                        'action'     => 'youtube',
                     ),
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
-                    'products   ' => array(
-                        'type'    => 'Literal',
+                    'profile' => array(
+                        'type'    => 'Segment',
                         'options' => array(
-                            'route'    => '/products',
-                            'defaults' => array(
-                                'action'     => 'productApi',
-                            ),
-                        ),
-                    ),
-                    'request   ' => array(
-                        'type'    => 'Literal',
-                        'options' => array(
-                            'route'    => '/request',
-                            'defaults' => array(
-                                'action'     => 'request',
-                            ),
+                            'route'    => '/',
                         ),
                     ),
                 ),
@@ -126,9 +116,9 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Application\Controller\Index' => 'Application\Controller\IndexController',
-            'Application\Controller\Articles' => 'Application\Controller\ArticlesController',
-            'Application\Controller\Amazon' => 'Application\Controller\AmazonController',
+            'Application\Controller\Index'      => 'Application\Controller\IndexController',
+            'Application\Controller\Articles'   => 'Application\Controller\ArticlesController',
+            'Application\Controller\Amazon'     => 'Application\Controller\AmazonController',
         ),
     ),
    'controller_plugins' => array(
@@ -151,6 +141,9 @@ return array(
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view',
+        ),
+        'strategies' => array(
+            'ViewJsonStrategy',
         ),
     ),
     // Placeholder for console routes
