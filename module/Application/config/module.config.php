@@ -30,6 +30,16 @@ return array(
                     ),
                 ),
             ),
+            'rss' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route'    => '/rss',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Index',
+                        'action'     => 'rss',
+                    ),
+                ),
+            ),
             'search' => array(
                 'type' => 'Segment',
                 'options' => array(

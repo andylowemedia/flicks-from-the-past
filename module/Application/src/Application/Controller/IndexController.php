@@ -118,4 +118,75 @@ class IndexController extends AbstractActionController
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">',$dom->saveXML())));
         return $xmlResponse;
     }
+    
+    public function rssAction()
+    {
+        $config = $this->getServiceLocator()->get('config');
+        $uri = "{$config['apis']['articles']}/api/article/type/1";
+        
+        $curlConfig = array(
+            'adapter'   => 'Zend\Http\Client\Adapter\Curl',
+            'curloptions' => array(
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_SSL_VERIFYPEER => true,
+            ),
+        );
+        
+        $client = new \Zend\Http\Client(trim($uri), $curlConfig);
+        
+        $headers = array(
+            'order'         => 'publish_date desc',
+            'consumerKey'   => $config['apis']['consumerKey'],
+            'sourceKey'     => $config['apis']['sourceKey'],
+            'token'         => $config['apis']['token'],
+            'limit'         => 50
+        );
+        $client->setHeaders($headers);
+        
+        $results = json_decode($client->send()->getContent());
+        
+        $feed = new \Zend\Feed\Writer\Feed;
+        $feed->setTitle('Flicks From The Past! News Feed');
+        $feed->setLink('http://www.flicksfromthepast.com');
+        $feed->setFeedLink('http://www.flicksfromthepast.com', 'atom');
+        $feed->addAuthor(array(
+            'name'  => 'Flicks From The Past',
+            'email' => 'flicksfromthepast@low-emedia.com',
+            'uri'   => 'http://www.flicksfromthepast.com',
+        ));
+        $feed->setDateModified(time());
+        
+        //$feed->addHub('http://pubsubhubbub.appspot.com/');
+
+        /**
+         * Add one or more entries. Note that entries must
+         * be manually added once created.
+         */
+        foreach ($results->response->articles as $article) {
+            
+            $dateTime = new \DateTime($article->publishDate);
+            
+            $entry = $feed->createEntry()->setTitle($article->title);
+            $entry->setLink('http://www.flicksfromthepast.com/article/' . $article->slug);
+            $entry->addAuthor(array(
+                'name'  => $article->author,
+            ));
+            $entry->setDateModified($dateTime->getTimestamp());
+            $entry->setDateCreated($dateTime->getTimestamp());
+            $entry->setDescription(htmlspecialchars($article->summary));
+            $entry->setContent(htmlspecialchars($article->summary));
+            $feed->addEntry($entry);
+        }
+
+        /**
+         * Render the resulting feed to Atom 1.0 and assign to $out.
+         * You can substitute "atom" with "rss" to generate an RSS 2.0 feed.
+         */
+        $out = $feed->export('atom');
+        
+        $xmlResponse = $this->getResponse();
+        $xmlResponse->getHeaders()->addHeaderLine('Content-Type', 'text/xml; charset=utf-8');
+        $xmlResponse->setContent($out);
+        return $xmlResponse;
+    }
 }
