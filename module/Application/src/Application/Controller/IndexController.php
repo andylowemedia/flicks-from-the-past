@@ -23,6 +23,8 @@ class IndexController extends AbstractActionController
 //            'limit'             => 10,
             'order'             => 'date desc',
             'summary'           => 1,
+            'summaryType'       => 'articleType',
+            'featured'          => 1,
             'featuredLimit'     => 6,
             'consumerKey'       => $config['apis']['consumerKey'],
             'sourceKey'         => $config['apis']['sourceKey'],
