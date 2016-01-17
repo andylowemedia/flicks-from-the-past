@@ -14,7 +14,8 @@ class IndexController extends AbstractActionController
             'adapter'   => 'Zend\Http\Client\Adapter\Curl',
             'curloptions' => array(
                 CURLOPT_FOLLOWLOCATION => true, 
-                CURLOPT_SSL_VERIFYPEER => false
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_TIMEOUT => 100000,
             ),
         );
         $client = new Http\Client($uri, $curlConfig);
@@ -25,7 +26,7 @@ class IndexController extends AbstractActionController
             'summary'           => 1,
             'summaryType'       => 'articleType',
             'featured'          => 1,
-            'featuredLimit'     => 6,
+            'featuredLimit'     => 9,
             'consumerKey'       => $config['apis']['consumerKey'],
             'sourceKey'         => $config['apis']['sourceKey'],
             'token'             => $config['apis']['token'],
@@ -38,6 +39,11 @@ class IndexController extends AbstractActionController
         
         $response = $client->send();
         
+//        echo '<pre>';
+//        print_r($response->getBody());
+//        die();
+//        
+//        
         $results = json_decode($response->getContent());
         
         return array(

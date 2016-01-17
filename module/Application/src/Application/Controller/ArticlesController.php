@@ -159,7 +159,7 @@ class ArticlesController extends AbstractActionController
         
         $result = json_decode($client->send()->getContent());
         
-        if (is_null($result)) {
+        if (is_null($result) || $result->errorMessage === 'Article not found') {
             $this->getResponse()->setStatusCode(404);
             $viewModel = array();
             return $viewModel;
