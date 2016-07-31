@@ -15,7 +15,7 @@
 @media all and (min-width: 769px) {
     div#featured {
         float: left;
-        width: 736pt;
+        width: 481pt;
         height: 302pt;
     }
     div#featured article {
@@ -24,7 +24,7 @@
     }
     
     div#featured article div.image {
-        width: 970px;
+        width: 627px;
         height: 255pt;
     }
     
@@ -32,8 +32,8 @@
         background-color: rgba(0,0,0, 0.7);
         position: relative;
         top: -85pt;
-        height: 55pt;
-        width: 707pt;        
+        height: 65pt;
+        width: 450pt;        
     }
     
 }

@@ -8,7 +8,7 @@ class IndexController extends AbstractActionController
     public function indexAction()
     {
         $config = $this->getServiceLocator()->get('config');
-        $uri = "{$config['apis']['articles']}/api/article";
+        $uri = "{$config['apis']['articles']}/api/site/summary";
         
         $curlConfig = array(
             'adapter'   => 'Zend\Http\Client\Adapter\Curl',
@@ -20,34 +20,19 @@ class IndexController extends AbstractActionController
         );
         $client = new Http\Client($uri, $curlConfig);
         $client->setHeaders(array(
-            'offset'            => 0,
-//            'limit'             => 10,
-            'order'             => 'date desc',
-            'summary'           => 1,
-            'summaryType'       => 'articleType',
-            'featured'          => 1,
-            'featuredLimit'     => 9,
             'consumerKey'       => $config['apis']['consumerKey'],
             'sourceKey'         => $config['apis']['sourceKey'],
             'token'             => $config['apis']['token'],
         ));
-        
-//        $client->setMethod('POST')
-//                ->getRequest()
-//                ->setPost(new \Zend\Stdlib\Parameters(array('key' => 'value')))
-//                ;
-        
         $response = $client->send();
         
-//        echo '<pre>';
-//        print_r($response->getBody());
-//        die();
-//        
-//        
         $results = json_decode($response->getContent());
         
         return array(
-            'articles' => $results->response->articles,
+            'featuredArticles' => $results->response->articles->featured,
+            'news' => $results->response->articles->news,
+            'reviews' => $results->response->articles->reviews,
+            'features' => $results->response->articles->features,
             'products' => $this->AmazonCategorySearch()->search(),
         );
     }

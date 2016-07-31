@@ -20,7 +20,7 @@ var AutoChangeSlide = function(params) {
         var t = this;
         $('div#featured div#featuredArticles article').each(function() {
  
-            if ($(this).attr('value') == t.currentSlide) {
+            if ($(this).attr('data-value') == t.currentSlide) {
                 $(this).show();
             }
         });
