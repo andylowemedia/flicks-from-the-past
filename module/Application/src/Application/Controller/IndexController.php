@@ -8,31 +8,34 @@ class IndexController extends AbstractActionController
     public function indexAction()
     {
         $config = $this->getServiceLocator()->get('config');
-        $uri = "{$config['apis']['articles']}/api/site/summary";
+        $this->apiConfig = $config['apis'];
         
-        $curlConfig = array(
-            'adapter'   => 'Zend\Http\Client\Adapter\Curl',
-            'curloptions' => array(
-                CURLOPT_FOLLOWLOCATION => true, 
-                CURLOPT_SSL_VERIFYPEER => false,
-                CURLOPT_TIMEOUT => 100000,
-            ),
-        );
-        $client = new Http\Client($uri, $curlConfig);
-        $client->setHeaders(array(
-            'consumerKey'       => $config['apis']['consumerKey'],
-            'sourceKey'         => $config['apis']['sourceKey'],
-            'token'             => $config['apis']['token'],
-        ));
-        $response = $client->send();
+        $client = new \GuzzleHttp\Client();
         
-        $results = json_decode($response->getContent());
+        $newsResponse = $client->request('GET', "hal-search-v2.discovery/category/code/entertainment-films?index=articles&type=article&image-only=true&filter[articleTypeId]=1&sort=publishDate:desc&size=28");
+        $newsData = json_decode($newsResponse->getBody());
+        
+        $reviewsResponse = $client->request('GET', "hal-search-v2.discovery/category/code/entertainment-films?index=articles&type=article&image-only=true&filter[articleTypeId]=3&filter[sourceId]=16&sort=publishDate:desc&size=16");
+        $reviewsData = json_decode($reviewsResponse->getBody());
+        
+        $featuresResponse = $client->request('GET', "hal-search-v2.discovery/category/code/entertainment-films?index=articles&type=article&image-only=true&filter[articleTypeId]=2&filter[sourceId]=16&sort=publishDate:desc&size=10");
+        $featuresData = json_decode($featuresResponse->getBody());
+        
+        
+        $featuredResponse = [];
+        foreach ($reviewsData->articles->{'entertainment-films'}->source as $key => $review) {
+            $featuredResponse[] = $review;
+            unset($reviewsData->articles->{'entertainment-films'}->source[$key]);
+            if ($key === 5) {
+                break;
+            }
+        }
         
         return array(
-            'featuredArticles' => $results->response->articles->featured,
-            'news' => $results->response->articles->news,
-            'reviews' => $results->response->articles->reviews,
-            'features' => $results->response->articles->features,
+            'featuredArticles' => $featuredResponse,
+            'news' => $newsData->articles->{'entertainment-films'}->source,
+            'reviews' => $reviewsData->articles->{'entertainment-films'}->source,
+            'features' => $featuresData->articles->{'entertainment-films'}->source,
             'products' => $this->AmazonCategorySearch()->search(),
         );
     }

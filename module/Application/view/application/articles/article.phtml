@@ -10,9 +10,9 @@ $this->headMeta()
         ->appendName('description', $article->summary)
         ;
 
-if (count($article->articleImages) > 0 ):
-    $image = reset($article->articleImages);
-    $this->headMeta()->appendProperty('og:image', $image->url);
+if (isset($article->images) && count($article->images) > 0):
+    $image = reset($article->images);
+    $this->headMeta()->appendProperty('og:image', $image);
 endif;
 
 $this->headLink()
@@ -70,20 +70,20 @@ $(function() {
     <p><?php echo $article->summary; ?></p>
     <?php endif; ?>
     <?php echo $article->content; ?>
-    <?php if (!strstr($article->originalUrl, 'http://www.flicksfromthepast.com')): ?>
-    <p>Original Link: <a href="<?php echo $article->originalUrl; ?>" target="_blank"><?php echo $article->originalUrl; ?></a></p>
+    <?php if (!strstr($article->url, 'http://www.flicksfromthepast.com')): ?>
+    <p>Original Link: <a href="<?php echo $article->url; ?>" target="_blank"><?php echo $article->url; ?></a></p>
     <?php endif; ?>
-    <?php if ($showImage): ?>
-    <?php foreach ($article->articleImages as $image): ?>
-    <?php $data = @getimagesize($image->url); ?> 
-    <img src='<?php echo $image->url;?>' style='width:100%<?php //echo $data[0] < 650?$data['width']:'100%' ?>;'>
+    <?php if ($showImage && isset($article->images)): ?>
+    <?php foreach ($article->images as $image): ?>
+    <?php $data = @getimagesize($image); ?> 
+    <img src='<?php echo $image;?>' style='width:100%<?php //echo $data[0] < 650?$data['width']:'100%' ?>;'>
     <?php endforeach; ?>
     <?php endif; ?>
-    <?php if ($showMedia): ?>
-    <?php foreach ($article->articleMedia as $media): ?>
-    <?php echo $media->code;?>
-    <?php endforeach; ?>
-    <?php endif; ?>
+    <?php //if ($showMedia): ?>
+    <?php //foreach ($article->articleMedia as $media): ?>
+    <?php //echo $media->code;?>
+    <?php //endforeach; ?>
+    <?php //endif; ?>
     
     
 </article>

@@ -20,26 +20,26 @@ return array(
                     ),
                 ),
             ),
-            'sitemap' => array(
-                'type' => 'Literal',
-                'options' => array(
-                    'route'    => '/sitemap',
-                    'defaults' => array(
-                        'controller' => 'Application\Controller\Index',
-                        'action'     => 'sitemap',
-                    ),
-                ),
-            ),
-            'rss' => array(
-                'type' => 'Literal',
-                'options' => array(
-                    'route'    => '/rss',
-                    'defaults' => array(
-                        'controller' => 'Application\Controller\Index',
-                        'action'     => 'rss',
-                    ),
-                ),
-            ),
+//            'sitemap' => array(
+//                'type' => 'Literal',
+//                'options' => array(
+//                    'route'    => '/sitemap',
+//                    'defaults' => array(
+//                        'controller' => 'Application\Controller\Index',
+//                        'action'     => 'sitemap',
+//                    ),
+//                ),
+//            ),
+//            'rss' => array(
+//                'type' => 'Literal',
+//                'options' => array(
+//                    'route'    => '/rss',
+//                    'defaults' => array(
+//                        'controller' => 'Application\Controller\Index',
+//                        'action'     => 'rss',
+//                    ),
+//                ),
+//            ),
             'search' => array(
                 'type' => 'Segment',
                 'options' => array(

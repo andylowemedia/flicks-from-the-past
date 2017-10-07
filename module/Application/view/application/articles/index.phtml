@@ -26,15 +26,13 @@ $(function() {
         <?php endif; ?> 
     </p>
 </div>
-<div class="articles">
+<div class="articles" style="width: 515pt; float: left;">
     <h2><?php echo ucfirst($this->type); ?></h2>
     <?php foreach ($this->articles as $article): ?>
     <article style='clear: both;'>
-        <?php if (count($article->articleImages) > 0): ?>
-        <?php $image = current($article->articleImages); ?>
-        <?php //if (file_exists($image->url) || strstr($image->url, 'http')): ?>
-            <img src='<?php echo $image->url; ?>' style="float: left; width: 100pt; margin-right: 10pt;">
-        <?php //endif; ?>
+        <?php if (isset($article->image)): ?>
+        <?php $image = $article->image; ?>
+            <img src='<?php echo $image; ?>' style="float: left; width: 100pt; margin-right: 10pt;">
         <?php endif; ?>
         <h3><a href='<?php echo $this->url('article/profile', array('slug' => $article->slug)); ?>'><?php echo $article->title; ?></a></h3>
         <p><?php echo trim($article->summary); ?>...</p>

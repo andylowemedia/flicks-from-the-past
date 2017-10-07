@@ -20,10 +20,10 @@ $(function() {
     <h2>Search text: <?php echo $this->searchText; ?><br>Number of Articles found: <?php echo count($this->articles); ?></h2>
     <?php foreach ($this->articles as $article): ?>
     <article style='clear: both;'>
-        <?php if (count($article->articleImages) > 0): ?>
-        <?php $image = current($article->articleImages); ?>
-        <?php if (file_exists($image->url) || strstr($image->url, 'http')) : ?>
-        <img src='<?php echo $image->url; ?>' style="float: left; width: 100pt; margin-right: 10pt;">
+        <?php if (isset($article->image)): ?>
+        <?php $image = $article->image; ?>
+        <?php if (file_exists($image) || strstr($image, 'http')) : ?>
+        <img src='<?php echo $image; ?>' style="float: left; width: 100pt; margin-right: 10pt;">
         <?php endif; ?>
         <?php endif; ?>
 

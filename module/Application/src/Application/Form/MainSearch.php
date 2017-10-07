@@ -17,7 +17,7 @@ class MainSearch extends Form
         $this->add($searchText);
         
         $type = new Element\Select('type');
-        $type->setValueOptions(array('All', 'News', 'Features', 'Reviews'));
+        $type->setValueOptions(array('all' => 'All','news' => 'News','features' => 'Features', 'reviews' => 'Reviews'));
         $this->add($type);
         
         $searchButton = new Element\Submit('submit');

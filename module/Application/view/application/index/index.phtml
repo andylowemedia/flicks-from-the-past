@@ -88,7 +88,7 @@ $(function() {
         <?php foreach ($this->featuredArticles as $featuredArticle): ?>
         <article data-value='<?php echo $count; ?>'>
             <div class="image">
-                <img src="<?php echo $featuredArticle->imageUrl; ?>" alt='<?php echo $featuredArticle->title; ?>' title='<?php echo $featuredArticle->title; ?>' />
+                <img src="<?php echo $featuredArticle->image; ?>" alt='<?php echo $featuredArticle->title; ?>' title='<?php echo $featuredArticle->title; ?>' />
             </div>
             <section>
                 <h3><a href="<?php echo $this->url('article/profile', array('slug' => $featuredArticle->slug)); ?>"><?php echo $featuredArticle->title; ?></a></h3>
@@ -103,7 +103,7 @@ $(function() {
         <?php $imageCount = 1; ?>
         <?php foreach ($this->featuredArticles as $featuredArticle): ?>
         <div class="nav">
-            <img data-value="<?php echo $imageCount; ?>" src="<?php echo $featuredArticle->imageUrl; ?>" alt='<?php echo $featuredArticle->title; ?>' title='<?php echo $featuredArticle->title; ?>' />
+            <img data-value="<?php echo $imageCount; ?>" src="<?php echo $featuredArticle->image; ?>" alt='<?php echo $featuredArticle->title; ?>' title='<?php echo $featuredArticle->title; ?>' />
             <?php $imageCount++; ?>
         </div>
         <?php endforeach; ?>
@@ -116,6 +116,7 @@ $(function() {
     <?php foreach ($this->news as $newsArticle): ?>
     <article>
         <h3><a href="https://www.yournews365.com/<?php echo $newsArticle->slug; ?>"><?php echo $newsArticle->title; ?></a></h3>
+        <p style="margin-bottom: 3pt;"><strong>Source:</strong> <?php echo $newsArticle->source; ?></p>
         <p><?php echo trim($newsArticle->summary); ?>...</p>
         <p class="date">Date: <?php echo $this->DisplayDate($newsArticle->publishDate); ?></p>
     </article>
@@ -128,9 +129,9 @@ $(function() {
     <h2>Latest Reviews</h2>
     <?php foreach ($this->reviews as $reviewArticle): ?>
     <article>
-        <?php if ($reviewArticle->imageUrl): ?>
+        <?php if ($reviewArticle->image): ?>
         <div style="height: 120pt; overflow: hidden;">
-        <img src="<?php echo $reviewArticle->imageUrl; ?>" style="width: 100%;" />
+        <img src="<?php echo $reviewArticle->image; ?>" style="width: 100%;" />
         </div>
         <?php endif; ?>
         <h3><a href='<?php echo $this->url('article/profile', array('slug' => $reviewArticle->slug)); ?>'><?php echo $reviewArticle->title; ?></a></h3>
@@ -147,9 +148,9 @@ $(function() {
     <?php if (isset($this->features)): ?>
     <?php foreach ($this->features as $featureArticle): ?>
     <article>
-        <?php if ($featureArticle->imageUrl): ?>
+        <?php if ($featureArticle->image): ?>
         <div style="height: 120pt; overflow: hidden;">
-        <img src="<?php echo $featureArticle->imageUrl; ?>" style="width: 100%;" />
+        <img src="<?php echo $featureArticle->image; ?>" style="width: 100%;" />
         </div>
         <?php endif; ?>
         <h3><a href='<?php echo $this->url('article/profile', array('slug' => $featureArticle->slug)); ?>'><?php echo $featureArticle->title; ?></a></h3>

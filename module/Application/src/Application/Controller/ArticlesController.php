@@ -10,43 +10,41 @@ class ArticlesController extends AbstractActionController
         'reviews'   => 3,
     );
     
+    protected $apiConfig = [];
+    
     public function indexAction()
     {
-        $type = $this->params()->fromRoute('type', null);
         $config = $this->getServiceLocator()->get('config');
-        $uri = "{$config['apis']['articles']}/api/article";
+        $this->apiConfig = $config['apis'];
         
-        if (isset($this->typeMap[$type])) {
-            $uri .= "/type/{$this->typeMap[$type]}";
+        $type = $this->params()->fromRoute('type', null);
+        
+        if (!isset($this->typeMap[$type])) {
+            throw new \Exception('Unrecognised type');
         }
         
-        $curlConfig = array(
-            'adapter'   => 'Zend\Http\Client\Adapter\Curl',
-            'curloptions' => array(
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_SSL_VERIFYPEER => false,
-            ),
-        );
+        $size = 1000;
+
+        $typeId = $this->typeMap[$type];
         
-        $client = new \Zend\Http\Client(trim($uri), $curlConfig);
         
-        $headers = array(
-            'order'         => 'date desc',
-            'consumerKey'   => $config['apis']['consumerKey'],
-            'sourceKey'     => $config['apis']['sourceKey'],
-            'token'         => $config['apis']['token'],
-        );
+        $client = new \GuzzleHttp\Client();
         
-        if ($type === 'news') {
-            $headers['limit'] = 1000;
+        $url = $this->apiConfig['search'] . "category/code/entertainment-films"
+                . "?index=articles&type=article&image-only=true"
+                . "&filter[articleTypeId]={$typeId}"
+                . "&sort=publishDate:desc&size={$size}";
+        
+        if ($typeId !== 1) {
+            $url .= "&filter[sourceId]=16";
         }
-        
-        $client->setHeaders($headers);
-        
-        $results = json_decode($client->send()->getContent());
+                
+        $response = $client->request('GET', $url);
+                
+        $data = json_decode($response->getBody());
         
         return array(
-            'articles'      => $results->response->articles,
+            'articles'      => $data->articles->{'entertainment-films'}->source,
             'products'      => $this->AmazonCategorySearch()->search(),
             'type'          => $type,
         );
@@ -54,38 +52,36 @@ class ArticlesController extends AbstractActionController
     
     public function searchAction()
     {
+        $config = $this->getServiceLocator()->get('config');
+        $this->apiConfig = $config['apis'];
+        
         $search = $this->params()->fromQuery('search', null);
         $type = $this->params()->fromQuery('type', null);
         
-        $config = $this->getServiceLocator()->get('config');
-        $uri = "{$config['apis']['articles']}/api/article/search/{$search}";
-        
-        if ($type) {
-            $uri .= "/type/{$type}";
-        }
-        
-        $curlConfig = array(
-            'adapter'   => 'Zend\Http\Client\Adapter\Curl',
-            'curloptions' => array(
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_SSL_VERIFYPEER => false,
-            ),
+
+        $params = array(
+            'index' => 'articles',
+            'type' => 'article',
+            'search' => $search,
+            'size' => 600,
+            'page' => 1,
+            'filter' => [
+                'categories' => 'entertainment-films',
+                'sourceId' => 16
+            ]
         );
         
-        $client = new \Zend\Http\Client(trim($uri), $curlConfig);
-        $client->setHeaders(array(
-            'consumerKey'   => $config['apis']['consumerKey'],
-            'sourceKey'     => $config['apis']['sourceKey'],
-            'token'         => $config['apis']['token'],
-        ));
-        
-        $results = json_decode($client->send()->getContent());
-        
-        if (is_null($results)) {
-            $this->getResponse()->setStatusCode(404);
-            return $this->getResponse();
+        if (isset($this->typeMap[$type])) {
+            $params['filter']['articleTypeId'] = $this->typeMap[$type];
         }
-
+        
+        $client = new \GuzzleHttp\Client();
+        
+        $res = $client->request('GET', $this->apiConfig['search'] . '?' . http_build_query($params));
+        
+        $data = json_decode($res->getBody());
+        
+        
         $productKeywords = $search;
 
         $params = array(
@@ -103,31 +99,9 @@ class ArticlesController extends AbstractActionController
         $productSearch = new \Application\Service\Amazon\ProductSearch($params, $config['aws']['secret']);
 
         $products = new \SimpleXMLElement($productSearch->sendRequest());
-
-//            $uriNews = "{$config['apis']['articles']}/api/article/type/1";
-//
-//            $configNews = array(
-//                'adapter'   => 'Zend\Http\Client\Adapter\Curl',
-//                'curloptions' => array(
-//                    CURLOPT_FOLLOWLOCATION => true, 
-//                    CURLOPT_SSL_VERIFYPEER => false
-//                ),
-//            );
-//            $newsClient = new \Zend\Http\Client($uriNews, $configNews);
-//            $newsClient->setHeaders(array(
-//                'offset'        => 0,
-//                'limit'         => 10,
-//                'order'         => 'date desc',
-//                'consumerKey'   => $config['apis']['consumerKey'],
-//                'sourceKey'     => $config['apis']['sourceKey'],
-//                'token'         => $config['apis']['token'],
-//            ));
-//
-//            $newsResponse = $newsClient->send();
-//            $newsResults = json_decode($newsResponse->getContent());
         
         return array(
-            'articles'      => $results->response->articles, 
+            'articles'      => $data->articles, 
 //            'news'          => isset($newsResults->response->articles)?$newsResults->response->articles:null,
             'searchText'    => $search,
             'type'          => $type,
@@ -137,27 +111,16 @@ class ArticlesController extends AbstractActionController
     
     public function articleAction()
     {
+        $config = $this->getServiceLocator()->get('config');
+        $this->apiConfig = $config['apis'];
+        
         $slug = $this->params()->fromRoute('slug', null);
         
-        $config = $this->getServiceLocator()->get('config');
-        $uri = "{$config['apis']['articles']}/api/article/title/{$slug}";
+        $client = new \GuzzleHttp\Client();
         
-        $curlConfig = array(
-            'adapter'   => 'Zend\Http\Client\Adapter\Curl',
-            'curloptions' => array(
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_SSL_VERIFYPEER => false,
-            ),
-        );
+        $res = $client->request('GET', $this->apiConfig['article'] . '?index=articles&type=article&slug=' . $slug);
         
-        $client = new \Zend\Http\Client(trim($uri), $curlConfig);
-        $client->setHeaders(array(
-            'consumerKey'   => $config['apis']['consumerKey'],
-            'sourceKey'     => $config['apis']['sourceKey'],
-            'token'         => $config['apis']['token'],
-        ));
-        
-        $result = json_decode($client->send()->getContent());
+        $result = json_decode($res->getBody());
         
         if (is_null($result) || (isset($result->errorMessage) && $result->errorMessage === 'Article not found')) {
             $this->getResponse()->setStatusCode(404);
@@ -168,70 +131,70 @@ class ArticlesController extends AbstractActionController
         $showMedia = false;
         $showImage = false;
         
-        if (strstr($result->response->article->content, '<!-- media number ')) {
-            if (count($result->response->article->articleMedia) > 0) {
-                $countMedia = 1;
-                foreach ($result->response->article->articleMedia as $articleMedia) {
-                    $result->response->article->content = str_replace("<!-- media number {$countMedia} -->", $articleMedia->code, $result->response->article->content);
-                    $countMedia++;
-                }
-            }
-        } else {
+//        if (strstr($result->article->content, '<!-- media number ')) {
+//            if (count($result->article->articleMedia) > 0) {
+//                $countMedia = 1;
+//                foreach ($result->article->articleMedia as $articleMedia) {
+//                    $result->article->content = str_replace("<!-- media number {$countMedia} -->", $articleMedia->code, $result->article->content);
+//                    $countMedia++;
+//                }
+//            }
+//        } else {
             $showMedia = true;
-        }
+//        }
         
-        if (strstr($result->response->article->content, '<!-- image number ')) {
-            if (count($result->response->article->articleImages) > 0) {
-                
-                $countImage = 1;
-                foreach ($result->response->article->articleImages as $articleImage) {
-                    if (file_exists($articleImage->url) || strstr($articleImage->url, 'http')) {
-                        $data = getimagesize($articleImage->url);
-                        $imageHtml = '<img src="' . $articleImage->url . '" style="float:left;'; 
-
-                        if ($data[0] > 400 && $data[0] > $data[1]) {
-                            $imageHtml .= 'width:400px;';
-                        } elseif ($data[1] > 450 && $data[0] < $data[1]) {
-                            $imageHtml .= 'height:450px;';                
-                        }
-
-                        $imageHtml .= ' margin: 10pt" />';
-                        $result->response->article->content = str_replace("<!-- image number {$countImage} -->", $imageHtml, $result->response->article->content);
-                    }
-                    $countImage++;
-                }
-            }
-        } else {
+//        if (strstr($result->article->content, '<!-- image number ')) {
+//            if (count($result->article->articleImages) > 0) {
+//                
+//                $countImage = 1;
+//                foreach ($result->article->articleImages as $articleImage) {
+//                    if (file_exists($articleImage->url) || strstr($articleImage->url, 'http')) {
+//                        $data = getimagesize($articleImage->url);
+//                        $imageHtml = '<img src="' . $articleImage->url . '" style="float:left;'; 
+//
+//                        if ($data[0] > 400 && $data[0] > $data[1]) {
+//                            $imageHtml .= 'width:400px;';
+//                        } elseif ($data[1] > 450 && $data[0] < $data[1]) {
+//                            $imageHtml .= 'height:450px;';                
+//                        }
+//
+//                        $imageHtml .= ' margin: 10pt" />';
+//                        $result->article->content = str_replace("<!-- image number {$countImage} -->", $imageHtml, $result->article->content);
+//                    }
+//                    $countImage++;
+//                }
+//            }
+//        } else {
             $showImage = true;
-        }
+//        }
         
         $products = null;
         
-        if ($result->response->article->articleProductKeywords) {
-            $products = array();
-            foreach ($result->response->article->articleProductKeywords as $productKeywords) {
-                $params = array(
-                    'Operation'         => 'ItemSearch', 
-                    'ResponseGroup'     => 'ItemAttributes,Offers,Images',
-                    'SearchIndex'       => 'DVD',
-                    'Keywords'          => $productKeywords->keywords,
-                    'AssociateTag'      => $config['aws']['associateTag'],
-                    'AWSAccessKeyId'    => $config['aws']['key'],
-                    'Service'           => 'AWSECommerceService',
-                    'Timestamp'         => gmdate('Y-m-d\TH:i:s\Z'),
-                    'Version'           => '2013-08-01',
-                );
-
-                $productSearch = new \Application\Service\Amazon\ProductSearch($params, $config['aws']['secret']);
-
-                $products[] = new \SimpleXMLElement($productSearch->sendRequest());
-            }
-        } else {
+//        if ($result->article->articleProductKeywords) {
+//            $products = array();
+//            foreach ($result->article->articleProductKeywords as $productKeywords) {
+//                $params = array(
+//                    'Operation'         => 'ItemSearch', 
+//                    'ResponseGroup'     => 'ItemAttributes,Offers,Images',
+//                    'SearchIndex'       => 'DVD',
+//                    'Keywords'          => $productKeywords->keywords,
+//                    'AssociateTag'      => $config['aws']['associateTag'],
+//                    'AWSAccessKeyId'    => $config['aws']['key'],
+//                    'Service'           => 'AWSECommerceService',
+//                    'Timestamp'         => gmdate('Y-m-d\TH:i:s\Z'),
+//                    'Version'           => '2013-08-01',
+//                );
+//
+//                $productSearch = new \Application\Service\Amazon\ProductSearch($params, $config['aws']['secret']);
+//
+//                $products[] = new \SimpleXMLElement($productSearch->sendRequest());
+//            }
+//        } else {
             $products = $this->AmazonCategorySearch()->search();
-        }
+//        }
 
         return array(
-            'article'       => $result->response->article,
+            'article'       => $result->article,
             'showImage'     => $showImage,
             'showMedia'     => $showMedia,
             'products'      => $products,
