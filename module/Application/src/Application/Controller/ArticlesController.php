@@ -128,7 +128,7 @@ class ArticlesController extends AbstractActionController
             return $viewModel;
         }
         
-        if ($result->article->sourceId !== 16) {
+        if (16 !== (int) $result->article->sourceId) {
             return $this->redirect()->toUrl('https://www.yournews365.com/' . $result->article->slug);
         }
         
