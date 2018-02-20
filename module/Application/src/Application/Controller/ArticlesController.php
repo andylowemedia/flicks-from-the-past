@@ -118,10 +118,10 @@ class ArticlesController extends AbstractActionController
         
         $client = new \GuzzleHttp\Client();
         
-        $res = $client->request('GET', $this->apiConfig['article'] . '?index=articles&type=article&slug=' . $slug);
+        $res = $client->request('GET', $this->apiConfig['article'] . 'article?index=articles&type=article&slug=' . $slug);
         
         $result = json_decode($res->getBody());
-        
+
         if (empty($result->article)) {
             $this->getResponse()->setStatusCode(404);
             $viewModel = array();
