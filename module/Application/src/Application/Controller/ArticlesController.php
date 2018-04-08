@@ -77,11 +77,11 @@ class ArticlesController extends AbstractActionController
         
         $client = new \GuzzleHttp\Client();
         
-        $res = $client->request('GET', $this->apiConfig['search'] . '?' . http_build_query($params));
+        $res = $client->request('GET', $this->apiConfig['article'] . 'search?' . http_build_query($params));
         
         $data = json_decode($res->getBody());
         
-        
+
         $productKeywords = $search;
 
         $params = array(

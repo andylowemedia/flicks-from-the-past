@@ -17,8 +17,8 @@ $(function() {
 <?php $this->headScript()->captureEnd(); ?>
 
 <div class="articles" style="width: 515pt; float: left;">
-    <h2>Search text: <?php echo $this->searchText; ?><br>Number of Articles found: <?php echo count($this->articles); ?></h2>
-    <?php foreach ($this->articles as $article): ?>
+    <h2>Search text: <?php echo $this->searchText; ?><br>Number of Articles found: <?php echo count($this->articles->results); ?></h2>
+    <?php foreach ($this->articles->results as $article): ?>
     <article style='clear: both;'>
         <?php if (isset($article->image)): ?>
         <?php $image = $article->image; ?>
