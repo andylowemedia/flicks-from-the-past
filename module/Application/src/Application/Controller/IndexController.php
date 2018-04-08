@@ -12,9 +12,6 @@ class IndexController extends AbstractActionController
         
         $client = new \GuzzleHttp\Client();
         
-        echo $this->apiConfig['article'] . "category/code/entertainment-films?index=articles&type=article&image-only=true&filter[articleTypeId]=1&sort=publishDate:desc&size=28";
-        die;
-        
         $newsResponse = $client->request('GET', $this->apiConfig['article'] . "category/code/entertainment-films?index=articles&type=article&image-only=true&filter[articleTypeId]=1&sort=publishDate:desc&size=28");
         $newsData = json_decode($newsResponse->getBody());
         
