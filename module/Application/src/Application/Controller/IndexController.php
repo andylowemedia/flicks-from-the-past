@@ -12,13 +12,16 @@ class IndexController extends AbstractActionController
         
         $client = new \GuzzleHttp\Client();
         
-        $newsResponse = $client->request('GET', $this->apiConfig['search'] . "category/code/entertainment-films?index=articles&type=article&image-only=true&filter[articleTypeId]=1&sort=publishDate:desc&size=28");
+        echo $this->apiConfig['article'] . "category/code/entertainment-films?index=articles&type=article&image-only=true&filter[articleTypeId]=1&sort=publishDate:desc&size=28";
+        die;
+        
+        $newsResponse = $client->request('GET', $this->apiConfig['article'] . "category/code/entertainment-films?index=articles&type=article&image-only=true&filter[articleTypeId]=1&sort=publishDate:desc&size=28");
         $newsData = json_decode($newsResponse->getBody());
         
-        $reviewsResponse = $client->request('GET', $this->apiConfig['search'] . "category/code/entertainment-films?index=articles&type=article&image-only=true&filter[articleTypeId]=3&filter[sourceId]=16&sort=publishDate:desc&size=16");
+        $reviewsResponse = $client->request('GET', $this->apiConfig['article'] . "category/code/entertainment-films?index=articles&type=article&image-only=true&filter[articleTypeId]=3&filter[sourceId]=16&sort=publishDate:desc&size=16");
         $reviewsData = json_decode($reviewsResponse->getBody());
         
-        $featuresResponse = $client->request('GET', $this->apiConfig['search'] . "category/code/entertainment-films?index=articles&type=article&image-only=true&filter[articleTypeId]=2&filter[sourceId]=16&sort=publishDate:desc&size=10");
+        $featuresResponse = $client->request('GET', $this->apiConfig['article'] . "category/code/entertainment-films?index=articles&type=article&image-only=true&filter[articleTypeId]=2&filter[sourceId]=16&sort=publishDate:desc&size=10");
         $featuresData = json_decode($featuresResponse->getBody());
         
         

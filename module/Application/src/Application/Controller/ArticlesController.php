@@ -30,7 +30,7 @@ class ArticlesController extends AbstractActionController
         
         $client = new \GuzzleHttp\Client();
         
-        $url = $this->apiConfig['search'] . "category/code/entertainment-films"
+        $url = $this->apiConfig['article'] . "category/code/entertainment-films"
                 . "?index=articles&type=article&image-only=true"
                 . "&filter[articleTypeId]={$typeId}"
                 . "&sort=publishDate:desc&size={$size}";
