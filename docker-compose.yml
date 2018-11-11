@@ -1,0 +1,35 @@
+version: '3'
+services:
+  web:
+    container_name: 'flicksfromthepast-web'
+    image: "540688370389.dkr.ecr.eu-west-1.amazonaws.com/low-emedia/nginx:latest"
+    environment:
+      SITE_NAME: 'flicksfromthepast.local'
+      PROTOCOL: 'http'
+      SERVER_LANG: 'php'
+    ports:
+    - "8090:80"
+    volumes:
+    - ./appcode:/var/www/html/
+
+    links:
+    - php:php-fpm
+
+  php:
+    container_name: 'flicksfromthepast-php'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      MICROSERVICE_ARTICLE_URL: 'article.low-emedia.com'
+      USE_GOOGLE_ANALYTICS: 'hide'
+      AWS_KEY: ''
+      AWS_SECRET: ''
+      AWS_ASSOCIATE_TAG: ''
+    volumes:
+    - ./appcode:/var/www/html/
+
+networks:
+  default:
+    external:
+      name: halv2_default
