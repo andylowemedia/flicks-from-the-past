@@ -36,7 +36,7 @@ pipeline {
                 checkout scm
                 def tag = sh(returnStdout: true, script: "git tag --contains | head -1").trim()
 
-                docker.build("low-emedia/flicksfromthepast::latest")
+                docker.build("low-emedia/flicksfromthepast:latest")
                 docker.withRegistry('https://540688370389.dkr.ecr.eu-west-1.amazonaws.com', 'ecr:eu-west-1:aws-lowemedia') {
                     docker.image("low-emedia/flicksfromthepast").push(tag)
                 }
