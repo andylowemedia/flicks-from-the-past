@@ -59,8 +59,10 @@ class AmazonCategorySearch extends AbstractPlugin
     protected function parseAsinResponse(\SimpleXMLElement $xml)
     {
         $asins = null;
-        foreach ($xml->BrowseNodes->BrowseNode->TopSellers->TopSeller as $topSeller) {
-            $asins .= $topSeller->ASIN . ',';
+        if (isset($xml->BrowseNodes->BrowseNode->TopSellers->TopSeller)) {
+            foreach ($xml->BrowseNodes->BrowseNode->TopSellers->TopSeller as $topSeller) {
+                $asins .= $topSeller->ASIN . ',';
+            }
         }
         $finalAsins = substr($asins, 0, -1);
         return $finalAsins;
