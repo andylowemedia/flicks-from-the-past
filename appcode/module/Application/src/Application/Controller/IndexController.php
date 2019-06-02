@@ -36,7 +36,7 @@ class IndexController extends AbstractActionController
             'news' => $newsData->articles->{'entertainment-films'}->source,
             'reviews' => $reviewsData->articles->{'entertainment-films'}->source,
             'features' => $featuresData->articles->{'entertainment-films'}->source,
-            'products' => $this->AmazonCategorySearch()->search(),
+//            'products' => $this->AmazonCategorySearch()->search(),
         );
     }
     

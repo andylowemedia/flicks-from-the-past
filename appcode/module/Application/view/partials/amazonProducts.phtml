@@ -43,6 +43,7 @@ $(function() {
     <?php endforeach; ?>
     <?php endforeach; ?>
     <?php else: ?>
+    <?php if (is_array($this->products->Items->Item)): ?>
     <?php foreach ($this->products->Items->Item as $product): ?>
     <?php if (isset($product->Offers->Offer->OfferListing->Price->FormattedPrice)): ?>
     <div class="product">
@@ -58,6 +59,7 @@ $(function() {
     </div>
     <?php endif; ?>
     <?php endforeach; ?>
-    
+
+        <?php endif; ?>
     <?php endif; ?>
 </div>

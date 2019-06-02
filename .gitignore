@@ -1,1 +1,2 @@
-/appcode/vendor
+appcode/vendor/
+.idea/

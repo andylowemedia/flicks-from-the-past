@@ -45,7 +45,7 @@ class ArticlesController extends AbstractActionController
         
         return array(
             'articles'      => $data->articles->{'entertainment-films'}->source,
-            'products'      => $this->AmazonCategorySearch()->search(),
+//            'products'      => $this->AmazonCategorySearch()->search(),
             'type'          => $type,
         );
      }
@@ -96,16 +96,16 @@ class ArticlesController extends AbstractActionController
             'Version'           => '2013-08-01',
         );
 
-        $productSearch = new \Application\Service\Amazon\ProductSearch($params, $config['aws']['secret']);
+//        $productSearch = new \Application\Service\Amazon\ProductSearch($params, $config['aws']['secret']);
 
-        $products = new \SimpleXMLElement($productSearch->sendRequest());
+//        $products = new \SimpleXMLElement($productSearch->sendRequest());
         
         return array(
             'articles'      => $data->articles, 
 //            'news'          => isset($newsResults->response->articles)?$newsResults->response->articles:null,
             'searchText'    => $search,
             'type'          => $type,
-            'products'      => $products,
+//            'products'      => $products,
         );
     }
     
@@ -195,14 +195,14 @@ class ArticlesController extends AbstractActionController
 //                $products[] = new \SimpleXMLElement($productSearch->sendRequest());
 //            }
 //        } else {
-            $products = $this->AmazonCategorySearch()->search();
+//            $products = $this->AmazonCategorySearch()->search();
 //        }
 
         return array(
             'article'       => $result->article,
             'showImage'     => $showImage,
             'showMedia'     => $showMedia,
-            'products'      => $products,
+//            'products'      => $products,
             'fbAppId'       => $config['facebook']['appId'],
         );
     }

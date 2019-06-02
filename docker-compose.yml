@@ -4,16 +4,16 @@ services:
     container_name: 'flicksfromthepast-web'
     image: "540688370389.dkr.ecr.eu-west-1.amazonaws.com/low-emedia/nginx:latest"
     environment:
-      SITE_NAME: 'flicksfromthepast.local'
+      SITE_NAME: 'flicksfromthepast.discovery'
       PROTOCOL: 'http'
       SERVER_LANG: 'php'
     ports:
-    - "8090:80"
+      - "8090:80"
     volumes:
-    - ./appcode:/var/www/html/
+      - ./appcode:/var/www/html/
 
     links:
-    - php:php-fpm
+      - php:php-fpm
 
   php:
     container_name: 'flicksfromthepast-php'
@@ -27,7 +27,7 @@ services:
       AWS_SECRET: ''
       AWS_ASSOCIATE_TAG: ''
     volumes:
-    - ./appcode:/var/www/html/
+      - ./appcode:/var/www/html/
 
 networks:
   default:
